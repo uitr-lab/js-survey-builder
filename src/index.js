@@ -41,7 +41,7 @@
 
 		constructor(id){
 
-			this._container=document.document.getElementById(id);
+			this._container=document.getElementById(id);
 			this._element=new Element('div', {"class":"graph-root"})
 			this._container.appendChild(this._element);
 
