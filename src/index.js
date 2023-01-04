@@ -9,7 +9,7 @@
 			var el=document.createElement(type);
 			Object.keys(options||{}).forEach((key)=>{
 
-				var v=options[k];
+				var v=options[key];
 
 				if(key=='html'){
 					el.innerHTML=v;
