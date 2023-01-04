@@ -29,9 +29,11 @@
 					return;
 				}
 
-			})
+			});
 
+			//returns a html element, not a class instance
 
+			return el;
 		}
 
 
