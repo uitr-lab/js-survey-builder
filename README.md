@@ -1,6 +1,7 @@
 # js-survey-builder
 Pure js survey builder for web so it can be included in any webpage without any framework/dependencies
-
+Demo site: https://survey.geoforms.ca/
+See https://github.com/uitr-lab/survey-tool-website
 
 ## Compile
 ```bash
