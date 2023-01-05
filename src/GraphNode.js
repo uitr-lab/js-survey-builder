@@ -99,6 +99,15 @@ export  class GraphNode{
 	}
 
 
+	numberOfRealChildNodes(){
+
+		return (this._nodes||[]).map((node)=>{
+			return node.getData()
+		}).filter((nodeData)=>{
+			return !!nodeData;
+		});
+
+	}
 	
 
 
@@ -110,23 +119,36 @@ export  class GraphNode{
 			data=this._getNodeData();
 		}
 
-		if((this._nodes||[]).length>0){
+		var nodes=this.numberOfRealChildNodes();
+
+		if(nodes.length>0){
+			
 			data=data||{};
-			data.nodes=this._nodes.map((node)=>{
-				return node.getData()
-			}).filter((nodeData)=>{
-				return !!nodeData;
-			});
+			data.then="goto node 0";
+			data.nodes=nodes;
+
+
 		}
 
-		if(((data||{}).nodes||[]).length>1){
+		if(nodes.length>1){
 			data=data||{};
 			data.linkLogic='some logic to define which node to traverse';
 		}
 
-		if(((data||{}).nodes||[]).length==0&&this._linksTo){
-			data=data||{};
-			data.linksTo='links directly to a node (end of branch)';
+		if(nodes.length==0){
+			if(this._linksTo){
+			
+				data=data||{};
+				data.then='go to child 0';
+				data.linksToWarning="only child 0 is reachable without logic";
+			
+			}else{
+
+				if(data){
+					data.then='terminate';
+				}
+				
+			}
 		}
 
 

@@ -26,7 +26,7 @@ export class Element {
 			}
 
 
-			if((['type', 'value']).indexOf(key)>=0){
+			if((['type', 'value', 'href', 'target']).indexOf(key)>=0){
 				el[key]=v
 			}
 

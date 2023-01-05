@@ -15,7 +15,10 @@ graph.addTemplate('section-placeholder', function(parentNode){
 				events: {
 					click: function() {
 						parentNode.add('section');
-						//placeholder.addClass('hidden');
+						if(parentNode.numberOfRealChildNodes()==2){
+							//parentNode.add('navigationLogic');
+						}
+						
 					}
 				}
 			})
@@ -25,37 +28,89 @@ graph.addTemplate('section-placeholder', function(parentNode){
 
 });
 
+
+
+
+
+class ContentBlock{
+
+
+	constructor(container, data){
+
+		this._element=container.appendChild(new Element('section', {
+			"class":"content-item"
+		}));
+
+		this._data=data;
+
+	}
+
+
+	getData(){
+
+
+		var data={};
+		
+		Object.keys(this._data).forEach((k)=>{
+			data[k]=this._data[k]
+		});
+
+		data .items;
+		
+
+		return data;
+
+
+	}
+
+
+}
+
+
+
 graph.addTemplate('section', function(parentNode){
 
-	var names=['One', 'Two', 'Three', 'Four'];
+	var numbers=['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
+
+	var toNum=(i)=>{
+
+		return numbers[i];
+	}
 
 	var name=new Element('input', {
 					"type":"text",
-					value: (["Section", names[parentNode.getDepth()]]).join(' ')
+					value: (["Section", toNum(parentNode.getDepth())]).join(' ')
 				});
 
-	var questionBlocks=new Element('div', {
+	var contentBlocksContainer=new Element('div', {
 					"class":"blocks"
 				});
+
+	var contentBlocks=[];
 
 	var section = parentNode.addNode({
 			"class": "section-node",
 			getNodeData:()=>{
 				return {
 					name:name.value,
-					items:[]
+					items:contentBlocks.map((item, i)=>{
+						return item.getData();
+					})
+
 				};
 
 			},
 			elements: [
 				name,
-				questionBlocks,
+				contentBlocksContainer,
 				new Element('button', {
 					html: "Add Question Block",
 					events: {
 						click: function() {
 								
-							questionBlocks.appendChild(new Element('section'))
+							contentBlocks.push(new ContentBlock(contentBlocksContainer, {
+								name:"Question Set "+toNum(contentBlocks.length)
+							}));
 
 
 						}
@@ -74,5 +129,3 @@ graph.addTemplate('section', function(parentNode){
 
 
 graph.add('section');
-
-

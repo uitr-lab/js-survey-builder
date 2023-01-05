@@ -9,7 +9,7 @@
     margin: 15px;
 }
 
-.graph-node button, .graph-menu button  {
+.graph-node button, .graph-menu button, button.close-btn, button.copy-btn  {
     background: mediumaquamarine;
     padding: 10px 20px;
     border: none;
@@ -38,6 +38,7 @@
 
 .graph-menu button {
     float: right;
+    margin-left: 10px;
 }
 
 .graph-menu {
@@ -47,6 +48,16 @@
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
+    background: #000000ba;
+    backdrop-filter: blur(10px);
+}
+
+.graph-menu a {
+    color: white;
+    margin: 14px;
+    line-height: 35px;
+    text-decoration: none;
+    font-size: 13.5px;
 }
 
 
@@ -57,4 +68,90 @@
     border: none;
     margin: 5px 0;
     font-size: 17px;
+    width:100%;
+    padding: 5px;
+    box-sizing: border-box;
 }
+
+
+
+.window-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.window-overlay:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background: #00000070;
+    backdrop-filter: grayscale(1) blur(5px);
+}
+
+.window-overlay  .content {
+    display: inline-block;
+    min-width: 500px;
+    min-height: 400px;
+    position: absolute;
+    top: calc( 50% - 200px );
+    left: calc( 50% - 250px );
+    background: white;
+    text-align: left;
+    padding: 40px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    box-shadow: 0 0 10px #00000047;
+}
+
+
+.window-overlay  button.close-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background-color: lightgray;
+}
+
+.window-overlay button.copy-btn{
+    position: absolute;
+    bottom: 15px;
+    right: 100px;
+}
+
+.window-overlay button.close-btn:after {
+    position: absolute;
+    top: -350px;
+    right: -5px;
+    content: "+";
+    transform: rotate(45deg);
+    font-size: 30px;
+}
+
+
+.graph-root {
+    margin-bottom: 150px;
+}
+
+
+
+
+.blocks section.content-item {
+    padding: 10px;
+    background: rgba(0,0,0,0.1);
+    margin: 5px 0;
+    min-height: 40px;
+    border-radius: 2px;
+}
+
+.blocks section.content-item:last-child {
+    margin-bottom: 30px;
+}
+
+
+
+
+
+

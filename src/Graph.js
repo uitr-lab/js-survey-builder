@@ -21,8 +21,32 @@ export class Graph extends GraphNode{
 			"class": "graph-menu"
 		});
 
+
+		this._menu.appendChild(new Element('a', {
+			html:'UITR Lab',
+			target:"_blank",
+			href:"https://uitr.ok.ubc.ca/"
+		}));
+
+		this._menu.appendChild(new Element('a', {
+			html:'Fork this project',
+			target:"_blank",
+			href:"https://github.com/uitr-lab/js-survey-builder"
+		}));
+
 		this._menu.appendChild(new Element('button', {
 			html:'Export JSON',
+			events:{
+				click:()=>{
+					new JsonExporter(this);
+				}
+			}
+
+		}));
+
+
+		this._menu.appendChild(new Element('button', {
+			html:'Run Survey',
 			events:{
 				click:()=>{
 					new JsonExporter(this);

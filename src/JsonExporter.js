@@ -1,18 +1,35 @@
+import {
+	Element
+} from './Element.js'
+import {
+	Overlay
+} from './Overlay.js'
 
-import {Element} from './Element.js'
 
-export class JsonExporter{
+export class JsonExporter {
 
 
-	constructor(exportable){
+	constructor(exportable) {
 
-		console.log(JSON.stringify(exportable.getData().nodes[0], null, '   '));
 
-		var overlay=document.body.appendChild(new Element('div', {"class":"window-overlay"}))
-		overlay.appendChild(new Element('button'))
+		var content = JSON.stringify(exportable.getData().nodes[0], null, '   ');
+
+		console.log(content);
+
+		new Overlay('<pre>' + content + '</pre>', [
+			new Element('button', {
+				html: "Copy",
+				"class": "copy-btn",
+				events: {
+					click: () => {
+						navigator.clipboard.writeText(content);
+					}
+				}
+			})
+
+		]);
 
 	}
 
 
 }
-
