@@ -37,3 +37,9 @@ See https://github.com/uitr-lab/survey-tool-website
 </html>
 
 ```
+
+##Customizing
+
+The survey builder is heavily styled with css, include your own stylesheet to customize
+
+
