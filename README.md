@@ -1,4 +1,7 @@
 # js-survey-builder
+
+This is a work in progress and is currently not functional, Documentation/Instructions reflects intended use only
+
 Pure js survey builder for web so it can be included in any webpage without any framework/dependencies
 
 Live demo site: https://survey.geoforms.ca/
@@ -52,4 +55,55 @@ Question blocks are added to sections and can consist of one or more questions, 
 
 ## JSON definitions
 
-
+```
+{
+   "name": "Section One",
+   "items": [
+      {
+         "name": "Question Set One"
+      },
+      {
+         "name": "Question Set Two"
+      }
+   ],
+   "then": "goto linkLogic() or node 0",
+   "linkLogic": "some logic to define which node to traverse",
+   "nodes": [
+      {
+         "name": "Section Two",
+         "items": [
+            {
+               "name": "Question Set One"
+            },
+            {
+               "name": "Question Set Two"
+            }
+         ],
+         "then": "goto node 0",
+         "nodes": [
+            {
+               "name": "Section Three",
+               "items": [
+                  {
+                     "name": "Question Set One"
+                  },
+                  {
+                     "name": "Question Set Two"
+                  }
+               ],
+               "then": "terminate"
+            }
+         ]
+      },
+      {
+         "name": "Section Two",
+         "items": [
+            {
+               "name": "Question Set One"
+            }
+         ],
+         "then": "terminate"
+      }
+   ]
+}
+```
