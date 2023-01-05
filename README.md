@@ -42,4 +42,10 @@ See https://github.com/uitr-lab/survey-tool-website
 
 The survey builder is heavily styled with css, include your own stylesheet to customize
 
+### Sections 
 
+Sections will be used to organize sets of questions into logical groups. Sections also represent the high level flow of the survey and are used to control survey navigation and flow. Sections can also be looped. If, for example, a set of questions should repeated for each item in a group then looping a section 
+
+### Question Blocks
+
+Question blocks are added to sections and can consist of one or more questions, html/markdown content. Question blocks are displayed sequentially and will have a Next button
