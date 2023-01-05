@@ -1,5 +1,5 @@
 # js-survey-builder
-Pure js survey builder for web
+Pure js survey builder for web so it can be included in any webpage without any framework/dependencies
 
 
 ## Compile
