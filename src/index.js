@@ -2,7 +2,10 @@
 
 import {Graph} from './Graph.js'
 import {Element} from './Element.js'
+import {Panel} from './Panel.js'
 
+import {ContentBlock} from './ContentBlock.js'
+import {ContentBlockItem} from './ContentBlockItem.js'
 
 var graph = (new Graph('survey-builder'));
 graph.addTemplate('section-placeholder', function(parentNode){
@@ -32,39 +35,8 @@ graph.addTemplate('section-placeholder', function(parentNode){
 
 
 
-class ContentBlock{
 
 
-	constructor(container, data){
-
-		this._element=container.appendChild(new Element('section', {
-			"class":"content-item"
-		}));
-
-		this._data=data;
-
-	}
-
-
-	getData(){
-
-
-		var data={};
-		
-		Object.keys(this._data).forEach((k)=>{
-			data[k]=this._data[k]
-		});
-
-		data .items;
-		
-
-		return data;
-
-
-	}
-
-
-}
 
 
 
@@ -126,6 +98,21 @@ graph.addTemplate('section', function(parentNode){
 
 
 });
+
+var panel=new Panel(graph.getContainer().parentNode);
+panel.addItem(new ContentBlockItem({
+
+	name:"Markdown",
+	description:"display html from markdown content"
+
+}));
+
+panel.addItem(new ContentBlockItem({
+
+	name:"text input",
+	description:"display a text field for user input"
+
+}));
 
 
 graph.add('section');

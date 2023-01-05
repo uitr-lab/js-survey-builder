@@ -4,6 +4,9 @@ import {Node} from './Node.js'
 import {JsonExporter} from './JsonExporter.js'
 import {Element} from './Element.js'
 
+import {Overlay} from './Overlay.js'
+
+
 export class Graph extends GraphNode{
 
 	constructor(id) {
@@ -49,7 +52,7 @@ export class Graph extends GraphNode{
 			html:'Run Survey',
 			events:{
 				click:()=>{
-					new JsonExporter(this);
+					new Overlay('This is not implemented yet');
 				}
 			}
 

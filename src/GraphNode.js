@@ -125,16 +125,16 @@ export  class GraphNode{
 			
 			data=data||{};
 			data.then="goto node 0";
+			if(nodes.length>1){
+				data.then='goto linkLogic() or node 0'
+				data.linkLogic='some logic to define which node to traverse';
+			}
 			data.nodes=nodes;
 
 
 		}
 
-		if(nodes.length>1){
-			data=data||{};
-			data.linkLogic='some logic to define which node to traverse';
-		}
-
+	
 		if(nodes.length==0){
 			if(this._linksTo){
 			
