@@ -1,1 +1,136 @@
-(()=>{"use strict";class e{constructor(e,t){var s=document.createElement(e);return Object.keys(t||{}).forEach((e=>{var n=t[e];"html"!=e?"events"!=e?"class"!=e||s.classList.add(n):Object.keys(n).forEach((e=>{s.addEventListener(e,n[e])})):s.innerHTML=n})),s}}class t{constructor(t){this._container=t instanceof HTMLElement?t:document.getElementById(t),this._element=new e("div",{class:"graph-root"}),this._container.appendChild(this._element)}static render(e){return new t(e)}addNode(e){this._nodes||(this._nodes=[]);var t=new s(this,e);return this._nodes.push(t),t}addTemplate(e,t){return this._templates||(this._templates={}),this._templates[e]=t,this}add(e,t){var s=t||this;this._templates[e](s)}addNodeAt(e,t){this._nodes||(this._nodes=[]);var n=new s(this,t);return this._nodes.splice(e,(0)[n]),n}getElement(){return this._element}}class s{constructor(t,s){this._parent=t,this._element=new e("div",{class:"graph-node"}),this._parent.getElement().appendChild(this._element),Object.keys(s).forEach((e=>{var t=s[e];"elements"===e&&t.forEach((e=>{this._element.appendChild(e)})),"class"!=e||this._element.classList.add(t)}))}addClass(e){this._element.classList.add(e)}getParent(){return this.parent||null}getElement(){return this._element}addNode(e){this._nodes||(this._nodes=[]);var t=new s(this,e);return this._nodes.push(t),t}addNodeAt(e,t){this._nodes||(this._nodes=[]);var n=new s(this,t);return this._nodes.splice(e,(0)[n]),n}}var n=new t("survey-builder");n.addTemplate("section-placeholder",(function(t){t.addNode({class:"empty-node",elements:[new e("button",{html:"Add Section",events:{click:function(){t.add("section"),placehoder.addClass("hidden")}}})]})})),n.addTemplate("section",(function(t){t.addNodeAt(0,{class:"section-node",elements:[new e("p",{html:"Section Name"})]}),n.add("section-placeholder",t)})),n.add("section-placeholder")})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/Element.js":
+/*!************************!*\
+  !*** ./src/Element.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Element\": () => (/* binding */ Element)\n/* harmony export */ });\nclass Element {\n\n\tconstructor(type, options) {\n\n\t\tvar el = document.createElement(type);\n\t\tObject.keys(options || {}).forEach((key) => {\n\n\t\t\tvar v = options[key];\n\n\t\t\tif (key == 'html') {\n\t\t\t\tel.innerHTML = v;\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tif (key == 'events') {\n\t\t\t\tObject.keys(v).forEach((event) => {\n\t\t\t\t\tel.addEventListener(event, v[event]);\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tif (key == 'class') {\n\n\t\t\t\tel.classList.add(v);\n\t\t\t\treturn;\n\t\t\t}\n\n\n\t\t\tif((['type', 'value']).indexOf(key)>=0){\n\t\t\t\tel[key]=v\n\t\t\t}\n\n\n\t\t});\n\n\t\t//returns a html element, not a class instance\n\n\t\treturn el;\n\t}\n\n\n}\n\n\n//# sourceURL=webpack://js-survey-builder/./src/Element.js?");
+
+/***/ }),
+
+/***/ "./src/Graph.js":
+/*!**********************!*\
+  !*** ./src/Graph.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Graph\": () => (/* binding */ Graph)\n/* harmony export */ });\n/* harmony import */ var _GraphNode_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GraphNode.js */ \"./src/GraphNode.js\");\n/* harmony import */ var _Node_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Node.js */ \"./src/Node.js\");\n/* harmony import */ var _JsonExporter_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./JsonExporter.js */ \"./src/JsonExporter.js\");\n/* harmony import */ var _Element_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Element.js */ \"./src/Element.js\");\n\n\n\n\n\n\nclass Graph extends _GraphNode_js__WEBPACK_IMPORTED_MODULE_0__.GraphNode{\n\n\tconstructor(id) {\n\n\t\tsuper();\n\n\t\tthis._parentContainer = id instanceof HTMLElement ? id : document.getElementById(id);\n\t\tthis._container = new _Element_js__WEBPACK_IMPORTED_MODULE_3__.Element('div', {\n\t\t\t\"class\": \"graph-root\"\n\t\t})\n\t\tthis._element=this._container;\n\t\tthis._parentContainer.appendChild(this._element);\n\n\t\tthis._menu = new _Element_js__WEBPACK_IMPORTED_MODULE_3__.Element('div', {\n\t\t\t\"class\": \"graph-menu\"\n\t\t});\n\n\t\tthis._menu.appendChild(new _Element_js__WEBPACK_IMPORTED_MODULE_3__.Element('button', {\n\t\t\thtml:'Export JSON',\n\t\t\tevents:{\n\t\t\t\tclick:()=>{\n\t\t\t\t\tnew _JsonExporter_js__WEBPACK_IMPORTED_MODULE_2__.JsonExporter(this);\n\t\t\t\t}\n\t\t\t}\n\n\t\t}));\n\n\t\tthis._parentContainer.appendChild(this._menu);\n\n\t}\n\n\tstatic render(el) {\n\t\treturn new Graph(el);\n\n\t}\n\n\t\n\n\n\taddTemplate(name, fn){\n\n\t\tif(!this._templates){\n\t\t\tthis._templates={};\n\t\t}\n\n\t\tthis._templates[name]=fn;\n\t\treturn this;\n\t}\n\n\tadd(template, toNode){\n\t\tvar node=(toNode||this)\n\t\tthis._templates[template](node);\n\t}\n\n\n\t_instantiateNode(parent, data){\n\t\treturn new _Node_js__WEBPACK_IMPORTED_MODULE_1__.Node(parent, data);\n\t}\n\n\n\n}\n\n\n\n//# sourceURL=webpack://js-survey-builder/./src/Graph.js?");
+
+/***/ }),
+
+/***/ "./src/GraphNode.js":
+/*!**************************!*\
+  !*** ./src/GraphNode.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"GraphNode\": () => (/* binding */ GraphNode)\n/* harmony export */ });\n/* harmony import */ var _Element_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Element.js */ \"./src/Element.js\");\n\n\n\n\nclass GraphNode{\n\n\taddNode(data) {\n\n\t\tif (!this._nodes) {\n\t\t\tthis._nodes = [];\n\t\t}\n\n\t\tvar node = this._instantiateNode(this, data);\n\t\tthis._nodes.push(node);\n\t\tthis._formatAddNode(node);\n\t\treturn node;\n\n\t}\n\n\taddNodeAt(index, data){\n\n\t\tif (!this._nodes) {\n\t\t\tthis._nodes = [];\n\t\t}\n\n\t\tvar node = this._instantiateNode(this, data);\n\t\tthis._nodes.splice(index, 0, node);\n\t\tthis._formatAddNode(node);\n\t\treturn node;\n\n\t}\n\n\t_formatAddNode(node){\n\n\t\tif(node.getData()){\n\n\t\t\tvar dataNodes=this._nodes.filter((n)=>{\n\t\t\t\treturn !!n.getData();\n\t\t\t});\n\t\t\tvar i=dataNodes.indexOf(node);\n\n\t\t\tnode.addContainerClass((['a', 'b', 'c'])[i]);\n\t\t\tnode.addContainerClass('with-'+dataNodes.length);\n\n\t\t}\n\n\t}\n\n\t_instantiateNode(parent, data){\n\t\tthrow 'Must implement'\n\t}\n\n\n\tisRoot(){\n\t\treturn !this.getParent();\n\t}\n\n\tgetRoot(){\n\t\tvar root=this;\n\t\twhile(root.getParent()){\n\t\t\troot=root.getParent();\n\t\t}\n\t\treturn root;\n\t}\n\n\tgetParent(){\n\t\treturn  this._parent||null;\n\t}\n\n\tgetElement() {\n\n\t\treturn this._element;\n\n\t}\n\n\n\tgetDepth(){\n\n\t\tvar root=this;\n\t\tvar depth=0;\n\t\twhile(root.getParent()){\n\t\t\tdepth++;\n\t\t\troot=root.getParent();\n\t\t}\n\t\treturn depth;\n\n\t}\n\n\tgetContainer() {\n\t\treturn this._container;\n\t}\n\n\taddClass(name){\n\t\tthis._element.classList.add(name);\n\t}\n\n\taddContainerClass(name){\n\t\tthis._container.classList.add(name);\n\t}\n\n\n\t\n\n\n\tgetData(){\n\n\t\tvar data=null;\n\n\t\tif(this._getNodeData){\n\t\t\tdata=this._getNodeData();\n\t\t}\n\n\t\tif((this._nodes||[]).length>0){\n\t\t\tdata=data||{};\n\t\t\tdata.nodes=this._nodes.map((node)=>{\n\t\t\t\treturn node.getData()\n\t\t\t}).filter((nodeData)=>{\n\t\t\t\treturn !!nodeData;\n\t\t\t});\n\t\t}\n\n\t\tif(((data||{}).nodes||[]).length>1){\n\t\t\tdata=data||{};\n\t\t\tdata.linkLogic='some logic to define which node to traverse';\n\t\t}\n\n\t\tif(((data||{}).nodes||[]).length==0&&this._linksTo){\n\t\t\tdata=data||{};\n\t\t\tdata.linksTo='links directly to a node (end of branch)';\n\t\t}\n\n\n\n\n\t\treturn data;\n\n\n\t}\n\n\n\n}\n\n//# sourceURL=webpack://js-survey-builder/./src/GraphNode.js?");
+
+/***/ }),
+
+/***/ "./src/JsonExporter.js":
+/*!*****************************!*\
+  !*** ./src/JsonExporter.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"JsonExporter\": () => (/* binding */ JsonExporter)\n/* harmony export */ });\n/* harmony import */ var _Element_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Element.js */ \"./src/Element.js\");\n\n\n\nclass JsonExporter{\n\n\n\tconstructor(exportable){\n\n\t\tconsole.log(JSON.stringify(exportable.getData().nodes[0], null, '   '));\n\n\t\tvar overlay=document.body.appendChild(new _Element_js__WEBPACK_IMPORTED_MODULE_0__.Element('div', {\"class\":\"window-overlay\"}))\n\t\toverlay.appendChild(new _Element_js__WEBPACK_IMPORTED_MODULE_0__.Element('button'))\n\n\t}\n\n\n}\n\n\n\n//# sourceURL=webpack://js-survey-builder/./src/JsonExporter.js?");
+
+/***/ }),
+
+/***/ "./src/Node.js":
+/*!*********************!*\
+  !*** ./src/Node.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Node\": () => (/* binding */ Node)\n/* harmony export */ });\n/* harmony import */ var _GraphNode_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GraphNode.js */ \"./src/GraphNode.js\");\n/* harmony import */ var _Element_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Element.js */ \"./src/Element.js\");\n\n\n\n\nclass Node extends _GraphNode_js__WEBPACK_IMPORTED_MODULE_0__.GraphNode{\n\n\n\n\tconstructor(parent, data) {\n\n\t\tsuper();\n\n\t\tthis._parent = parent;\n\t\tthis._element = new _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('div', {\n\t\t\t\"class\": 'graph-node'\n\t\t});\n\n\t\t\n\t\tthis._container=new _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('div', {\n\t\t\t\"class\": 'node-container'\n\t\t});\n\t\tthis._container.appendChild(this._element);\n\t\t\t\n\t\tthis.renderElement();\n\n\t\tObject.keys(data).forEach((key) => {\n\t\t\tvar v = data[key];\n\n\t\t\tif (key === 'elements') {\n\t\t\t\tv.forEach((el) => {\n\t\t\t\t\tthis._element.appendChild(el);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\t// if (key == 'events') {\n\t\t\t// \tObject.keys(v).forEach((event) => {\n\t\t\t// \t\tel.addEventListener(event, v[event]);\n\t\t\t// \t});\n\t\t\t// \treturn;\n\t\t\t// }\n\n\t\t\tif (key == 'class') {\n\n\t\t\t\tthis._element.classList.add(v);\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tif(key == 'getNodeData'){\n\t\t\t\tthis._getNodeData=v;\n\t\t\t}\n\n\t\t});\n\n\t}\n\n\tadd(template, toNode){\n\t\tthis.getRoot().add(template, toNode||this);\n\t}\n\n\trenderElement(){\n\n\t\tthis.getParent().getContainer().appendChild(this._container);\n\t}\n\n\n\t_instantiateNode(parent, data){\n\t\treturn new Node(parent, data);\n\t}\n\n}\n\n\n\n//# sourceURL=webpack://js-survey-builder/./src/Node.js?");
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Graph_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Graph.js */ \"./src/Graph.js\");\n/* harmony import */ var _Element_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Element.js */ \"./src/Element.js\");\n\n\n\n\n\n\nvar graph = (new _Graph_js__WEBPACK_IMPORTED_MODULE_0__.Graph('survey-builder'));\ngraph.addTemplate('section-placeholder', function(parentNode){\n\n\tvar placeholder = parentNode.addNode({\n\t\t\"class\": \"empty-node\",\n\t\telements: [\n\t\t\tnew _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('button', {\n\t\t\t\thtml: \"Add Section\",\n\t\t\t\tevents: {\n\t\t\t\t\tclick: function() {\n\t\t\t\t\t\tparentNode.add('section');\n\t\t\t\t\t\t//placeholder.addClass('hidden');\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t})\n\t\t]\n\t})\n\n\n});\n\ngraph.addTemplate('section', function(parentNode){\n\n\tvar names=['One', 'Two', 'Three', 'Four'];\n\n\tvar name=new _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('input', {\n\t\t\t\t\t\"type\":\"text\",\n\t\t\t\t\tvalue: ([\"Section\", names[parentNode.getDepth()]]).join(' ')\n\t\t\t\t});\n\n\tvar questionBlocks=new _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('div', {\n\t\t\t\t\t\"class\":\"blocks\"\n\t\t\t\t});\n\n\tvar section = parentNode.addNode({\n\t\t\t\"class\": \"section-node\",\n\t\t\tgetNodeData:()=>{\n\t\t\t\treturn {\n\t\t\t\t\tname:name.value,\n\t\t\t\t\titems:[]\n\t\t\t\t};\n\n\t\t\t},\n\t\t\telements: [\n\t\t\t\tname,\n\t\t\t\tquestionBlocks,\n\t\t\t\tnew _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('button', {\n\t\t\t\t\thtml: \"Add Question Block\",\n\t\t\t\t\tevents: {\n\t\t\t\t\t\tclick: function() {\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tquestionBlocks.appendChild(new _Element_js__WEBPACK_IMPORTED_MODULE_1__.Element('section'))\n\n\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t})\n\t\t\t]\n\n\n\t\t});\n\n\n\tsection.add('section-placeholder');\n\n\n});\n\n\ngraph.add('section');\n\n\n\n\n//# sourceURL=webpack://js-survey-builder/./src/index.js?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	
+/******/ })()
+;
