@@ -53,7 +53,9 @@ Sections will be used to organize sets of questions into logical groups. Section
 
 Question blocks are added to sections and can consist of one or more questions, html/markdown content. Question blocks are displayed sequentially and will have a Next button
 
-## JSON definitions
+## JSON survey definitions
+
+The survey JSON is structured as a tree, Survey participants are presented with content/questions from each node as they traverse the tree from root to a leaf node. Each node represents a Section and navigation from each section/node to a child node can be scripted
 
 ```
 {
