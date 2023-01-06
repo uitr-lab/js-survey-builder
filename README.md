@@ -7,6 +7,10 @@ Pure js survey builder for web so it can be included in any webpage without any 
 Live demo site: https://survey.geoforms.ca/
 See https://github.com/uitr-lab/survey-tool-website
 
+![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot.png)
+
+
+
 ## Compile
 ```bash
   npm install
@@ -57,28 +61,85 @@ Question blocks are added to sections and can consist of one or more questions, 
 
 The survey JSON is structured as a tree, Survey participants are presented with content/questions from each node as they traverse the tree from root to a terminating leaf node. Each node represents a Section and navigation from each section/node to a child node can be scripted. Leaf nodes can be linked directly to a seperate section/node defining a graph/flow chart  
 
-```
+```js
 {
    "name": "Section One",
    "items": [
       {
-         "name": "Question Set One"
+         "name": "Question Set One",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            },
+            {},
+            {
+               "fieldName": "textInput{i}",
+               "type": "textfield",
+               "value": "",
+               "placeholder": "answer here"
+            }
+         ]
       },
       {
-         "name": "Question Set Two"
+         "name": "Question Set Two",
+         "items": [
+            {
+               "type": "label",
+               "text": "Some label"
+            },
+            {
+               "fieldName": "radioOption{i}",
+               "type": "radio",
+               "values": [
+                  "a",
+                  "b",
+                  "c"
+               ],
+               "default": "none",
+               "labels": [
+                  "A",
+                  "B",
+                  "C"
+               ]
+            }
+         ]
       }
    ],
-   "then": "goto linkLogic() or node 0",
-   "linkLogic": "some logic to define which node to traverse",
+   "then": "goto node 0",
    "nodes": [
       {
          "name": "Section Two",
          "items": [
             {
-               "name": "Question Set One"
+               "name": "Question Set One",
+               "items": [
+                  {
+                     "type": "label",
+                     "text": "Some label"
+                  },
+                  {
+                     "fieldName": "textInput{i}",
+                     "type": "textfield",
+                     "value": "",
+                     "placeholder": "answer here"
+                  }
+               ]
             },
             {
-               "name": "Question Set Two"
+               "name": "Question Set Two",
+               "items": [
+                  {
+                     "type": "label",
+                     "text": "Some label"
+                  },
+                  {
+                     "fieldName": "checkboxOption{i}",
+                     "type": "checkbox",
+                     "label": "Yes",
+                     "default": false
+                  }
+               ]
             }
          ],
          "then": "goto node 0",
@@ -87,25 +148,26 @@ The survey JSON is structured as a tree, Survey participants are presented with 
                "name": "Section Three",
                "items": [
                   {
-                     "name": "Question Set One"
-                  },
-                  {
-                     "name": "Question Set Two"
+                     "name": "Question Set One",
+                     "items": [
+                        {
+                           "type": "markdown",
+                           "text": "## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+                        },
+                        {
+                           "fieldName": "checkboxOption{i}",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "default": false
+                        }
+                     ]
                   }
                ],
                "then": "terminate"
             }
          ]
-      },
-      {
-         "name": "Section Two",
-         "items": [
-            {
-               "name": "Question Set One"
-            }
-         ],
-         "then": "terminate"
       }
    ]
 }
+
 ```
