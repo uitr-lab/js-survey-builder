@@ -3,10 +3,14 @@ import {
 	Element
 } from './Element.js'
 
+import  { EventEmitter } from  'events';
 
 
-class ContenBlockList{
+class ContenBlockList extends EventEmitter {
 
+	constructor(){
+		super();
+	}
 
 	addBlock(item){
 
@@ -16,13 +20,29 @@ class ContenBlockList{
 
 		this._items.push(item);
 
+		item.on('addContentBlock', ()=>{
+			this.emit('update');
+		});
+
+		item.on('removeContentBlock', ()=>{
+			this.emit('update');
+		});
+
+		item.on('udpateContentBlock', ()=>{
+			this.emit('update');
+		});
+
+		this.on('sort', ()=>{
+			this.emit('update');
+		});
+
 	}
 
 
 	getBlockWithTarget(target){
 
 		var matches=(this._items||[]).filter((item)=>{
-			return item.getElement()===target;
+			return item===target||item.getElement()===target;
 		});
 
 		if(matches.length==0){
@@ -40,9 +60,12 @@ class ContenBlockList{
 export const ContentBlocks=new ContenBlockList();
 
 
-export class ContentBlock{
+export class ContentBlock extends EventEmitter {
 
-	constructor(container, data){
+
+	constructor(node, container, data){
+
+		super();
 
 		this._element=container.appendChild(new Element('section', {
 			"class":"content-item empty"
@@ -50,8 +73,24 @@ export class ContentBlock{
 
 		this._data=data;
 
+		this._node=node;
+
+		this.on('addContentBlock',()=>{
+			node.emit('updateNode');
+		});
+
+		this.on('removeContentBlock',()=>{
+			node.emit('updateNode');
+		});
+
+		this.on('updateContentBlock',()=>{
+			node.emit('updateNode');
+		});
+
 		ContentBlocks.addBlock(this);
 
+		node.emit('updateNode');
+	
 	}
 
 
@@ -73,6 +112,21 @@ export class ContentBlock{
 		this._items.push(item);
 		this._els.push(el);
 
+
+		item.on('remove', ()=>{
+
+			var i=this._items.indexOf(item);
+			this._items.splice(i, 1);
+			this._element.removeChild(el);
+			this._els.splice(i, 1);
+			this.emit('removeContentBlock');
+
+		});
+
+
+
+
+
 	}
 
 	getElement(){
@@ -84,7 +138,7 @@ export class ContentBlock{
 
 
 		var data={};
-		
+
 		Object.keys(this._data).forEach((k)=>{
 			data[k]=this._data[k]
 		});

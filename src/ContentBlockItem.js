@@ -7,12 +7,19 @@ import {
 	ContentBlocks
 } from './ContentBlock.js'
 
-export class ContentBlockItem{
+import  { EventEmitter } from  'events';
 
-	constructor(data){
+export class ContentBlockItem extends EventEmitter{
+
+	constructor(data, panel){
+		super();
 		this._data=data;
+
 	}
 
+	getType(){
+		return this._data.type;
+	}
 
 
 	getDisplayElement(){
@@ -29,13 +36,36 @@ export class ContentBlockItem{
 	getInstanceElement(){
 
 
-		return new Element('div', {
+		var el= new Element('div', {
 			"html":'<label>'+this._data.name+'</label><p class="description">'+this._data.description+'</p>',
 			"class":"block-item"
 		});
 
+		el.appendChild(new Element('buttom', {
+			"class":"remove-btn",
+			"html":'Remove',
+			events:{
+				click:()=>{
+
+					this.remove();
+
+				}
+			}
+		}));
+
+		return el;
+
+
+
+
 	}
 
+	remove(){
+
+		this.emit('remove');
+		this.removeAllListeners();
+
+	}
 
 	getData(){
 
@@ -74,6 +104,28 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 	
 	}
 
+	addContentBlockItem(item){
+
+
+		if(!this._items){
+			this._items=[];
+		}
+
+		if(!this._els){
+			this._els=[];
+		}
+
+
+		var el=this._element.appendChild(item.getInstanceElement());
+		this._element.classList.remove('empty');
+
+		this._items.push(item);
+		this._els.push(el);
+
+		this.emit('addContentBlock');
+
+	}
+
 	getInstanceElement(){
 
 
@@ -96,6 +148,9 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 		var data=super.getData();
 
 
+		data.items=(this._items||[]).map((item)=>{
+			return item.getData();
+		});
 
 		return data;
 	}

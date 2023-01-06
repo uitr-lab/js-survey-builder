@@ -11,8 +11,25 @@ export class JsonExporter {
 
 	constructor(exportable) {
 
+		this._exportable=exportable;
 
-		var content = JSON.stringify(exportable.getData().nodes[0], null, '   ');
+	}
+
+	getData(){
+
+		return JSON.parse(JSON.stringify(this._exportable.getData().nodes[0]));
+
+	}
+
+	getJson(){
+
+		return JSON.stringify(this.getData(), null, '   ');
+
+	}
+
+	showOverlay(){
+
+		var content = this.getJson();
 
 		console.log(content);
 
@@ -28,6 +45,7 @@ export class JsonExporter {
 			})
 
 		]);
+
 
 	}
 

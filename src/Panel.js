@@ -32,8 +32,8 @@ export class Panel {
 
 		this._container = overlay;
 
-
-		this._items = [];
+		this._blockItems=[];
+		this._itemEls = [];
 		this._dragndrops = [];
 		this._callbacks = [];
 
@@ -60,27 +60,31 @@ export class Panel {
 
 
 
-	addItem(selectable, callback) {
+	addItem(contentBlockItem, callback) {
 
 
-		if(selectable.createInstance){
+		if(contentBlockItem.createInstance){
 			callback=(target)=>{
-				selectable.createInstance(target);
+				contentBlockItem.createInstance(target);
 			}
 		}
 
-		if (selectable.getDisplayElement) {
-			var item = this._container.appendChild(selectable.getDisplayElement());
+		if (contentBlockItem.getDisplayElement) {
+			var item = this._container.appendChild(contentBlockItem.getDisplayElement());
+			
+			this._blockItems.push(contentBlockItem);
 			this._addDraggable(item, callback);
+			
 			return this;
 		}
 
 
 		var item = this._container.appendChild(new Element('div', {
-			"html": '<label>' + selectable.name + '</label><p class="description">' + selectable.description + '</p>',
+			"html": '<label>' + contentBlockItem.name + '</label><p class="description">' + contentBlockItem.description + '</p>',
 			"class": "panel-item"
 		}));
 
+		this._blockItems.push(contentBlockItem);
 		this._addDraggable(item, callback);
 
 		return this;
@@ -89,11 +93,25 @@ export class Panel {
 
 	}
 
+	getItem(type){
+
+		var matches=(this._blockItems||[]).filter((item)=>{
+			return item.getType()===type;
+		});
+
+		if(matches.length==0){
+			throw 'Not found';
+		}
+
+		return matches.shift();
+
+	}
+
 
 
 	updateDropTargets() {
 
-		this._items.forEach((el, i) => {
+		this._itemEls.forEach((el, i) => {
 
 			this._dragndrops[i].stop();
 			this._dragndrops[i] = dragNdrop({
@@ -120,7 +138,7 @@ export class Panel {
 			var dropZone=this._closestDropzone(el, event.dropZones);
 
 			if(dropZone){
-				this._callbacks[this._items.indexOf(el)](dropZone);
+				this._callbacks[this._itemEls.indexOf(el)](dropZone);
 			}
 		}
 
@@ -183,7 +201,7 @@ export class Panel {
 		});
 
 
-		this._items.push(el);
+		this._itemEls.push(el);
 		this._dragndrops.push(dnd);
 		this._callbacks.push(cb);
 

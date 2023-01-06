@@ -3,6 +3,8 @@
 import {Graph} from './Graph.js'
 import {Element} from './Element.js'
 import {Panel} from './Panel.js'
+import {JsonExporter} from './JsonExporter.js'
+import {JsonImporter} from './JsonImporter.js'
 
 import {ContentBlock} from './ContentBlock.js'
 import {ContentBlockItem, ContentBlockGroupItem} from './ContentBlockItem.js'
@@ -27,6 +29,8 @@ graph.addTemplate('section-placeholder', function(parentNode){
 			})
 		]
 	})
+
+	return placeholder;
 
 
 });
@@ -60,11 +64,28 @@ graph.addTemplate('section', function(parentNode){
 			getNodeData:()=>{
 				return {
 					name:name.value,
+					type:'section',
 					items:contentBlocks.map((item, i)=>{
 						return item.getData();
 					})
 
 				};
+
+			},
+			setNodeData(data){
+
+				(data.items||[]).forEach((itemData)=>{
+					var block=new ContentBlock(section, contentBlocksContainer, itemData);
+					contentBlocks.push(block);
+					(itemData.items||[]).forEach((blockData)=>{
+
+						panel.getItem(blockData.type).createInstance(block, blockData);
+
+					})
+
+					panel.show();
+					panel.updateDropTargets();
+				});
 
 			},
 			elements: [
@@ -75,9 +96,11 @@ graph.addTemplate('section', function(parentNode){
 					events: {
 						click: function() {
 								
-							contentBlocks.push(new ContentBlock(contentBlocksContainer, {
+							contentBlocks.push(new ContentBlock(section, contentBlocksContainer, {
 								name:"Question Set "+toNum(contentBlocks.length)
 							}));
+
+
 
 							panel.show();
 							panel.updateDropTargets();
@@ -91,18 +114,22 @@ graph.addTemplate('section', function(parentNode){
 		});
 
 
-	section.add('section-placeholder');
-
+	//section.add('section-placeholder');
+	return section;
 
 });
 
-graph.add('section');
+
 
 
 var panel=new Panel(graph.getContainer().parentNode);
+
+
+
+
+
+
 panel.addItem(new ContentBlockItem({
-
-
 
 	name:"Markdown",
 	description:"display html from markdown content",
@@ -164,8 +191,30 @@ panel.addItem(new ContentBlockGroupItem({
 
 	name:"Fieldset",
 	description:"displays a group of items",
-
+	type:"fieldset"
 
 }));
+
+
+
+
+
+
+var storedData=localStorage.getItem('formData');
+if(storedData){
+	(new JsonImporter(graph)).loadFromObject(JSON.parse(storedData));
+}else{
+	graph.add('section');
+}
+
+
+graph.on('update', function(){
+	setTimeout(()=>{
+		//need to delay this update for content sections which are added to a list after update event is fired
+		localStorage.setItem('formData', (new JsonExporter(graph)).getJson());
+		console.log('update');
+	}, 500);
+	
+});
 
 

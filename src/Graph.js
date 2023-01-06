@@ -7,6 +7,8 @@ import {Element} from './Element.js'
 import {Overlay} from './Overlay.js'
 
 
+
+
 export class Graph extends GraphNode{
 
 	constructor(id) {
@@ -41,7 +43,7 @@ export class Graph extends GraphNode{
 			html:'Export JSON',
 			events:{
 				click:()=>{
-					new JsonExporter(this);
+					(new JsonExporter(this)).showOverlay();
 				}
 			}
 
@@ -60,12 +62,39 @@ export class Graph extends GraphNode{
 
 		this._parentContainer.appendChild(this._menu);
 
+		this.on('addNode', ()=>{
+			this.emit('update');
+		});
+
+		this.on('addChildNode',()=>{
+			this.emit('update');
+		});
+
+		this.on('removeNode',()=>{
+			this.emit('update');
+		});
+
+		this.on('removeChildNode',()=>{
+			this.emit('update');
+		});
+
+		this.on('updateNode',()=>{
+			this.emit('update');
+		});
+
+		this.on('updateChildNode',()=>{
+			this.emit('update');
+		});
+
 	}
 
 	static render(el) {
 		return new Graph(el);
 
 	}
+
+
+
 
 	
 
@@ -82,7 +111,7 @@ export class Graph extends GraphNode{
 
 	add(template, toNode){
 		var node=(toNode||this)
-		this._templates[template](node);
+		return this._templates[template](node);
 	}
 
 

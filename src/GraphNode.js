@@ -1,8 +1,8 @@
 
-import {Element} from './Element.js'
+import {Element} from './Element.js';
+import  { EventEmitter } from  'events';
 
-
-export  class GraphNode{
+export  class GraphNode extends EventEmitter{
 
 	addNode(data) {
 
@@ -42,8 +42,50 @@ export  class GraphNode{
 			node.addContainerClass((['a', 'b', 'c'])[i]);
 			node.addContainerClass('with-'+dataNodes.length);
 
+
+			this.emit('addNode', node);
+			this._addChildNodeEvents(node);
+
+
+			
+
 		}
 
+	}
+
+	_addChildNodeEvents(node){
+		
+		node.on('remove',()=>{
+
+			var i = this._nodes.indexOf(node);
+			this._nodes.splice(i,1);
+
+			this.emit('removeNode');
+		})
+
+		node.on('addNode', ()=>{
+			this.emit('addChildNode');
+		});
+
+		node.on('addChildNode', ()=>{
+			this.emit('addChildNode');
+		});
+
+		node.on('removeNode',()=>{
+			this.emit('removeChildNode');
+		});
+
+		node.on('removeChildNode',()=>{
+			this.emit('removeChildNode');
+		});
+
+		node.on('updateNode',()=>{
+			this.emit('updateChildNode');
+		});
+
+		node.on('updateChildNode',()=>{
+			this.emit('updateChildNode');
+		});
 	}
 
 	_instantiateNode(parent, data){
@@ -109,7 +151,26 @@ export  class GraphNode{
 
 	}
 	
+	clear(){
 
+		(this._nodes||[]).forEach((node)=>{
+			node.remove();
+		});
+
+		this._nodes=[];
+
+	}
+
+	remove(){
+
+		
+		if(this._container.parentNode){
+			this._container.parentNode.removeChild(this._container);
+		}
+		this.clear();
+		this.emit('remove');
+		this.removeAllListeners();
+	}
 
 	getData(){
 
@@ -156,6 +217,19 @@ export  class GraphNode{
 
 		return data;
 
+
+	}
+
+	setData(data){
+
+		(data.nodes||[]).forEach((nodeData)=>{
+			var node=this.add(nodeData.type);
+			node.setData(nodeData);
+		});
+
+		if(this._setNodeData){
+			data=this._setNodeData(data);
+		}
 
 	}
 

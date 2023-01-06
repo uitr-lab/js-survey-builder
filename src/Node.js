@@ -20,6 +20,46 @@ export class Node extends GraphNode{
 			"class": 'node-container'
 		});
 		this._container.appendChild(this._element);
+		this._element.appendChild(new Element('button',{
+			"class":"remove-btn",
+			html:"Remove",
+			events:{
+				click:()=>{
+
+					this.remove();
+				}
+			}
+		}))
+
+		this.on('addNode', ()=>{
+			if(this._insertNode){
+				return;
+			}
+			this._insertNode=this._container.appendChild(new Element('button', {
+				html: "Insert Section",
+				"class":"add-node-btn",
+				events: {
+					click: () => {
+						
+					}
+				}
+			}));
+
+		})
+
+		this._container.appendChild(new Element('button', {
+			html: "Add Section",
+			"class":"add-node-btn",
+			events: {
+				click: () => {
+					this.add('section');
+					if(this.numberOfRealChildNodes()==2){
+						//parentNode.add('navigationLogic');
+					}
+					
+				}
+			}
+		}));
 			
 		this.renderElement();
 
@@ -49,12 +89,16 @@ export class Node extends GraphNode{
 				this._getNodeData=v;
 			}
 
+			if(key == 'setNodeData'){
+				this._setNodeData=v;
+			}
+
 		});
 
 	}
 
 	add(template, toNode){
-		this.getRoot().add(template, toNode||this);
+		return this.getRoot().add(template, toNode||this);
 	}
 
 	renderElement(){
