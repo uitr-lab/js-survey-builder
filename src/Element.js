@@ -20,8 +20,13 @@ export class Element {
 			}
 
 			if (key == 'class') {
-
-				el.classList.add(v);
+				v.split(' ').forEach((name)=>{
+					if(name.length==0){
+						return;
+					}
+					el.classList.add(name);
+				})
+				
 				return;
 			}
 

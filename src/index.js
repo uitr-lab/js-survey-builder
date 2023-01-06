@@ -35,11 +35,6 @@ graph.addTemplate('section-placeholder', function(parentNode){
 
 
 
-
-
-
-
-
 graph.addTemplate('section', function(parentNode){
 
 	var numbers=['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
@@ -84,6 +79,8 @@ graph.addTemplate('section', function(parentNode){
 								name:"Question Set "+toNum(contentBlocks.length)
 							}));
 
+							panel.show();
+							panel.updateDropTargets();
 
 						}
 					}
@@ -99,20 +96,44 @@ graph.addTemplate('section', function(parentNode){
 
 });
 
+graph.add('section');
+
+
 var panel=new Panel(graph.getContainer().parentNode);
 panel.addItem(new ContentBlockItem({
 
 	name:"Markdown",
-	description:"display html from markdown content"
+	description:"display html from markdown content",
+	type:"markdown"
 
 }));
 
 panel.addItem(new ContentBlockItem({
 
-	name:"text input",
-	description:"display a text field for user input"
+	name:"Text Input",
+	description:"display a text field for user input",
+	type:"textfield"
 
 }));
 
 
-graph.add('section');
+panel.addItem(new ContentBlockItem({
+
+	name:"Radio Buttons",
+	description:"displays radio button selection",
+	type:"radio",
+	values:['a', 'b', 'c'],
+	default:'none',
+	labels:['A', 'B', 'C']
+
+}));
+
+panel.addItem(new ContentBlockItem({
+
+	name:"Checkbox",
+	description:"displays a checkbox field for boolean selection",
+	type:"checkbox"
+
+}));
+
+

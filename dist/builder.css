@@ -174,6 +174,9 @@ header.header {
     background: #e9e9e9c9;
     backdrop-filter: blur(5px);
     box-shadow: 0 0 5px #00000042;
+
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 
@@ -191,4 +194,126 @@ header.header {
     padding-left: 200px;
 }
 
+
+
+.panel-item {
+    display: inline-block;
+    width: 270px;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: grab;
+}
+
+.block-item {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    background: #ffffffc9;
+    box-shadow: 0 0 5px #00000010;
+    border: 1px solid #00000063;
+}
+
+.block-item:last-child {
+    margin-bottom: 0;
+}
+
+
+
+.panel-item label, .block-item label{
+    font-weight: 600;
+}
+
+
+.panel-item p.description, .block-item  p.description {
+    font-style: italic;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.panel-item.dragNdrop--drag {
+    background: gray;
+}
+
+.panel-item.dragNdrop--drag>* {
+    visibility: hidden;
+}
+
+section.content-item.empty:after {
+    content: "add some questions or content items from the menu";
+    line-height: 40px;
+    display: block;
+    text-align: center;
+    font-style: italic;
+    color: gray;
+    font-weight: 100;
+}
+
+
+.panel-overlay button {
+    position: absolute;
+    right: -7px;
+    font-size: 0;
+    width: 10px;
+    height: 100px;
+    top: calc( 50% - 50px );
+    cursor: pointer;
+    background-color: mediumaquamarine;
+    border: none;
+    border-radius: 2px;
+}
+
+@keyframes fadein {
+  from {
+      color: transparent;
+      text-shadow: none;
+  }
+  to {
+      color: black;
+      text-shadow: 0 0 10px white, 0 0 30px white;
+  }
+}
+
+
+@keyframes fadeout {
+  from {
+      color: black;
+      text-shadow: 0 0 10px white, 0 0 30px white;
+  }
+  to {
+      color: transparent;
+      text-shadow: none;
+  }
+ 
+}
+
+
+.panel-overlay button:after {
+    content: "Click to expand";
+    position: absolute;
+    top: 40px;
+    font-size: 20px;
+    white-space: nowrap;
+    padding-left: 20px;
+    left:0;
+    text-shadow: none;
+    color:transparent;
+    animation-name: fadeout;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+
+.panel-overlay button:hover:after {
+  animation-name: fadein;   
+}
+
+
+.show-panel .panel-overlay button:after {
+    content: "Click to collapse";
+}
 
