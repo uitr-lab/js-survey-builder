@@ -49,7 +49,7 @@ export class ContentBlockItem{
 			data[k]=this._data[k];
 		});
 
-		return JSON.parse(JSON.stringify(this._data));
+		return data;
 	}
 
 
@@ -58,5 +58,47 @@ export class ContentBlockItem{
 		ContentBlocks.getBlockWithTarget(target).addContentBlockItem(new ContentBlockItem(JSON.parse(JSON.stringify(this._data))));
 
 	}
+
+}
+
+
+
+export class ContentBlockGroupItem extends ContentBlockItem{
+
+
+	createInstance(target){
+
+		var contentBlockItem=new ContentBlockGroupItem(JSON.parse(JSON.stringify(this._data)));
+		ContentBlocks.getBlockWithTarget(target).addContentBlockItem(contentBlockItem);
+		ContentBlocks.addBlock(contentBlockItem);
+	
+	}
+
+	getInstanceElement(){
+
+
+		var el=super.getInstanceElement()	
+
+		this._element=el.appendChild(new Element('section', {
+			"class":"content-item empty"
+		}));
+
+
+		return el;
+	}
+
+	getElement(){
+		return this._element;
+	}
+
+	getData(){
+
+		var data=super.getData();
+
+
+
+		return data;
+	}
+
 
 }

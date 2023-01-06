@@ -5,7 +5,7 @@ import {Element} from './Element.js'
 import {Panel} from './Panel.js'
 
 import {ContentBlock} from './ContentBlock.js'
-import {ContentBlockItem} from './ContentBlockItem.js'
+import {ContentBlockItem, ContentBlockGroupItem} from './ContentBlockItem.js'
 
 var graph = (new Graph('survey-builder'));
 graph.addTemplate('section-placeholder', function(parentNode){
@@ -102,22 +102,41 @@ graph.add('section');
 var panel=new Panel(graph.getContainer().parentNode);
 panel.addItem(new ContentBlockItem({
 
+
+
 	name:"Markdown",
 	description:"display html from markdown content",
-	type:"markdown"
+	type:"markdown",
+	text:"## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
 
 }));
 
 panel.addItem(new ContentBlockItem({
+
+
+	name:"Label",
+	description:"displays a simple label",
+	type:"label",
+	text:'Some label'
+
+}));
+
+panel.addItem(new ContentBlockItem({
+
+	fieldName:"textInput{i}",
 
 	name:"Text Input",
 	description:"display a text field for user input",
-	type:"textfield"
+	type:"textfield",
+	value:"",
+	placeholder:"answer here"
 
 }));
 
 
 panel.addItem(new ContentBlockItem({
+
+	fieldName:"radioOption{i}",
 
 	name:"Radio Buttons",
 	description:"displays radio button selection",
@@ -130,9 +149,22 @@ panel.addItem(new ContentBlockItem({
 
 panel.addItem(new ContentBlockItem({
 
+	fieldName:"checkboxOption{i}",
+
 	name:"Checkbox",
 	description:"displays a checkbox field for boolean selection",
-	type:"checkbox"
+	type:"checkbox",
+	label:'Yes',
+	default:false
+
+}));
+
+
+panel.addItem(new ContentBlockGroupItem({
+
+	name:"Fieldset",
+	description:"displays a group of items",
+
 
 }));
 

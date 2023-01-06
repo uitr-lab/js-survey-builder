@@ -113,13 +113,57 @@ export class Panel {
 	_dropEl( event){
 
 		var el=event.element;
+		
+
+		if(event.dropZones&&event.dropZones.length>0){
+
+			var dropZone=this._closestDropzone(el, event.dropZones);
+
+			if(dropZone){
+				this._callbacks[this._items.indexOf(el)](dropZone);
+			}
+		}
+
 		el.style.cssText = '';
 		console.log(event);
 
-		if(event.dropZones&&event.dropZones.length>0){
-			this._callbacks[this._items.indexOf(el)](event.dropZones[0]);
+	}
+
+	_closestDropzone(el, dropZones){
+
+		var rect=el.getBoundingClientRect();
+		var center={
+			x:rect.x+rect.width/2, y:rect.y+rect.height/2
 		}
 
+		var bestFit=null;
+		var bestDist=Infinity;
+
+		dropZones.filter((dz)=>{
+
+			var dzRect=dz.getBoundingClientRect();
+
+
+
+			return (dzRect.x<center.x&&center.x<dzRect.right)&&(dzRect.y<center.y&&center.y<dzRect.bottom);
+
+		}).forEach((dz)=>{
+
+			var dzRect=dz.getBoundingClientRect();
+
+			var dzCenter={
+				x:dzRect.x+dzRect.width/2, y:dzRect.y+dzRect.height/2
+			}
+
+			var d=Math.pow(dzCenter.x-center.x, 2)+Math.pow(dzCenter.y-center.y, 2);
+			if(d<bestDist){
+				bestDist=d;
+				bestFit=dz;
+			}
+
+		});	
+
+		return bestFit;
 	}
 
 
