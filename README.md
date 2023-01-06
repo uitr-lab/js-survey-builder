@@ -61,68 +61,7 @@ Question blocks are added to sections and can consist of one or more questions, 
 
 The survey JSON is structured as a tree, Survey participants are presented with content/questions from each node as they traverse the tree from root to a terminating leaf node. Each node represents a Section and navigation from each section/node to a child node can be scripted. Leaf nodes can be linked directly to a seperate section/node defining a graph/flow chart  
 
-```
-UITR Survey Builder Demo
-Section One
-Markdown
-display html from markdown content
-
-Fieldset
-displays a group of items
-
-Text Input
-display a text field for user input
-
-Label
-displays a simple label
-
-Radio Buttons
-displays radio button selection
-
-Add Question Block
-Add Section
-Section Two
-Label
-displays a simple label
-
-Text Input
-display a text field for user input
-
-Label
-displays a simple label
-
-Checkbox
-displays a checkbox field for boolean selection
-
-Add Question Block
-Add Section
-Section Three
-Markdown
-display html from markdown content
-
-Checkbox
-displays a checkbox field for boolean selection
-
-Add Question Block
-Add Section
-UITR LabFork this projectExport JSONRun SurveyToggle SidebarMarkdown
-display html from markdown content
-
-Label
-displays a simple label
-
-Text Input
-display a text field for user input
-
-Radio Buttons
-displays radio button selection
-
-Checkbox
-displays a checkbox field for boolean selection
-
-Fieldset
-displays a group of items
-
+```js
 {
    "name": "Section One",
    "items": [
@@ -230,5 +169,5 @@ displays a group of items
       }
    ]
 }
-CloseCopy
+
 ```
