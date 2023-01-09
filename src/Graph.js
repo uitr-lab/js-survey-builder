@@ -67,6 +67,21 @@ export class Graph extends GraphNode{
 
 	}
 
+
+	getNodeWithTarget(target){
+
+		var matches=this.getNodesRecurse().filter((node)=>{
+			return node.hasTarget(target);
+		});
+
+		if(matches.length==0){
+			throw 'Invalid target';
+		}
+
+		return matches.shift();
+
+	}
+
 	getDisplayMode(){
 		return this._displayMode;
 	}
@@ -92,18 +107,24 @@ export class Graph extends GraphNode{
 		var i = a.indexOfNode(b);
 		if(this._displayMode!=='graph'){
 
+			var translation= [-3-4*(i), 0];
+
+			if(a.getDepth()>b.getDepth()){
+				translation= [-3-4*(i), 0];
+			}
+
 			return arrowCreate({
 
 
 				from: {
 					direction: DIRECTION.LEFT,
 					node: a.getOutputElement(),
-					translation: [-3-4*(i), 0],
+					translation: translation,
 				},
 				to: {
 					direction: DIRECTION.LEFT,
 					node:  b.getInputElement(),
-					translation: [-3-4*(i), 0],
+					translation: translation,
 				},
 				head: {
 				    func: HEAD.THIN,
@@ -170,6 +191,8 @@ export class Graph extends GraphNode{
 		})
 
 		this._depthEls=[];
+
+		this.emit('modeList');
 	}
 
 	redrawGraph(){
@@ -177,6 +200,8 @@ export class Graph extends GraphNode{
 		this.getNodesRecurse().forEach((node)=>{
 			this.renderNode(node);
 		});
+
+		this.emit('modeGraph');
 	}
 
 

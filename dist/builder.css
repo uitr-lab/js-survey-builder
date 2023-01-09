@@ -9,13 +9,19 @@
     margin: 15px;
 }
 
-.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.add-node-btn, button.insert-node-btn {
+.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.add-node-btn, button.insert-node-btn,  button.view-toggle-btn {
     background: mediumaquamarine;
     padding: 10px 20px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
     box-shadow: 0 0 3px #00000042;
+}
+
+button.view-toggle-btn {
+    position: fixed;
+    top: 24px;
+    right: 24px;
 }
 
 .graph-node.section-node {
@@ -354,6 +360,9 @@ section.content-item.empty:after {
     content: "Click to collapse";
 }
 
+.panel-overlay.disabled{
+    display:none;
+}
 
 
 .block-item {
@@ -379,6 +388,46 @@ section.content-item.empty:after {
     top: 0;
     
 }
+
+
+.block-item form {
+    padding: 24px;
+    background: rgba(0,0,0,0.05);
+    margin: 20px -10px -10px -10px;
+    padding-bottom: 45px;
+}
+
+
+.block-item form label {
+    display: inline-block;
+    white-space: nowrap;
+    margin: 5px 0;
+}
+
+
+.block-item form input {
+    min-width: 230px;
+    min-height: 32px;
+    border: 1px solid rgba(0,0,0,0.3);
+    margin: 0 20px 0 5px;
+    border-radius: 2px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+
+
+.block-item form textarea {
+    width: 100%;
+    min-height: 250px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 2px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    margin: 5px 0;
+}
+
+
 .content-item>button.remove-btn:after{
     color:crimson;
 }
@@ -424,11 +473,13 @@ section.content-item.empty:after {
 button.add-node-btn {
     position: absolute;
     left: 50%;
+    z-index: 1;
 }
 
 button.insert-node-btn{
     position: absolute;
     left: calc( 50% - 130px );
+    z-index: 1;
 
 }
 
@@ -452,7 +503,7 @@ button.insert-node-btn{
     top: 0;
 }
 
-button.edit-btn {
+button.edit-btn, button.hide-btn {
     background: mediumaquamarine;
     padding: 5px 10px;
     border: none;
@@ -464,6 +515,18 @@ button.edit-btn {
     top: -35px;
     right: 40px;
 }
+
+button.edit-btn.hidden{
+    display: none;
+}
+
+button.hide-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    top: unset;
+}
+
 
 button.test-btn {
     width: 0;
@@ -546,34 +609,56 @@ button.run-btn:before {
 }
 
 
+.handle {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+}
 
 
+.drag-input .handle.output {
+    background-color: limegreen;
+    border-radius: 100%;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+}
 
+
+.drag-output .handle.input {
+    background-color: limegreen;
+    border-radius: 100%;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+}
 
 
 
 .graph-view .node-container {
     display: inline-block;
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 400px;
+    max-height: 250px;
 }
 
 .graph-view .depth-item {
     text-align: center;
+    white-space: nowrap;
 }
 
 .graph-view .graph-node.section-node>* {
     display: none;
 }
-
-
-.graph-view .node-container>button{
-    display:none;
+.graph-view .graph-node.section-node>.remove-btn {
+    display: inline-block;
 }
 
-
-.graph-view .node-container>button{
-    display:none;
+.graph-view .graph-node.section-node>input {
+    display: inline-block;
 }
 
 .graph-view .graph-node.section-node>.node-input, .graph-view .graph-node.section-node>.node-output{

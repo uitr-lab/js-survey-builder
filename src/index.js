@@ -31,7 +31,7 @@ import {Overlay} from './Overlay.js'
 
 var graph = (new Graph('survey-builder'));
 
-graph.getContainer().appendChild(new Element('button',{
+var toggleView=graph.getContainer().appendChild(new Element('button',{
 	"html":"Graph View",
 	"class":"view-toggle-btn",
 	events:{
@@ -39,10 +39,12 @@ graph.getContainer().appendChild(new Element('button',{
 			if(document.body.classList.contains('graph-view')){
 				document.body.classList.remove('graph-view');
 				graph.redrawList();
+				toggleView.innerHTML='Graph View';
 				return;
 			}
 			document.body.classList.add('graph-view');
 			graph.redrawGraph();
+			toggleView.innerHTML='List View';
 		}
 	}
 }))
@@ -108,6 +110,7 @@ graph.addTemplate('section', function(parentNode) {
 			return {
 				name: name.value,
 				type: 'section',
+				uuid:'', //placeholder
 				items: contentBlocks.map((item, i) => {
 					return item.getData();
 				})
@@ -135,6 +138,11 @@ graph.addTemplate('section', function(parentNode) {
 
 				panel.show();
 				panel.updateDropTargets();
+
+				block.on('preview',()=>{
+
+				})
+
 			});
 
 		},
@@ -166,6 +174,10 @@ graph.addTemplate('section', function(parentNode) {
 						panel.show();
 						panel.updateDropTargets();
 
+						block.on('preview',()=>{
+							
+						})
+
 					}
 				}
 			})
@@ -183,6 +195,15 @@ graph.addTemplate('section', function(parentNode) {
 
 var panel = new Panel(graph.getContainer().parentNode);
 
+panel.show();
+
+graph.on('modeGraph', ()=>{
+	panel.disable();
+})
+
+graph.on('modeList', ()=>{
+	panel.enable();
+})
 
 
 panel.addItem(new ContentBlockItem({
@@ -191,7 +212,8 @@ panel.addItem(new ContentBlockItem({
 	description: "display html from markdown content",
 	type: "markdown",
 	text: "## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-	previewHtml:'## Lorem ipsum >> <h2 style="display:inline">Lorem ipsum</h2>'
+	previewHtml:'## Lorem ipsum >> <h2 style="display:inline">Lorem ipsum</h2>',
+	formHtml:'<label> Markdown: </label><textarea name="text">'+"## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu"+'</textarea>'
 
 }));
 
@@ -201,7 +223,8 @@ panel.addItem(new ContentBlockItem({
 	name: "Label",
 	description: "displays a simple label",
 	type: "label",
-	text: 'Some label'
+	text: 'Some label',
+	formHtml:'<label> Label Text: <input name="text"/></label>'
 
 }));
 
@@ -214,7 +237,8 @@ panel.addItem(new ContentBlockItem({
 	type: "textfield",
 	value: "",
 	placeholder: "answer here",
-	previewHtml:'<label>Prompt <input type="text" placeholder="type here" /> ... </label>'
+	previewHtml:'<label>Prompt <input type="text" placeholder="type here" /> ... </label>',
+	formHtml:'<label> FieldName: <input name="fieldName" value="{auto}"/></label><label> Placeholder: <input name="placeholder" value="add text"/></label>'
 
 
 }));
@@ -230,7 +254,8 @@ panel.addItem(new ContentBlockItem({
 	values: ['a', 'b', 'c'],
 	default: 'none',
 	labels: ['A', 'B', 'C'],
-	previewHtml:'<input type="radio" name="radioA" value="a" checked="1" /><label for="radioA">A</label><input type="radio" name="radioB" value="b" /><label for="radioB">B</label><input type="radio" name="radioC" value="c" /><label for="radioC">C</label>'
+	previewHtml:'<input type="radio" name="radioA" value="a" checked="1" /><label for="radioA">A</label><input type="radio" name="radioB" value="b" /><label for="radioB">B</label><input type="radio" name="radioC" value="c" /><label for="radioC">C</label>',
+	formHtml:'<label> FieldName: <input name="fieldName"/></label>'
 
 }));
 

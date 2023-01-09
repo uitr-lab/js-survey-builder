@@ -99,7 +99,7 @@ export class ContentBlock extends EventEmitter {
 			events:{
 				click:()=>{
 
-					
+					this.emit('preview');
 
 				}
 			}
@@ -175,6 +175,10 @@ export class ContentBlock extends EventEmitter {
 
 		});
 
+
+		item.on('update',()=>{
+			this.emit('updateContentBlock');
+		});
 
 		this.emit('addContentBlock');
 

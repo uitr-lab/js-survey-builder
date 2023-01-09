@@ -6,6 +6,10 @@ import {
 } from 'events';
 
 
+import { v4 as uuidv4 } from 'uuid';
+
+
+
 
 export class GraphNode extends EventEmitter {
 
@@ -18,7 +22,7 @@ export class GraphNode extends EventEmitter {
 			this._arrows = [];
 		}
 
-		var node = this._instantiateNode(this, data);
+		var node = data instanceof GraphNode?data:this._instantiateNode(this, data);
 		this._nodes.push(node);
 		this._arrows.push(null);
 		this._formatAddNode(node);
@@ -35,7 +39,7 @@ export class GraphNode extends EventEmitter {
 			this._arrows = [];
 		}
 
-		var node = this._instantiateNode(this, data);
+		var node = data instanceof GraphNode?data:this._instantiateNode(this, data);
 		this._nodes.splice(index, 0, node);
 		this._arrows.splice(index, 0, null); //placeholder
 		this._formatAddNode(node);
@@ -289,6 +293,31 @@ export class GraphNode extends EventEmitter {
 		this.removeAllListeners();
 	}
 
+
+
+	hasTarget(target){
+
+		if(typeof target=='string'){
+			return target===this.getUUID();
+		}
+
+
+		if(target instanceof HTMLElement){
+
+			return ([this._container, this._element]).indexOf(target)>=0;
+
+		}
+
+		return false;
+	}
+
+
+	getUUID(){
+
+		return this._uuid||uuidv4();;
+
+	}
+
 	getData() {
 
 		var data = null;
@@ -296,6 +325,12 @@ export class GraphNode extends EventEmitter {
 		if (this._getNodeData) {
 			data = this._getNodeData();
 		}
+
+
+		if(data){
+			data.uuid=this.getUUID();
+		}
+
 
 		var nodes = this.realChildNodes();
 

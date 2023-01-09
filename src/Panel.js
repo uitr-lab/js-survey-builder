@@ -50,6 +50,19 @@ export class Panel {
 	}
 
 
+	enable(){
+		delete this._disabled;
+		this._container.classList.remove('disabled');
+		this.show();
+	}
+
+	disable(){
+		this.hide()
+		this._container.classList.add('disabled');
+		this._disabled=true;
+	}
+
+
 	toggle() {
 		if (document.body.classList.contains('show-panel')) {
 			this.hide();
@@ -122,6 +135,12 @@ export class Panel {
 					this._dropEl(event);
 				}
 			});
+
+			// el.addEventListener('dragNdrop:start', console.log);
+			// el.addEventListener('dragNdrop:drag', console.log);
+			// el.addEventListener('dragNdrop:stop', console.log);
+			// el.addEventListener('dragNdrop:dropped', console.log);
+
 
 		})
 
