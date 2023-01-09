@@ -36,13 +36,20 @@ class ContenBlockList extends EventEmitter {
 			this.emit('update');
 		});
 
+
+		item.on('remove', ()=>{
+			var i=this._items.indexOf(item);
+			this._items.splice(i, 1);
+			this.emit('update');
+		});
+
 	}
 
 
 	getBlockWithTarget(target){
 
 		var matches=(this._items||[]).filter((item)=>{
-			return item===target||item.getElement()===target;
+			return item===target||item.getElement()===target||item.getContainer()===target;
 		});
 
 		if(matches.length==0){
@@ -67,8 +74,53 @@ export class ContentBlock extends EventEmitter {
 
 		super();
 
-		this._element=container.appendChild(new Element('section', {
+		this._container=container.appendChild(new Element('section', {
 			"class":"content-item empty"
+		}));
+
+		this._element=this._container.appendChild(new Element('div', {
+			"class":"wrap"
+		}));
+
+		this._container.appendChild(new Element('button',{
+			"class":"remove-btn",
+			html:"Remove",
+			events:{
+				click:()=>{
+
+					this.remove();
+				}
+			}
+		}));
+
+		this._container.appendChild(new Element('button', {
+			"class":"test-btn",
+			"html":'Test',
+			events:{
+				click:()=>{
+
+					
+
+				}
+			}
+		}));
+
+		var toggle=this._container.appendChild(new Element('button', {
+			"class":"toggle-btn",
+			"html":'Hide',
+			events:{
+				click:()=>{
+
+					if(this._container.classList.contains('collapse')){
+						this._container.classList.remove('collapse');
+						toggle.innerHTML="Hide"
+					}else{
+						this._container.classList.add('collapse');
+						toggle.innerHTML="Show"
+					}
+
+				}
+			}
 		}));
 
 		this._data=data;
@@ -107,7 +159,7 @@ export class ContentBlock extends EventEmitter {
 
 
 		var el=this._element.appendChild(item.getInstanceElement());
-		this._element.classList.remove('empty');
+		this._container.classList.remove('empty');
 
 		this._items.push(item);
 		this._els.push(el);
@@ -124,8 +176,24 @@ export class ContentBlock extends EventEmitter {
 		});
 
 
+		this.emit('addContentBlock');
 
 
+	}
+
+	remove(){
+
+		(this._items||[]).slice(0).forEach((item)=>{
+			item.remove();
+		});
+
+		this._container.parentNode.removeChild(this._container);
+
+		this.emit('remove');
+		this.removeAllListeners();
+		node.emit('updateNode');
+
+		
 
 	}
 
@@ -133,11 +201,18 @@ export class ContentBlock extends EventEmitter {
 		return this._element;
 	}
 
+	getContainer(){
+		return this._container;
+	}
+
 
 	getData(){
 
 
-		var data={};
+		var data={
+			name:"Question Set",
+			type:"set"
+		};
 
 		Object.keys(this._data).forEach((k)=>{
 			data[k]=this._data[k]

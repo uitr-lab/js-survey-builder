@@ -25,10 +25,19 @@ export class ContentBlockItem extends EventEmitter{
 	getDisplayElement(){
 
 
-		return new Element('div', {
+		var el= new Element('div', {
 			"html":'<label>'+this._data.name+'</label><p class="description">'+this._data.description+'</p>',
 			"class":"panel-item"
 		});
+
+		if(this._data.previewHtml){
+			el.appendChild(new Element('div', {
+				"class":"preview",
+				html:this._data.previewHtml
+			}));
+		}
+
+		return el;
 
 	}
 
@@ -41,7 +50,19 @@ export class ContentBlockItem extends EventEmitter{
 			"class":"block-item"
 		});
 
-		el.appendChild(new Element('buttom', {
+		el.appendChild(new Element('button', {
+			"class":"edit-btn",
+			"html":'Edit',
+			events:{
+				click:()=>{
+
+					console.log('edit')
+
+				}
+			}
+		}));
+
+		el.appendChild(new Element('button', {
 			"class":"remove-btn",
 			"html":'Remove',
 			events:{
@@ -53,10 +74,8 @@ export class ContentBlockItem extends EventEmitter{
 			}
 		}));
 
+
 		return el;
-
-
-
 
 	}
 
@@ -72,7 +91,7 @@ export class ContentBlockItem extends EventEmitter{
 		var data={};
 		Object.keys(this._data).forEach((k)=>{
 
-			if((['name', 'description']).indexOf(k)>=0){
+			if((['name', 'description' ,'previewHtml']).indexOf(k)>=0){
 				return;
 			}
 

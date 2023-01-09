@@ -1,12 +1,14 @@
 
 import {GraphNode} from './GraphNode.js'
 import {Node} from './Node.js'
-import {JsonExporter} from './JsonExporter.js'
+
 import {Element} from './Element.js'
 
-import {Overlay} from './Overlay.js'
 
 
+import arrowCreate, {
+	DIRECTION, HEAD
+} from 'arrows-svg'
 
 
 export class Graph extends GraphNode{
@@ -14,6 +16,8 @@ export class Graph extends GraphNode{
 	constructor(id) {
 
 		super();
+
+		this._displayMode='list';
 
 		this._parentContainer = id instanceof HTMLElement ? id : document.getElementById(id);
 		this._container = new Element('div', {
@@ -27,38 +31,8 @@ export class Graph extends GraphNode{
 		});
 
 
-		this._menu.appendChild(new Element('a', {
-			html:'UITR Lab',
-			target:"_blank",
-			href:"https://uitr.ok.ubc.ca/"
-		}));
 
-		this._menu.appendChild(new Element('a', {
-			html:'Fork this project',
-			target:"_blank",
-			href:"https://github.com/uitr-lab/js-survey-builder"
-		}));
-
-		this._menu.appendChild(new Element('button', {
-			html:'Export JSON',
-			events:{
-				click:()=>{
-					(new JsonExporter(this)).showOverlay();
-				}
-			}
-
-		}));
-
-
-		this._menu.appendChild(new Element('button', {
-			html:'Run Survey',
-			events:{
-				click:()=>{
-					new Overlay('This is not implemented yet');
-				}
-			}
-
-		}));
+		
 
 		this._parentContainer.appendChild(this._menu);
 
@@ -93,8 +67,123 @@ export class Graph extends GraphNode{
 
 	}
 
+	getDisplayMode(){
+		return this._displayMode;
+	}
+
+	renderNode(node){
 
 
+		if(this._displayMode!=='graph'){
+			node.getParent().getContainer().appendChild(node.getContainer());
+			node.redrawArrows();
+			return;
+		}
+
+
+
+		this._getDepthContainer(node.getDepth()).appendChild(node.getContainer());
+		node.redrawArrows();
+	}
+
+
+	renderArrow(a, b){
+
+		var i = a.indexOfNode(b);
+		if(this._displayMode!=='graph'){
+
+			return arrowCreate({
+
+
+				from: {
+					direction: DIRECTION.LEFT,
+					node: a.getOutputElement(),
+					translation: [-3-4*(i), 0],
+				},
+				to: {
+					direction: DIRECTION.LEFT,
+					node:  b.getInputElement(),
+					translation: [-3-4*(i), 0],
+				},
+				head: {
+				    func: HEAD.THIN,
+				    size: 7, // custom options that will be passed to head function
+				  }
+			});
+
+		}
+
+		return arrowCreate({
+
+
+				from: {
+					direction: DIRECTION.BOTTOM,
+					node: a.getOutputElement(),
+					translation: [0, 0.5],
+				},
+				to: {
+					direction: DIRECTION.TOP,
+					node:  b.getInputElement(),
+					translation: [0, -0.5],
+				},
+				head: {
+				    func: HEAD.THIN,
+				    size: 7, // custom options that will be passed to head function
+				  }
+			});
+
+
+		
+		return arrow;
+
+
+	}
+
+
+	_getDepthContainer(i){
+
+		if(!this._depthEls){
+			this._depthEls=[];
+		}
+
+
+		if(this._depthEls.length<=i||(!this._depthEls[i])){
+			this._depthEls[i]=this._container.appendChild(new Element('div', {
+				"class":"depth-item depth-"+i
+			}));
+		}
+
+
+		return this._depthEls[i];
+	}
+
+
+	redrawList(){
+		this._displayMode='list';
+
+		this.getNodesRecurse().forEach((node)=>{
+			this.renderNode(node);
+		});
+
+		(this._depthEls||[]).forEach((el)=>{
+			el.parentNode.removeChild(el);
+		})
+
+		this._depthEls=[];
+	}
+
+	redrawGraph(){
+		this._displayMode='graph';
+		this.getNodesRecurse().forEach((node)=>{
+			this.renderNode(node);
+		});
+	}
+
+
+
+	addMenuItem(el){
+		this._menu.appendChild(el);
+	}
 
 	
 

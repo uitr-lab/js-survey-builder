@@ -19,13 +19,17 @@ export class Overlay{
 		}));
 
 		var main=overlay.appendChild(new Element('div',{
-			html:content,
 			"class":"content",
 			events:{
 				click:(e)=>{
 					e.stopPropagation();
 				}
 			}
+		}));
+
+		var contentArea=main.appendChild(new Element('div',{
+			html:content,
+			"class":"content-area",
 		}));
 
 		main.appendChild(new Element('button',{
@@ -39,7 +43,7 @@ export class Overlay{
 		}));
 
 
-		buttons.forEach((b)=>{
+		(buttons||[]).forEach((b)=>{
 			main.appendChild(b);
 		});
 

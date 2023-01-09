@@ -9,7 +9,7 @@
     margin: 15px;
 }
 
-.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.add-node-btn {
+.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.add-node-btn, button.insert-node-btn {
     background: mediumaquamarine;
     padding: 10px 20px;
     border: none;
@@ -94,8 +94,8 @@
 
 .window-overlay  .content {
     display: inline-block;
-    min-width: 500px;
-    min-height: 400px;
+    width: 500px;
+    height: 400px;
     position: absolute;
     top: calc( 50% - 200px );
     left: calc( 50% - 250px );
@@ -105,7 +105,15 @@
     box-sizing: border-box;
     border-radius: 3px;
     box-shadow: 0 0 10px #00000047;
+    padding-bottom: 65px;
+
 }
+
+.window-overlay .content-area {
+    overflow: auto;
+    height: 100%;
+}
+
 
 
 .window-overlay  button.close-btn {
@@ -139,17 +147,46 @@
 
 
 .blocks section.content-item {
-    padding: 10px;
+    padding: 35px;
     background: rgba(0,0,0,0.1);
-    margin: 5px 0;
+    margin: 10px 0;
     min-height: 40px;
     border-radius: 2px;
-}
-
-.blocks section.content-item:last-child {
+    position: relative;
     margin-bottom: 30px;
 }
 
+.content-item.collapse .block-item {
+    background-color: rgba(255,255, 255, 0.4);
+    border: none;
+    min-height: 30px;
+}
+.content-item.collapse .block-item>* {
+    display: none;
+}
+
+
+section.content-item.collapse>.wrap {
+    -webkit-mask-image: linear-gradient(0, transparent, #ffffff70, #ffffff70);
+    overflow: hidden;
+    max-height: 100px;
+}
+
+
+section.content-item:before {
+    content: "--- next page ---";
+    position: absolute;
+    left: calc( 50% - 70px );
+    color: #555;
+    font-style: italic;
+    top: -23px;
+    font-size: 14px;
+
+}
+
+section.content-item:first-child:before {
+    display: none;
+}
 
 .panel-overlay {
     transition: left 0.2s;
@@ -323,20 +360,59 @@ section.content-item.empty:after {
     position: relative;
 }
 
-.block-item buttom.remove-btn {
+.block-item button.remove-btn, .content-item button.remove-btn, .content-item button.toggle-btn{
     position: absolute;
     top: 0;
     right: 0;
     font-size: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
-.block-item  buttom.remove-btn:after {
+.block-item  button.remove-btn:after, .content-item button.remove-btn:after, .content-item button.toggle-btn:after{
     content: "+";
     font-size: 30px;
     transform: rotate(45deg);
     position: absolute;
     right: 5px;
     font-weight: 100;
+    top: 0;
+    
+}
+.content-item>button.remove-btn:after{
+    color:crimson;
+}
+
+
+.content-item button.toggle-btn{
+    top: unset;
+    right: unset;
+    bottom: 0;
+    left: 0;
+}
+
+.content-item button.toggle-btn:after{
+    top: -5px;
+    right: 15px;
+    content: "^";
+    transform: rotate(0);
+    font-family: monospace;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0.3);
+    text-align: center;
+    border-radius: 100%;
+    line-height: 31px;
+    color: beige;
+    font-size: 25px;
+}
+.content-item.empty button.toggle-btn:after {
+    display: none;
+}
+
+
+.content-item.collapse button.toggle-btn:after {
+    transform: rotate(180deg);
 }
 
 
@@ -350,6 +426,11 @@ button.add-node-btn {
     left: 50%;
 }
 
+button.insert-node-btn{
+    position: absolute;
+    left: calc( 50% - 130px );
+
+}
 
 .section-node>button.remove-btn {
     position: absolute;
@@ -371,6 +452,133 @@ button.add-node-btn {
     top: 0;
 }
 
+button.edit-btn {
+    background: mediumaquamarine;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 0 3px #00000042;
+    float: right;
+    position: relative;
+    top: -35px;
+    right: 40px;
+}
+
+button.test-btn {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 12px solid #295097;
+    font-size: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    position: absolute;
+    right: 8px;
+    bottom: 12px;
+    filter: drop-shadow(0 0 2px #00000070);
+}
+
+button.run-btn:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 12px solid #295097;
+    font-size: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    filter: drop-shadow(0 0 2px #00000070);
+    position: relative;
+    top: -4px;
+    left: -5px;
+}
+
+
+.preview {
+    pointer-events: none;
+    opacity: 0.5;
+    font-size: 11px;
+    padding: 10px 20px;
+}
+
+
+
+
+
+
+
+
+.node-input, .node-output {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 12px;
+    height: 12px;
+    background: #7d7d7d33;
+    border-radius: 100%;
+}
+
+.node-output{
+    top:unset;
+    bottom:10px    
+}
+
+.arrow {
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+
+.arrow__path {
+  stroke: #555;
+  fill: transparent;
+}
+
+.arrow__head line {
+  stroke: #555;
+  stroke-width: 2px;
+}
+
+
+
+
+
+
+
+
+.graph-view .node-container {
+    display: inline-block;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.graph-view .depth-item {
+    text-align: center;
+}
+
+.graph-view .graph-node.section-node>* {
+    display: none;
+}
+
+
+.graph-view .node-container>button{
+    display:none;
+}
+
+
+.graph-view .node-container>button{
+    display:none;
+}
+
+.graph-view .graph-node.section-node>.node-input, .graph-view .graph-node.section-node>.node-output{
+    display:inline-block;
+}
 
 
 

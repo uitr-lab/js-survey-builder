@@ -15,6 +15,7 @@ export class Node extends GraphNode{
 			"class": 'graph-node'
 		});
 
+		this._childNodeLimit=1;
 		
 		this._container=new Element('div', {
 			"class": 'node-container'
@@ -31,35 +32,63 @@ export class Node extends GraphNode{
 			}
 		}))
 
-		this.on('addNode', ()=>{
-			if(this._insertNode){
-				return;
-			}
-			this._insertNode=this._container.appendChild(new Element('button', {
-				html: "Insert Section",
-				"class":"add-node-btn",
-				events: {
-					click: () => {
-						
-					}
-				}
-			}));
+		
+		
+		
+		
 
-		})
+		this._nodeInput=this._element.appendChild(new Element('div', {
+			html: "",
+			"class":"node-input"
+		}));
 
-		this._container.appendChild(new Element('button', {
+
+		this._nodeOutput=this._element.appendChild(new Element('div', {
+			html: "",
+			"class":"node-output"
+		}));
+
+		var addNode=this._container.appendChild(new Element('button', {
 			html: "Add Section",
 			"class":"add-node-btn",
 			events: {
 				click: () => {
 					this.add('section');
-					if(this.numberOfRealChildNodes()==2){
-						//parentNode.add('navigationLogic');
+					if(this._childNodeLimit>0&&this.realChildNodes().length>=this._childNodeLimit){
+						addNode.classList.add('hidden');
 					}
 					
 				}
 			}
 		}));
+
+		this.on('addNode', ()=>{
+			if(this._insertNode){
+				return;
+			}
+			this._insertNode=this._container.insertBefore(new Element('button', {
+				html: "Insert Section",
+				"class":"insert-node-btn",
+				events: {
+					click: () => {
+						
+					}
+				}
+			}), addNode);
+
+		});
+
+		this.on('removeNode',()=>{
+
+			if(this.realChildNodes()<=1){
+
+				if(this._insertNode){
+					this._insertNode.parentNode.removeChild(this._insertNode);
+					delete this._insertNode;
+				}
+			}
+
+		})
 			
 		this.renderElement();
 
@@ -97,13 +126,18 @@ export class Node extends GraphNode{
 
 	}
 
+	limitChildNodes(count){
+		this._childNodeLimit=count;
+	}
+
 	add(template, toNode){
 		return this.getRoot().add(template, toNode||this);
 	}
 
 	renderElement(){
 
-		this.getParent().getContainer().appendChild(this._container);
+		this.getRoot().renderNode(this);
+
 	}
 
 
