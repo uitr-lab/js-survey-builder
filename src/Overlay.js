@@ -27,10 +27,26 @@ export class Overlay{
 			}
 		}));
 
-		var contentArea=main.appendChild(new Element('div',{
-			html:content,
-			"class":"content-area",
-		}));
+
+		var contentArea;
+
+
+		if(content instanceof HTMLElement){
+
+			contentArea=main.appendChild(new Element('div',{
+				"class":"content-area",
+			}));
+			contentArea.appendChild(content);
+
+		}else{
+		
+			contentArea=main.appendChild(new Element('div',{
+				html:content,
+				"class":"content-area",
+			}));
+		}
+
+		
 
 		main.appendChild(new Element('button',{
 			html:"Close",
@@ -48,9 +64,13 @@ export class Overlay{
 		});
 
 		
-	
+		this._overlay=overlay;
 
 
+	}
+
+	fullscreen(){
+		this._overlay.classList.add('fullscreen');
 	}
 
 

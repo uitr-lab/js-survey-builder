@@ -8,6 +8,12 @@ export class Element {
 			var v = options[key];
 
 			if (key == 'html') {
+
+				if(v instanceof HTMLElement){
+					el.appendChild(v);
+					return;
+				}
+				
 				el.innerHTML = v;
 				return;
 			}

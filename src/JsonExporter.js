@@ -1,10 +1,15 @@
 import {
 	Element
 } from './Element.js'
+
 import {
 	Overlay
 } from './Overlay.js'
 
+
+import {
+	Graph
+} from './Graph.js'
 
 export class JsonExporter {
 
@@ -17,7 +22,13 @@ export class JsonExporter {
 
 	getData(){
 
-		return JSON.parse(JSON.stringify(this._exportable.getData().nodes[0]));
+		var rawData=this._exportable.getData();
+
+		if(this._exportable instanceof Graph){
+			return JSON.parse(JSON.stringify(rawData.nodes[0]));
+		}
+
+		return JSON.parse(JSON.stringify(rawData));
 
 	}
 

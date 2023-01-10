@@ -108,21 +108,26 @@ export class Graph extends GraphNode{
 		if(this._displayMode!=='graph'){
 
 			var translation= [-3-4*(i), 0];
+			var directionFrom=DIRECTION.LEFT;
+			var directionTo=DIRECTION.LEFT
+
 
 			if(a.getDepth()>b.getDepth()){
 				translation= [-3-4*(i), 0];
+				var directionFrom=DIRECTION.BOTTOM;
+				var directionTo=DIRECTION.TOP;
 			}
 
 			return arrowCreate({
 
 
 				from: {
-					direction: DIRECTION.LEFT,
+					direction: directionFrom,
 					node: a.getOutputElement(),
 					translation: translation,
 				},
 				to: {
-					direction: DIRECTION.LEFT,
+					direction: directionTo,
 					node:  b.getInputElement(),
 					translation: translation,
 				},

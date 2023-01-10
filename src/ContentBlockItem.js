@@ -67,9 +67,11 @@ export class ContentBlockItem extends EventEmitter{
 				
 
 					Array.prototype.slice.call(form.querySelectorAll("*")).forEach((el)=>{
+
 						if(typeof el.name=='string'&&typeof this._data[el.name]!='undefined'){
 							el.value=this._data[el.name];
 						}
+						
 					});
 
 
@@ -82,7 +84,7 @@ export class ContentBlockItem extends EventEmitter{
 							this._data[key]=formData.get(key);
 						}
 					
-
+						this.emit('update');
 
 
 

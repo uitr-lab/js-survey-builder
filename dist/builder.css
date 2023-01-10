@@ -87,6 +87,7 @@ button.view-toggle-btn {
     height: 100%;
     top: 0;
     left: 0;
+    z-index: 1;
 }
 
 .window-overlay:before {
@@ -136,14 +137,24 @@ button.view-toggle-btn {
 }
 
 .window-overlay button.close-btn:after {
+
+/* Disabled */
     position: absolute;
     top: -350px;
     right: -5px;
-    content: "+";
+/*    content: "+";*/
     transform: rotate(45deg);
     font-size: 30px;
 }
 
+
+.window-overlay.fullscreen .content {
+    width: calc( 100% - 200px );
+    height: calc( 100% - 200px );
+    left: 0;
+    top: 0;
+    margin: 100px;
+}
 
 .graph-root {
     margin-bottom: 150px;
@@ -664,6 +675,58 @@ button.run-btn:before {
 .graph-view .graph-node.section-node>.node-input, .graph-view .graph-node.section-node>.node-output{
     display:inline-block;
 }
+
+
+
+
+
+
+
+
+form.survey-view {
+    line-height: 1.5em;
+    margin: auto;
+    max-width: 1000px;
+    background: rgba(0,0,0,0.05);
+    padding: 40px;
+}
+
+
+
+form.survey-view label {
+    display: block;
+    margin: 5px;
+}
+
+form.survey-view label>input {
+    margin-left: 10px;
+    min-height: 22px;
+    min-width:350px;
+}
+
+
+form.survey-view nav button {
+    background: mediumaquamarine;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 0 3px #00000042;
+}
+
+form.survey-view nav {
+    text-align: right;
+    margin: 50px;
+}
+
+
+
+
+
+
+
+
+
 
 
 

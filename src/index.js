@@ -78,7 +78,7 @@ graph.addMenuItem(new Element('button', {
 	html: 'Run Survey',
 	events: {
 		click: () => {
-			new Overlay((new SurveyRenderer()).render((new JsonExporter(graph)).getData()));
+			(new Overlay((new SurveyRenderer()).render((new JsonExporter(graph)).getData()))).fullscreen();
 		}
 	}
 }));
@@ -140,7 +140,7 @@ graph.addTemplate('section', function(parentNode) {
 				panel.updateDropTargets();
 
 				block.on('preview',()=>{
-
+					(new Overlay((new SurveyRenderer()).render((new JsonExporter(block)).getData()))).fullscreen()
 				})
 
 			});
@@ -175,11 +175,23 @@ graph.addTemplate('section', function(parentNode) {
 						panel.updateDropTargets();
 
 						block.on('preview',()=>{
-							
+							(new Overlay((new SurveyRenderer()).render((new JsonExporter(block)).getData()))).fullscreen()
 						})
 
 					}
 				}
+			}),
+			new Element('button',{
+				"class":"test-btn",
+				"html":'Test',
+				events:{
+					click:()=>{
+						var sectionData=(new JsonExporter(section)).getData();
+						delete sectionData.nodes;
+						(new Overlay((new SurveyRenderer()).render(sectionData))).fullscreen()
+					}
+				}
+					
 			})
 		]
 
@@ -235,10 +247,10 @@ panel.addItem(new ContentBlockItem({
 	name: "Text Input",
 	description: "display a text field for user input",
 	type: "textfield",
-	value: "",
+	label:"Some Label",
 	placeholder: "answer here",
 	previewHtml:'<label>Prompt <input type="text" placeholder="type here" /> ... </label>',
-	formHtml:'<label> FieldName: <input name="fieldName" value="{auto}"/></label><label> Placeholder: <input name="placeholder" value="add text"/></label>'
+	formHtml:'<label> FieldName: <input name="fieldName" value="{auto}"/></label><label> Label: <input name="label" value="Some Label"/></label><label> Placeholder: <input name="placeholder" value="add text"/></label>'
 
 
 }));
@@ -265,6 +277,7 @@ panel.addItem(new ContentBlockItem({
 
 	name: "Checkbox",
 	description: "displays a checkbox field for boolean selection",
+	value: "Some Value",
 	type: "checkbox",
 	label: 'Yes',
 	default: false,
