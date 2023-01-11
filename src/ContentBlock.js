@@ -78,6 +78,7 @@ export class ContentBlock extends EventEmitter {
 			"class":"content-item empty"
 		}));
 
+
 		this._element=this._container.appendChild(new Element('div', {
 			"class":"wrap"
 		}));

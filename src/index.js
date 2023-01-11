@@ -104,6 +104,43 @@ graph.addTemplate('section', function(parentNode) {
 
 	var contentBlocks = [];
 
+	var toggle;
+
+
+	var addContentBlockSection=(itemData)=>{
+
+		var block = new ContentBlock(section, contentBlocksContainer, itemData);
+
+		contentBlocks.push(block);
+		
+		(itemData.items || []).forEach((blockData) => {
+			panel.getItem(blockData.type).createInstance(block, blockData);
+		})
+
+		block.on('remove', ()=>{
+			var i=contentBlocks.indexOf(block);
+			contentBlocks.splice(i, 1);
+			panel.updateDropTargets();
+
+			if(contentBlocks.length===0){
+				addContentBlockSection({
+					name: "Question Set " + toNum(contentBlocks.length)
+				});
+			}
+
+		});
+
+
+		panel.show();
+		panel.updateDropTargets();
+
+		block.on('preview',()=>{
+			(new Overlay((new SurveyRenderer()).render((new JsonExporter(block)).getData()))).fullscreen()
+		})
+
+
+	}
+
 	var section = parentNode.addNode({
 		"class": "section-node",
 		getNodeData: () => {
@@ -120,28 +157,11 @@ graph.addTemplate('section', function(parentNode) {
 		},
 		setNodeData(data) {
 
-			(data.items || []).forEach((itemData) => {
-				var block = new ContentBlock(section, contentBlocksContainer, itemData);
-				contentBlocks.push(block);
-				(itemData.items || []).forEach((blockData) => {
+			(data.items&&data.items.length>0?data.items: [{
+				name: "Question Set " + toNum(contentBlocks.length)
+			}]).forEach((itemData) => {
 
-					panel.getItem(blockData.type).createInstance(block, blockData);
-
-				})
-
-				block.on('remove', ()=>{
-
-					var i=contentBlocks.indexOf(block);
-					contentBlocks.splice(i, 1);
-					panel.updateDropTargets();
-				});
-
-				panel.show();
-				panel.updateDropTargets();
-
-				block.on('preview',()=>{
-					(new Overlay((new SurveyRenderer()).render((new JsonExporter(block)).getData()))).fullscreen()
-				})
+				addContentBlockSection(itemData);
 
 			});
 
@@ -154,30 +174,9 @@ graph.addTemplate('section', function(parentNode) {
 				events: {
 					click: function() {
 
-
-						/**
-						 * TODO: DUPLICATE CODE BLOCK 
-						 */
-
-						var block = new ContentBlock(section, contentBlocksContainer, {
+						addContentBlockSection({
 							name: "Question Set " + toNum(contentBlocks.length)
 						});
-						contentBlocks.push(block);
-						
-						block.on('remove', ()=>{
-							var i=contentBlocks.indexOf(block);
-							contentBlocks.splice(i, 1);
-							panel.updateDropTargets();
-						});
-
-
-						panel.show();
-						panel.updateDropTargets();
-
-						block.on('preview',()=>{
-							(new Overlay((new SurveyRenderer()).render((new JsonExporter(block)).getData()))).fullscreen()
-						})
-
 					}
 				}
 			}),
@@ -192,6 +191,23 @@ graph.addTemplate('section', function(parentNode) {
 					}
 				}
 					
+			}),
+			toggle=new Element('button', {
+				"class":"toggle-btn",
+				"html":'Hide',
+				events:{
+					click:()=>{
+
+						if(section.getContainer().classList.contains('collapse')){
+							section.getContainer().classList.remove('collapse');
+							toggle.innerHTML="Hide"
+						}else{
+							section.getContainer().classList.add('collapse');
+							toggle.innerHTML="Show"
+						}
+
+					}
+				}
 			})
 		]
 

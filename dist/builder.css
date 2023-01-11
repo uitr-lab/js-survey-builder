@@ -183,6 +183,10 @@ button.view-toggle-btn {
 }
 
 
+.collapse>.section-node .content-item {
+    display: none;
+}
+
 section.content-item.collapse>.wrap {
     -webkit-mask-image: linear-gradient(0, transparent, #ffffff70, #ffffff70);
     overflow: hidden;
@@ -199,6 +203,11 @@ section.content-item:before {
     top: -23px;
     font-size: 14px;
 
+}
+
+.block-item section.content-item:before {
+    /*disable above next page label for fieldsets */
+    display: none;
 }
 
 section.content-item:first-child:before {
@@ -380,7 +389,7 @@ section.content-item.empty:after {
     position: relative;
 }
 
-.block-item button.remove-btn, .content-item button.remove-btn, .content-item button.toggle-btn{
+.block-item button.remove-btn, .content-item button.remove-btn, .content-item button.toggle-btn, .section-node>button.toggle-btn{
     position: absolute;
     top: 0;
     right: 0;
@@ -389,7 +398,7 @@ section.content-item.empty:after {
     box-shadow: none;
 }
 
-.block-item  button.remove-btn:after, .content-item button.remove-btn:after, .content-item button.toggle-btn:after{
+.block-item  button.remove-btn:after, .content-item button.remove-btn:after, .content-item button.toggle-btn:after, .section-node>button.toggle-btn:after{
     content: "+";
     font-size: 30px;
     transform: rotate(45deg);
@@ -451,7 +460,14 @@ section.content-item.empty:after {
     left: 0;
 }
 
-.content-item button.toggle-btn:after{
+.section-node>button.toggle-btn{
+
+    top: 45px;
+    right: unset;
+    left: 3px;
+}
+
+.content-item button.toggle-btn:after, .section-node>button.toggle-btn:after{
     top: -5px;
     right: 15px;
     content: "^";
@@ -459,12 +475,13 @@ section.content-item.empty:after {
     font-family: monospace;
     width: 20px;
     height: 20px;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.05);
     text-align: center;
     border-radius: 100%;
     line-height: 31px;
-    color: beige;
+    color: #6c6c6c;
     font-size: 25px;
+    text-shadow: 0 0 3px white;
 }
 .content-item.empty button.toggle-btn:after {
     display: none;
@@ -475,6 +492,10 @@ section.content-item.empty:after {
     transform: rotate(180deg);
 }
 
+
+.collapse>.section-node>button.toggle-btn:after {
+    transform: rotate(180deg);
+}
 
 .node-container {
     margin-top: 100px;
