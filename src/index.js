@@ -78,7 +78,13 @@ graph.addMenuItem(new Element('button', {
 	html: 'Run Survey',
 	events: {
 		click: () => {
-			(new Overlay((new SurveyRenderer()).render((new JsonExporter(graph)).getData()))).fullscreen();
+
+			var renderer=new SurveyRenderer();
+			var overlay=new Overlay(renderer.render((new JsonExporter(graph)).getData()));
+			overlay.fullscreen();
+			renderer.on('complete', ()=>{
+				overlay.close();
+			});
 		}
 	}
 }));
@@ -97,6 +103,35 @@ graph.addTemplate('section', function(parentNode) {
 		"type": "text",
 		value: (["Section", toNum(parentNode.getDepth())]).join(' ')
 	});
+
+
+
+	var codeSection = new Element('section', {
+		"class":"code-content-item collapse"
+	})
+
+	var codeNavigation = codeSection.appendChild(new Element('textarea', {
+		value: 'return 0;',
+		"class":"code-block"
+	}))
+
+	var codeToggle=codeSection.appendChild(new Element('button', {
+		"class":"toggle-btn",
+		"html":'Hide',
+		events:{
+			click:()=>{
+
+				if(codeSection.classList.contains('collapse')){
+					codeSection.classList.remove('collapse');
+					toggle.innerHTML="Hide"
+				}else{
+					codeSection.classList.add('collapse');
+					toggle.innerHTML="Show"
+				}
+
+			}
+		}
+	}));
 
 	var contentBlocksContainer = new Element('div', {
 		"class": "blocks"
@@ -135,8 +170,13 @@ graph.addTemplate('section', function(parentNode) {
 		panel.updateDropTargets();
 
 		block.on('preview',()=>{
-			(new Overlay((new SurveyRenderer()).render((new JsonExporter(block)).getData()))).fullscreen()
-		})
+			var renderer=new SurveyRenderer();
+			var overlay=new Overlay(renderer.render((new JsonExporter(block)).getData()));
+			overlay.fullscreen();
+			renderer.on('complete', ()=>{
+				overlay.close();
+			})
+		});
 
 
 	}
@@ -150,12 +190,20 @@ graph.addTemplate('section', function(parentNode) {
 				uuid:'', //placeholder
 				items: contentBlocks.map((item, i) => {
 					return item.getData();
-				})
-
+				}),
+				navigationLogic:codeNavigation.value
 			};
 
 		},
 		setNodeData(data) {
+
+			if(data.name){
+				name.value=data.name;
+			}
+
+			if(data.navigationLogic){
+				codeNavigation.value=data.navigationLogic;
+			}
 
 			(data.items&&data.items.length>0?data.items: [{
 				name: "Question Set " + toNum(contentBlocks.length)
@@ -169,7 +217,9 @@ graph.addTemplate('section', function(parentNode) {
 		elements: [
 			name,
 			contentBlocksContainer,
+			codeSection,
 			new Element('button', {
+				"class":"add-block-btn",
 				html: "Add Question Block",
 				events: {
 					click: function() {
@@ -180,6 +230,7 @@ graph.addTemplate('section', function(parentNode) {
 					}
 				}
 			}),
+
 			new Element('button',{
 				"class":"test-btn",
 				"html":'Test',
@@ -187,7 +238,13 @@ graph.addTemplate('section', function(parentNode) {
 					click:()=>{
 						var sectionData=(new JsonExporter(section)).getData();
 						delete sectionData.nodes;
-						(new Overlay((new SurveyRenderer()).render(sectionData))).fullscreen()
+
+						var renderer=new SurveyRenderer();
+						var overlay=new Overlay(renderer.render(sectionData));
+						overlay.fullscreen();
+						renderer.on('complete', ()=>{
+							overlay.close();
+						});
 					}
 				}
 					
@@ -214,6 +271,10 @@ graph.addTemplate('section', function(parentNode) {
 
 	});
 
+
+	name.addEventListener('change',()=>{
+		section.emit('updateNode');
+	});
 
 	return section;
 
@@ -306,7 +367,17 @@ panel.addItem(new ContentBlockGroupItem({
 
 	name: "Fieldset",
 	description: "displays a group of items",
-	type: "fieldset"
+	type: "fieldset",
+	setNodeData(itemData, block) {
+
+		if(!itemData){
+			return;
+		}
+
+		(itemData.items || []).forEach((blockData) => {
+			panel.getItem(blockData.type).createInstance(block, blockData);
+		})
+	}
 
 }));
 

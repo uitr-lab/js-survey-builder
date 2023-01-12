@@ -2,11 +2,8 @@
 import {GraphNode} from './GraphNode.js'
 import {Element} from './Element.js'
 
-import * as dragNdrop from 'npm-dragndrop/src/dragNdrop.js';
+import {DragGraphNodes} from './DragGraphNodes.js'
 
-import arrowCreate, {
-	DIRECTION, HEAD
-} from 'arrows-svg'
 
 export class Node extends GraphNode{
 
@@ -43,12 +40,30 @@ export class Node extends GraphNode{
 		this._addDraggableNodes();
 		
 
-		
 
 
+		this.on("addNode",()=>{
 
+			var count=this.realChildNodes().length;
 
+			this._container.setAttribute('data-children-count', count);
 
+			this._container.classList.add('has-children');
+			this._container.classList.remove('no-children');
+		});
+
+		this.on("removeNode",()=>{
+
+			var count=this.realChildNodes().length;
+
+			this._container.setAttribute('data-children-count', count);
+
+			if(count==0){
+				this._container.classList.remove('has-children');
+				this._container.classList.add('no-children');
+			}
+
+		})
 
 
 		
@@ -66,6 +81,13 @@ export class Node extends GraphNode{
 				}
 			}
 		}));
+
+
+
+
+
+
+		/*
 
 		this.on('addNode', ()=>{
 			if(this._insertNode){
@@ -94,6 +116,8 @@ export class Node extends GraphNode{
 			}
 
 		})
+
+		*/
 			
 		this.renderElement();
 
@@ -132,146 +156,19 @@ export class Node extends GraphNode{
 	}
 
 	_addDraggableNodes(){
+		this._draggableNodes=new DragGraphNodes(this);
+	}
 
-		this._nodeInput=this._element.appendChild(new Element('div', {
-			html: "",
-			"class":"node-input"
-		}));
+	getInputElement(){
+		return this._draggableNodes.getInputElement();
+	}
 
-		var inputHandle=this._nodeInput.appendChild(new Element('div',{
-			"class":"handle input"
-		}));
-
-
-
-
-
-		this._inputHandleDrag = dragNdrop({
-			element: inputHandle,
-			dropZones: ['.handle.output'],
-			callback: (event) =>{
-
-				var rect=inputHandle.getBoundingClientRect()
-				var center={x:rect.x+rect.width/2, y:rect.y+rect.height/2};
-				var nearby=event.dropZones.filter((dz)=>{
-					var dzRect=dz.getBoundingClientRect();
-					var dzCenter={x:dzRect.x+dzRect.width/2, y:dzRect.y+dzRect.height/2}
-
-					var d=Math.pow(dzCenter.x-center.x, 2)+Math.pow(dzCenter.y-center.y, 2);
-					return d<200;
-
-				});
-
-				if(nearby.length){
-					var node=this.getRoot().getNodeWithTarget(nearby.shift());
-					console.log(node);
-					node.addNode(this);
-				}
-
-				console.log(nearby);
-
-
-				event.element.style.cssText = '';
-			}
-		});
-
-		inputHandle.addEventListener('dragNdrop:start', ()=>{
-
-			document.body.classList.add('drag-input');
-
-			this._dragArrow=arrowCreate({
-
-				from:this._nodeInput,
-				to:inputHandle,
-				head: {
-				    func: HEAD.THIN,
-				    size: 7, // custom options that will be passed to head function
-				  }
-			});
-
-
-			document.body.appendChild(this._dragArrow.node);
-
-		});
-
-		inputHandle.addEventListener('dragNdrop:stop', ()=>{
-			this._dragArrow.clear();
-			document.body.classList.remove('drag-input');
-		});
-
-
-
-
-		this._nodeOutput=this._element.appendChild(new Element('div', {
-			html: "",
-			"class":"node-output"
-		}));
-
-
-		var outputHandle=this._nodeOutput.appendChild(new Element('div',{
-			"class":"handle output"
-		}));
-
-
-
-		this._outputHandleDrag = dragNdrop({
-			element: outputHandle,
-			dropZones: ['.handle.input'],
-			callback: (event) =>{
-				
-
-				var rect=outputHandle.getBoundingClientRect()
-				var center={x:rect.x+rect.width/2, y:rect.y+rect.height/2};
-				var nearby=event.dropZones.filter((dz)=>{
-					var dzRect=dz.getBoundingClientRect();
-					var dzCenter={x:dzRect.x+dzRect.width/2, y:dzRect.y+dzRect.height/2}
-
-					var d=Math.pow(dzCenter.x-center.x, 2)+Math.pow(dzCenter.y-center.y, 2);
-					return d<200;
-
-				});
-
-				if(nearby.length){
-					var node=this.getRoot().getNodeWithTarget(nearby.shift());
-					console.log(node);
-					this.addNode(node);
-				}
-
-				console.log(nearby);
-				event.element.style.cssText = '';
-
-			}
-		});
-
-		outputHandle.addEventListener('dragNdrop:start', ()=>{
-			document.body.classList.add('drag-output');
-
-			this._dragArrow=arrowCreate({
-
-				from:this._nodeOutput,
-				to:outputHandle,
-				head: {
-				    func: HEAD.THIN,
-				    size: 7, // custom options that will be passed to head function
-				  }
-			});
-
-
-			document.body.appendChild(this._dragArrow.node);
-
-		});
-
-		outputHandle.addEventListener('dragNdrop:stop', ()=>{
-			this._dragArrow.clear();
-			document.body.classList.remove('drag-output');
-		});
-
-
-
+	getOutputElement(){
+		return this._draggableNodes.getOutputElement();
 	}
 
 	hasTarget(target){
-		return super.hasTarget(target)||([this._nodeOutput.firstChild, this._nodeInput.firstChild]).indexOf(target)>=0;
+		return super.hasTarget(target)||this._draggableNodes.hasTarget(target);
 	}
 
 	limitChildNodes(count){

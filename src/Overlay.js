@@ -74,7 +74,11 @@ export class Overlay{
 	}
 
 
-
+	close(){
+		if(this._overlay.parentNode){
+			this._overlay.parentNode.removeChild(this._overlay);
+		}
+	}
 
 
 }

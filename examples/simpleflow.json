@@ -1,0 +1,86 @@
+{
+   "name": "Game Instructions",
+   "type": "section",
+   "uuid": "755df806-ce5f-4e64-96c0-8193d53af828",
+   "items": [
+      {
+         "name": "Question Set One",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Welcome to the game of chance\n\nclick next. You may win, lose, or draw."
+            }
+         ]
+      }
+   ],
+   "navigationLogic": "return Math.floor(Math.random()*3);",
+   "then": "goto linkLogic() or node 0",
+   "linkLogic": "some logic to define which node to traverse",
+   "nodes": [
+      {
+         "name": "You Lose",
+         "type": "section",
+         "uuid": "d650fef4-b313-4dfa-b9ec-b0b93d178c30",
+         "items": [
+            {
+               "name": "Question Set One",
+               "type": "set",
+               "items": []
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            {
+               "name": "Good Game",
+               "type": "section",
+               "uuid": "3ee9db6b-bcb1-4a70-a8da-e8b2c7a45fee",
+               "items": [
+                  {
+                     "name": "Question Set One",
+                     "type": "set",
+                     "items": []
+                  }
+               ],
+               "navigationLogic": "return 0;",
+               "then": "terminate"
+            }
+         ]
+      },
+      {
+         "name": "You Win",
+         "type": "section",
+         "uuid": "901690e6-d9e8-461a-8260-77fb3c4130d6",
+         "items": [
+            {
+               "name": "Question Set One",
+               "type": "set",
+               "items": []
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            "3ee9db6b-bcb1-4a70-a8da-e8b2c7a45fee"
+         ]
+      },
+      {
+         "name": "It Was A Draw",
+         "type": "section",
+         "uuid": "cdf92142-d892-4a0e-b257-e78b46eb63fc",
+         "items": [
+            {
+               "name": "Question Set One",
+               "type": "set",
+               "items": []
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            "3ee9db6b-bcb1-4a70-a8da-e8b2c7a45fee"
+         ]
+      }
+   ]
+}

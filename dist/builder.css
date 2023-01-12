@@ -79,6 +79,16 @@ button.view-toggle-btn {
     box-sizing: border-box;
 }
 
+textarea.code-block {
+    width: 100%;
+    line-height: 20px;
+    border: 1px solid rgba(0,0,0,0.3);
+    margin: 0 20px 0 5px;
+    border-radius: 2px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
 
 
 .window-overlay {
@@ -163,7 +173,7 @@ button.view-toggle-btn {
 
 
 
-.blocks section.content-item {
+.blocks section.content-item, .code-content-item {
     padding: 35px;
     background: rgba(0,0,0,0.1);
     margin: 10px 0;
@@ -182,8 +192,17 @@ button.view-toggle-btn {
     display: none;
 }
 
+.code-content-item.collapse>textarea {
+    display: none;
+}
 
-.collapse>.section-node .content-item {
+.code-content-item.collapse {
+    min-height: 0;
+    padding: 15px;
+}
+
+
+.collapse>.section-node .content-item, .collapse>.section-node .add-block-btn {
     display: none;
 }
 
@@ -282,7 +301,7 @@ header.header {
 }
 
 .block-item:last-child {
-    margin-bottom: 0;
+    margin-bottom: 30px;
 }
 
 
@@ -306,7 +325,7 @@ header.header {
     visibility: hidden;
 }
 
-section.content-item.empty:after {
+section.content-item:after {
     content: "add some questions or content items from the menu";
     line-height: 40px;
     display: block;
@@ -314,6 +333,9 @@ section.content-item.empty:after {
     font-style: italic;
     color: gray;
     font-weight: 100;
+}
+.content-item.collapse:after {
+    display: none;
 }
 
 
@@ -389,7 +411,8 @@ section.content-item.empty:after {
     position: relative;
 }
 
-.block-item button.remove-btn, .content-item button.remove-btn, .content-item button.toggle-btn, .section-node>button.toggle-btn{
+
+.block-item button.remove-btn, .content-item button.remove-btn, .content-item button.toggle-btn, .code-content-item button.toggle-btn, .section-node>button.toggle-btn{
     position: absolute;
     top: 0;
     right: 0;
@@ -398,7 +421,7 @@ section.content-item.empty:after {
     box-shadow: none;
 }
 
-.block-item  button.remove-btn:after, .content-item button.remove-btn:after, .content-item button.toggle-btn:after, .section-node>button.toggle-btn:after{
+.block-item  button.remove-btn:after, .content-item button.remove-btn:after, .content-item button.toggle-btn:after, .code-content-item button.toggle-btn:after, .section-node>button.toggle-btn:after{
     content: "+";
     font-size: 30px;
     transform: rotate(45deg);
@@ -453,7 +476,7 @@ section.content-item.empty:after {
 }
 
 
-.content-item button.toggle-btn{
+.content-item button.toggle-btn, .code-content-item button.toggle-btn{
     top: unset;
     right: unset;
     bottom: 0;
@@ -467,7 +490,7 @@ section.content-item.empty:after {
     left: 3px;
 }
 
-.content-item button.toggle-btn:after, .section-node>button.toggle-btn:after{
+.content-item button.toggle-btn:after, .code-content-item button.toggle-btn:after, .section-node>button.toggle-btn:after{
     top: -5px;
     right: 15px;
     content: "^";
@@ -488,7 +511,7 @@ section.content-item.empty:after {
 }
 
 
-.content-item.collapse button.toggle-btn:after {
+.content-item.collapse button.toggle-btn:after, .code-content-item.collapse button.toggle-btn:after  {
     transform: rotate(180deg);
 }
 
@@ -628,6 +651,14 @@ button.run-btn:before {
 .arrow {
   pointer-events: none;
   filter: blur(0.5px);
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.graph-view .arrow {
+
+  z-index: 1;
+  opacity: 1;
 }
 
 .arrow__path {
@@ -688,6 +719,9 @@ button.run-btn:before {
 .graph-view .graph-node.section-node>.remove-btn {
     display: inline-block;
 }
+.graph-view .graph-node.section-node>.test-btn {
+    display: inline-block;
+}
 
 .graph-view .graph-node.section-node>input {
     display: inline-block;
@@ -698,7 +732,19 @@ button.run-btn:before {
 }
 
 
+.graph-view button.add-node-btn {
+    border-radius: 100%;
+    font-size: 0;
+    padding: 5px;
+    width: 33px;
+    height: 33px;
+    line-height: 24px;
+}
 
+.graph-view button.add-node-btn:after {
+    font-size: 20px;
+    content: "+";
+}
 
 
 
@@ -733,6 +779,8 @@ form.survey-view nav button {
     border-radius: 3px;
     cursor: pointer;
     box-shadow: 0 0 3px #00000042;
+    margin: 10px;
+    font-size: 20px;
 }
 
 form.survey-view nav {
@@ -741,11 +789,22 @@ form.survey-view nav {
 }
 
 
+form.survey-view fieldset {
+    margin: 5px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
 
 
 
+form.survey-view h2.set-label {
+    display: none;
+}
 
-
+form.survey-view.set-view h2.set-label {
+    display: block;
+}
 
 
 

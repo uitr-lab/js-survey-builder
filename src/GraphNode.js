@@ -58,11 +58,6 @@ export class GraphNode extends EventEmitter {
 		this._addChildNodeEvents(node);
 
 
-		node.addContainerClass((['a', 'b', 'c'])[this.indexOfNode(node)]);
-		node.addContainerClass('with-' + this.realChildNodes().length);
-
-
-
 		if (this.isRoot()) {
 			return;
 		}
@@ -194,8 +189,11 @@ export class GraphNode extends EventEmitter {
 
 	}
 
+	getNodesRecurse(mode){
+		return this._getNodesRecurse(mode, []);
+	}
 
-	getNodesRecurse($mode){
+	_getNodesRecurse(mode, skip){
 
 		/*
 		 * depth first search
@@ -203,15 +201,19 @@ export class GraphNode extends EventEmitter {
 
 		var nodes=[];
 
-		if($mode!=='breadth'){
+		if(mode!=='breadth'){
 
 			this.getNodes().forEach((node)=>{
-				if(nodes.indexOf(node)>=0){
+
+
+
+				if(node==this&&nodes.indexOf(node)>=0||skip.indexOf(node)>=0){
 					//found cycle or duplicate
 					return;
 				}
 				nodes.push(node);
-				nodes=nodes.concat(node.getNodesRecurse())
+				skip.push(node);
+				nodes=nodes.concat(node._getNodesRecurse(mode, skip));
 			});
 
 			return nodes;
@@ -242,6 +244,11 @@ export class GraphNode extends EventEmitter {
 	}
 
 
+	getFirstParent(){
+		return this.getRoot().getNodesFirstParent(this);
+	}
+
+
 	getNodes(){
 		/*
 		 * non recursive
@@ -265,7 +272,7 @@ export class GraphNode extends EventEmitter {
 	realChildNodes() {
 
 		return (this._nodes || []).filter((node) => {
-			return !!node.getData()
+			return node.hasData();
 		}).filter((nodeData) => {
 			return !!nodeData;
 		});
@@ -318,6 +325,10 @@ export class GraphNode extends EventEmitter {
 
 	}
 
+	hasData(){
+		return !!this._getNodeData;
+	}
+
 	getData() {
 
 		var data = null;
@@ -342,7 +353,14 @@ export class GraphNode extends EventEmitter {
 				data.then = 'goto linkLogic() or node 0'
 				data.linkLogic = 'some logic to define which node to traverse';
 			}
-			data.nodes = nodes.map((node)=>{return node.getData(); });
+			data.nodes = nodes.map((node)=>{
+				var parentNode=node.getFirstParent();
+				if(parentNode&&parentNode!==this){
+					return node.getUUID(); 
+				}
+
+				return node.getData(); 
+			});
 
 
 		}
@@ -373,7 +391,31 @@ export class GraphNode extends EventEmitter {
 
 	setData(data) {
 
+		if(data.uuid){
+			this._uuid=data.uuid;
+		}
+
 		(data.nodes || []).forEach((nodeData) => {
+
+			if(typeof nodeData=='string'){
+
+				setTimeout(()=>{
+
+					var matches=this.getRoot().getNodesRecurse().filter((n)=>{
+						return n.getUUID()===nodeData;
+					});
+
+					if(matches.length==0){
+						console.warn('Failed to find node: '+nodeData);
+						return;
+					}
+					this.addNode(matches[0]);
+
+				}, 500);
+
+				return;
+			}
+
 			var node = this.add(nodeData.type);
 			node.setData(nodeData);
 		});

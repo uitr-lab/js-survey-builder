@@ -4,7 +4,7 @@ import {
 
 
 import {
-	ContentBlocks
+	ContentBlocks, ContentBlock
 } from './ContentBlock.js'
 
 import  { EventEmitter } from  'events';
@@ -41,6 +41,13 @@ export class ContentBlockItem extends EventEmitter{
 
 	}
 
+	getElement(){
+		return this._element;
+	}
+
+	getContainer(){
+		return this._container;
+	}
 
 	getInstanceElement(){
 
@@ -49,6 +56,9 @@ export class ContentBlockItem extends EventEmitter{
 			"html":'<label>'+this._data.name+'</label><p class="description">'+this._data.description+'</p>',
 			"class":"block-item"
 		});
+
+		this._container=el;
+		this._element=el;
 
 		var editBtn=el.appendChild(new Element('button', {
 			"class":"edit-btn",
@@ -137,7 +147,7 @@ export class ContentBlockItem extends EventEmitter{
 		var data={};
 		Object.keys(this._data).forEach((k)=>{
 
-			if((['name', 'description' ,'previewHtml', 'formHtml']).indexOf(k)>=0){
+			if((['name', 'description' ,'previewHtml', 'formHtml', 'setNodeData']).indexOf(k)>=0){
 				return;
 			}
 
@@ -166,6 +176,21 @@ export class ContentBlockItem extends EventEmitter{
 export class ContentBlockGroupItem extends ContentBlockItem{
 
 
+	constructor(data){
+		super(data);
+		
+		this.on('removeContentBlock',()=>{
+			this.emit('update');
+		});
+		this.on('updateContentBlock',()=>{
+			this.emit('update');
+		});
+		this.on('addContentBlock',()=>{
+			this.emit('update');
+		});
+
+	}
+
 	createInstance(target, itemData){
 
 		var data=JSON.parse(JSON.stringify(this._data));
@@ -176,28 +201,16 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 		var contentBlockItem=new ContentBlockGroupItem(data);
 		ContentBlocks.getBlockWithTarget(target).addContentBlockItem(contentBlockItem);
 		ContentBlocks.addBlock(contentBlockItem);
+
+		if(this._data.setNodeData){
+			this._data.setNodeData(itemData, contentBlockItem);
+		}
 	
 	}
 
 	addContentBlockItem(item){
 
-
-		if(!this._items){
-			this._items=[];
-		}
-
-		if(!this._els){
-			this._els=[];
-		}
-
-
-		var el=this._element.appendChild(item.getInstanceElement());
-		this._element.classList.remove('empty');
-
-		this._items.push(item);
-		this._els.push(el);
-
-		this.emit('addContentBlock');
+		ContentBlock.prototype.addContentBlockItem.apply(this, arguments);
 
 	}
 

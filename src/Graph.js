@@ -105,17 +105,27 @@ export class Graph extends GraphNode{
 	renderArrow(a, b){
 
 		var i = a.indexOfNode(b);
+
+		var translationFrom= [0, 0.5];
+		var translationTo= [0, -0.5];
+		var directionFrom=DIRECTION.BOTTOM;
+		var directionTo=DIRECTION.TOP
+
+
 		if(this._displayMode!=='graph'){
 
-			var translation= [-3-4*(i), 0];
+			var translationFrom= [-3-4*(i), 0];
+			var translationTo= [-3-4*(i), 0];
 			var directionFrom=DIRECTION.LEFT;
-			var directionTo=DIRECTION.LEFT
+			var directionTo=DIRECTION.LEFT;
 
 
 			if(a.getDepth()>b.getDepth()){
-				translation= [-3-4*(i), 0];
-				var directionFrom=DIRECTION.BOTTOM;
-				var directionTo=DIRECTION.TOP;
+				
+			}
+
+			if(a.getDepth()==b.getDepth()){
+				
 			}
 
 			return arrowCreate({
@@ -124,12 +134,12 @@ export class Graph extends GraphNode{
 				from: {
 					direction: directionFrom,
 					node: a.getOutputElement(),
-					translation: translation,
+					translation: translationFrom,
 				},
 				to: {
 					direction: directionTo,
 					node:  b.getInputElement(),
-					translation: translation,
+					translation: translationTo,
 				},
 				head: {
 				    func: HEAD.THIN,
@@ -139,18 +149,19 @@ export class Graph extends GraphNode{
 
 		}
 
+
 		return arrowCreate({
 
 
 				from: {
-					direction: DIRECTION.BOTTOM,
+					direction: directionFrom,
 					node: a.getOutputElement(),
-					translation: [0, 0.5],
+					translation: translationFrom,
 				},
 				to: {
-					direction: DIRECTION.TOP,
+					direction: directionTo,
 					node:  b.getInputElement(),
-					translation: [0, -0.5],
+					translation: translationTo,
 				},
 				head: {
 				    func: HEAD.THIN,
@@ -164,6 +175,22 @@ export class Graph extends GraphNode{
 
 
 	}
+
+
+	getNodesFirstParent(node){
+
+		for(var parentNode of this.getNodesRecurse()){
+
+			if(parentNode.realChildNodes().indexOf(node)>=0){
+				return parentNode;
+			}
+
+		}
+
+		return null;
+
+	}
+
 
 
 	_getDepthContainer(i){
