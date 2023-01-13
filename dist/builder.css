@@ -9,7 +9,7 @@
     margin: 15px;
 }
 
-.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.add-node-btn, button.insert-node-btn,  button.view-toggle-btn {
+.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.update-btn, button.add-node-btn, button.insert-node-btn,  button.view-toggle-btn {
     background: mediumaquamarine;
     padding: 10px 20px;
     border: none;
@@ -90,6 +90,12 @@ textarea.code-block {
 }
 
 
+textarea.import-json {
+    width: 100%;
+    box-sizing: border-box;
+    height: calc( 100% - 10px );
+}
+
 
 .window-overlay {
     position: fixed;
@@ -111,11 +117,11 @@ textarea.code-block {
 
 .window-overlay  .content {
     display: inline-block;
-    width: 500px;
-    height: 400px;
+    width: var(--width, 500px);
+    height: var(--height, 400px);
     position: absolute;
-    top: calc( 50% - 200px );
-    left: calc( 50% - 250px );
+    top: var(--top, calc( 50% - 200px ));
+    left: var(--left, calc( 50% - 250px ));
     background: white;
     text-align: left;
     padding: 40px;
@@ -144,6 +150,11 @@ textarea.code-block {
     position: absolute;
     bottom: 15px;
     right: 100px;
+}
+.window-overlay button.update-btn{
+    position: absolute;
+    bottom: 15px;
+    right: 182px;
 }
 
 .window-overlay button.close-btn:after {
@@ -183,6 +194,22 @@ textarea.code-block {
     margin-bottom: 30px;
 }
 
+
+section.content-item>label, .code-content-item>label {
+    position: relative;
+    top: -13px;
+    left: 2px;
+    color: gray;
+    font-style: italic;
+    font-weight: 100;
+}
+
+section.content-item.collapse>label, .code-content-item.collapse>label {
+    display: none;
+}
+
+
+
 .content-item.collapse .block-item {
     background-color: rgba(255,255, 255, 0.4);
     border: none;
@@ -202,7 +229,7 @@ textarea.code-block {
 }
 
 
-.collapse>.section-node .content-item, .collapse>.section-node .add-block-btn {
+.collapse>.section-node .content-item, .collapse>.section-node .add-block-btn, .collapse>.section-node .code-content-item{
     display: none;
 }
 
@@ -308,6 +335,14 @@ header.header {
 
 .panel-item label, .block-item label{
     font-weight: 600;
+}
+
+.block-item .item-detail>label+label {
+    margin-left: 10px;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 15px;
+    color: #3f51b5;
 }
 
 
@@ -442,9 +477,13 @@ section.content-item:after {
 
 
 .block-item form label {
-    display: inline-block;
+    display: block;
     white-space: nowrap;
     margin: 5px 0;
+    text-align: right;
+}
+.block-item form label:has( + textarea ):not( :has( input ) ) {
+    text-align: left;
 }
 
 
@@ -452,10 +491,21 @@ section.content-item:after {
     min-width: 230px;
     min-height: 32px;
     border: 1px solid rgba(0,0,0,0.3);
-    margin: 0 20px 0 5px;
+    margin: 0 100px 0 5px;
     border-radius: 2px;
     padding: 5px 10px;
     box-sizing: border-box;
+    width: calc( 100% - 300px );
+}
+
+.block-item form input[type="checkbox"] {
+    width: 18px;
+    margin-right: 478px;
+    min-width: unset;
+    height: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+    position: relative;
 }
 
 
@@ -750,12 +800,13 @@ button.run-btn:before {
 
 
 
-form.survey-view {
+form.survey-view,  pre.survey-data{
     line-height: 1.5em;
     margin: auto;
     max-width: 1000px;
     background: rgba(0,0,0,0.05);
     padding: 40px;
+    margin-bottom: 30px;
 }
 
 
@@ -765,10 +816,11 @@ form.survey-view label {
     margin: 5px;
 }
 
-form.survey-view label>input {
+form.survey-view label>input[type="text"] {
     margin-left: 10px;
     min-height: 22px;
     min-width:350px;
+    padding: 3px 7px;
 }
 
 
@@ -806,7 +858,50 @@ form.survey-view.set-view h2.set-label {
     display: block;
 }
 
+form.survey-view h1.node-label, form.survey-view h2.set-label {
+    border-bottom: 1px dashed gray;
+    padding-bottom: 20px;
+}
 
 
+form.survey-view fieldset label {
+    text-align: right;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 10px;
+    line-height: 30px;
+}
+
+form.survey-view fieldset {
+    padding: 50px 20px;
+    border: none;
+    background: rgba(0,0,0,0.03);
+    margin: 30px 5px;
+
+}
+
+form.survey-view fieldset label:not( :has( input ) ), form.survey-view fieldset label:has( label ) {
+    text-align: left;
+    font-weight: 600;
+}
 
 
+form.survey-view label>label {
+    font-weight: 400;
+}
+
+form.survey-view blockquote > p {
+    padding: 9px 30px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+    font-style: italic;
+}
+
+form.survey-view blockquote {
+    width: 70%;
+    margin: auto;
+}
+
+form.survey-view fieldset label>input[type="checkbox"] {
+    margin-right: 104px;
+}

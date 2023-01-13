@@ -6,6 +6,9 @@ import {
 	Overlay
 } from './Overlay.js'
 
+import {
+	JsonImporter
+} from './JsonImporter.js'
 
 import {
 	Graph
@@ -44,7 +47,12 @@ export class JsonExporter {
 
 		console.log(content);
 
-		new Overlay('<pre>' + content + '</pre>', [
+		var textarea=new Element('textarea', {
+			"class":"import-json",
+			value:content
+		});
+
+		(new Overlay(textarea, [
 			new Element('button', {
 				html: "Copy",
 				"class": "copy-btn",
@@ -53,9 +61,28 @@ export class JsonExporter {
 						navigator.clipboard.writeText(content);
 					}
 				}
+			}),
+			new Element('button', {
+				html: "Update",
+				"class": "update-btn",
+				events: {
+					click: () => {
+						
+						var data=JSON.parse(textarea.value);
+						
+						if(!data){
+							throw 'Invalid JSON';
+						}
+
+						(new JsonImporter(this._exportable)).loadFromObject(data);
+					}
+				}
 			})
 
-		]);
+		])).setSize({
+			width:'800px',
+			height:'600px'
+		});
 
 
 	}

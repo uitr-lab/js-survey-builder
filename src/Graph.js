@@ -102,7 +102,22 @@ export class Graph extends GraphNode{
 	}
 
 
-	renderArrow(a, b){
+	renderArrow(a, b, callback){
+
+		setTimeout(()=>{
+
+			var arrow=this._renderArrow(a, b);
+			if(callback){
+				callback(arrow);
+			}
+
+			document.body.appendChild(arrow.node);
+
+		}, 10);
+
+	}
+
+	_renderArrow(a,b){
 
 		var i = a.indexOfNode(b);
 
@@ -114,10 +129,10 @@ export class Graph extends GraphNode{
 
 		if(this._displayMode!=='graph'){
 
-			var translationFrom= [-3-4*(i), 0];
-			var translationTo= [-3-4*(i), 0];
-			var directionFrom=DIRECTION.LEFT;
-			var directionTo=DIRECTION.LEFT;
+			translationFrom= [-3-4*(i), 0];
+			translationTo= [-3-4*(i), 0];
+			directionFrom=DIRECTION.LEFT;
+			directionTo=DIRECTION.LEFT;
 
 
 			if(a.getDepth()>b.getDepth()){
@@ -150,7 +165,27 @@ export class Graph extends GraphNode{
 		}
 
 
-		return arrowCreate({
+		var diff=a.getDepth()-b.getDepth();
+
+
+		if(a===b){
+
+
+			
+			translationFrom= [-8.5, 2];
+			translationTo= [-8.5, -2];
+
+		}
+
+
+		if(diff==0&&a!==b){
+			var translationFrom= [0, 1.5];
+			var translationTo= [0, -1.5];
+		}
+
+
+
+		var arrow= arrowCreate({
 
 
 				from: {
@@ -169,10 +204,11 @@ export class Graph extends GraphNode{
 				  }
 			});
 
+		if(diff==0&&a!==b){
+			arrow.node.classList.add('push');
+		}
 
-		
 		return arrow;
-
 
 	}
 

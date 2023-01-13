@@ -75,6 +75,7 @@ export class ContentBlock extends EventEmitter {
 		super();
 
 		this._container=container.appendChild(new Element('section', {
+			html:'<label>'+data.name+'</label>',
 			"class":"content-item empty"
 		}));
 
@@ -215,7 +216,7 @@ export class ContentBlock extends EventEmitter {
 
 
 		var data={
-			name:"Question Set",
+			name:"Page",
 			type:"set"
 		};
 

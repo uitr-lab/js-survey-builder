@@ -80,5 +80,29 @@ export class Overlay{
 		}
 	}
 
+	setSize(arg){
+
+		this._overlay.style.cssText='';
+
+		Object.keys(arg).forEach((key)=>{
+			if((['width', 'height']).indexOf(key)==-1){
+				return;
+			}
+
+			this._overlay.style.cssText+=' --'+key+':'+arg[key]+';';
+
+			if(key=='width'){
+				this._overlay.style.cssText+=' --left'+': calc( 50% - '+(parseInt(arg[key])/2)+'px );';
+			}
+
+			if(key=='height'){
+				this._overlay.style.cssText+=' --top'+': calc( 50% - '+(parseInt(arg[key])/2)+'px );';
+			}
+
+
+		})
+
+	}
+
 
 }

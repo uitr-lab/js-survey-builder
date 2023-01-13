@@ -85,10 +85,10 @@ export class GraphNode extends EventEmitter {
 
 	_drawArrow(node){
 
-		var arrow=this.getRoot().renderArrow(this, node);
-		this._arrows[this.indexOfNode(node)]=arrow;
-		document.body.appendChild(arrow.node);
-
+		var arrow=this.getRoot().renderArrow(this, node,(arrow)=>{
+			this._arrows[this.indexOfNode(node)]=arrow;
+		});
+		
 	}
 
 
@@ -109,6 +109,8 @@ export class GraphNode extends EventEmitter {
 
 	_addChildNodeEvents(node) {
 
+
+
 		node.on('remove', () => {
 
 			var i = this._nodes.indexOf(node);
@@ -119,33 +121,57 @@ export class GraphNode extends EventEmitter {
 			}
 			this._arrows.splice(i, 1);
 
-			this.emit('removeNode');
+			this.emit('removeNode', node);
 		})
 
-		node.on('addNode', () => {
-			this.emit('addChildNode');
+		node.on('addNode', (child) => {
+			this._emitThrottle('addChildNode', child);
 		});
 
-		node.on('addChildNode', () => {
-			this.emit('addChildNode');
+		node.on('addChildNode', (child) => {
+			this._emitThrottle('addChildNode', child);
 		});
 
-		node.on('removeNode', () => {
-			this.emit('removeChildNode');
+		node.on('removeNode', (child) => {
+			this._emitThrottle('removeChildNode', child);
 		});
 
-		node.on('removeChildNode', () => {
-			this.emit('removeChildNode');
+		node.on('removeChildNode', (child) => {
+			this._emitThrottle('removeChildNode', child);
 		});
 
 		node.on('updateNode', () => {
-			this.emit('updateChildNode');
+			this._emitThrottle('updateChildNode', node);
 		});
 
-		node.on('updateChildNode', () => {
-			this.emit('updateChildNode');
+		node.on('updateChildNode', (child) => {
+			this._emitThrottle('updateChildNode', child);
 		});
 	}
+
+
+	_emitThrottle(event, object){
+
+		/**
+		 *  _emitThrottle events on the same node to prevent infinite loop if graph contains cycles
+		 */
+
+		if(this._lastEvent===event&&this._lastEventObject===object){
+			return;
+		}
+
+		this._lastEvent=event;
+		this._lastEventObject=object;
+
+		setTimeout(()=>{
+			delete this._lastEvent;
+			delete this._lastEventObject;
+		}, 10);
+
+		this.emit(event, object)
+
+	}
+
 
 	_instantiateNode(parent, data) {
 		throw 'Must implement'
@@ -291,6 +317,8 @@ export class GraphNode extends EventEmitter {
 
 	remove() {
 
+		//any recursive calls do nothing
+		this.remove=()=>{};
 
 		if (this._container.parentNode) {
 			this._container.parentNode.removeChild(this._container);
@@ -350,8 +378,8 @@ export class GraphNode extends EventEmitter {
 			data = data || {};
 			data.then = "goto node 0";
 			if (nodes.length > 1) {
-				data.then = 'goto linkLogic() or node 0'
-				data.linkLogic = 'some logic to define which node to traverse';
+				// data.then = 'goto linkLogic() or node 0'
+				// data.linkLogic = 'some logic to define which node to traverse';
 			}
 			data.nodes = nodes.map((node)=>{
 				var parentNode=node.getFirstParent();
@@ -370,8 +398,8 @@ export class GraphNode extends EventEmitter {
 			if (this._linksTo) {
 
 				data = data || {};
-				data.then = 'go to child 0';
-				data.linksToWarning = "only child 0 is reachable without logic";
+				// data.then = 'go to child 0';
+				// data.linksToWarning = "only child 0 is reachable without logic";
 
 			} else {
 
@@ -411,7 +439,7 @@ export class GraphNode extends EventEmitter {
 					}
 					this.addNode(matches[0]);
 
-				}, 500);
+				}, 5);
 
 				return;
 			}

@@ -65,9 +65,12 @@ graph.addMenuItem(new Element('a', {
 
 
 graph.addMenuItem(new Element('button', {
-	html: 'Export JSON',
+	html: 'Import/Export JSON',
 	events: {
 		click: () => {
+
+
+
 			(new JsonExporter(graph)).showOverlay();
 		}
 	}
@@ -90,6 +93,21 @@ graph.addMenuItem(new Element('button', {
 }));
 
 
+
+graph.addMenuItem(new Element('button', {
+	"class":'run-btn',
+	html: 'Publish',
+	events: {
+		click: () => {
+
+			
+			var overlay=new Overlay('<article><h1>Publish</h1></article>');
+			
+		}
+	}
+}));
+
+
 graph.addTemplate('section', function(parentNode) {
 
 	var numbers = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
@@ -107,6 +125,7 @@ graph.addTemplate('section', function(parentNode) {
 
 
 	var codeSection = new Element('section', {
+		html:"<label>Navigation Script</label>",
 		"class":"code-content-item collapse"
 	})
 
@@ -159,7 +178,7 @@ graph.addTemplate('section', function(parentNode) {
 
 			if(contentBlocks.length===0){
 				addContentBlockSection({
-					name: "Question Set " + toNum(contentBlocks.length)
+					name: "Page " + toNum(contentBlocks.length)
 				});
 			}
 
@@ -206,7 +225,7 @@ graph.addTemplate('section', function(parentNode) {
 			}
 
 			(data.items&&data.items.length>0?data.items: [{
-				name: "Question Set " + toNum(contentBlocks.length)
+				name: "Page " + toNum(contentBlocks.length)
 			}]).forEach((itemData) => {
 
 				addContentBlockSection(itemData);
@@ -220,12 +239,12 @@ graph.addTemplate('section', function(parentNode) {
 			codeSection,
 			new Element('button', {
 				"class":"add-block-btn",
-				html: "Add Question Block",
+				html: "Add Page",
 				events: {
 					click: function() {
 
 						addContentBlockSection({
-							name: "Question Set " + toNum(contentBlocks.length)
+							name: "Page " + toNum(contentBlocks.length)
 						});
 					}
 				}
@@ -341,10 +360,10 @@ panel.addItem(new ContentBlockItem({
 	description: "displays radio button selection",
 	type: "radio",
 	values: ['a', 'b', 'c'],
-	default: 'none',
+	defaultValue: '',
 	labels: ['A', 'B', 'C'],
 	previewHtml:'<input type="radio" name="radioA" value="a" checked="1" /><label for="radioA">A</label><input type="radio" name="radioB" value="b" /><label for="radioB">B</label><input type="radio" name="radioC" value="c" /><label for="radioC">C</label>',
-	formHtml:'<label> FieldName: <input name="fieldName"/></label>'
+	formHtml:'<label> FieldName: <input name="fieldName" value="checkBox{{auto}}"/></label><label> Label: <input name="label" value="Some Label"/></label><label> Options: <input name="values" value="A, B, C"/></label><label> Labels: <input name="labels" value="A, B, C"/></label><label> Default: <input name="defaultValue" value="a"/></label>'
 
 }));
 
@@ -357,8 +376,9 @@ panel.addItem(new ContentBlockItem({
 	value: "Some Value",
 	type: "checkbox",
 	label: 'Yes',
-	default: false,
-	previewHtml:'<label for="checkboxA">Checkbox <input type="checkbox" name="checkboxA" value="a" checked="1" /> ... </label>'
+	defaultValue: false,
+	previewHtml:'<label for="checkboxA">Checkbox <input type="checkbox" name="checkboxA" value="a" checked="1" /> ... </label>',
+	formHtml:'<label> FieldName: <input name="fieldName" value="checkBox{{auto}}"/></label><label> Label: <input name="label" value="Some Label"/></label><label> Show Yes/No: <input type="checkbox" name="showYesNo"/></label><label> True Label: <input name="trueLabel" value="Yes" /></label><label> False Label: <input name="falseLabel" value="No" /></label>'
 
 }));
 
@@ -390,9 +410,13 @@ if (storedData) {
 	graph.add('section');
 }
 
-
+var throttle=null;
 graph.on('update', function() {
-	setTimeout(() => {
+	if(throttle){
+		clearTimeout(throttle);
+	}
+	throttle=setTimeout(() => {
+		throttle=null;
 		//need to delay this update for content sections which are added to a list after update event is fired
 		localStorage.setItem('formData', (new JsonExporter(graph)).getJson());
 		console.log('update');

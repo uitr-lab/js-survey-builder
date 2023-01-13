@@ -16,15 +16,15 @@ export class DragGraphNodes{
 
 
 		this._graph.on('addChildNode', ()=>{
-			this.render();
+			this._render();
 		});
 
 		this._graph.on('removeChildNode', ()=>{
-			this.render();
+			this._render();
 		});
 
 
-		this.render();
+		this._render();
 
 	}
 
@@ -41,6 +41,21 @@ export class DragGraphNodes{
 		return ([this._nodeOutput.firstChild, this._nodeInput.firstChild]).indexOf(target)>=0;
 	}
 
+
+	_render(){
+
+		if(this._throttle){
+			clearTimeout(this._throttle);
+		}
+
+		this._throttle=setTimeout(()=>{
+			this._throttle=null;
+			this.render();
+
+		}, 5);
+
+
+	}
 
 	render(){
 

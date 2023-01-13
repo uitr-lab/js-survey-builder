@@ -52,10 +52,22 @@ export class ContentBlockItem extends EventEmitter{
 	getInstanceElement(){
 
 
+		var label=new Element('span', {
+			"class":"item-detail",
+			html:'<label>'+this._data.name+'</label>'+(typeof this._data.fieldName =='string'?'<label>'+this._data.fieldName+'</label>':'')+'<p class="description">'+this._data.description+'</p>'
+		})
+
 		var el= new Element('div', {
-			"html":'<label>'+this._data.name+'</label><p class="description">'+this._data.description+'</p>',
+			"html":label,
 			"class":"block-item"
 		});
+
+
+		if(typeof this._data.fieldName =='string'){
+			this.on('update', ()=>{
+				label.innerHTML='<label>'+this._data.name+'</label>'+(typeof this._data.fieldName =='string'?'<label>'+this._data.fieldName+'</label>':'')+'<p class="description">'+this._data.description+'</p>';
+			});
+		}
 
 		this._container=el;
 		this._element=el;
