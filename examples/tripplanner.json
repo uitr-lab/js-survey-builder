@@ -1,0 +1,288 @@
+{
+   "name": "Trip Diary Introduction",
+   "type": "section",
+   "uuid": "ee92c75b-4ff9-4fef-bf18-1b56f17dec29",
+   "items": [
+      {
+         "name": "Page One",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Introduction page\n\n### About this survey\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua\n\n&nbsp;\n\n### Instructions\n\n - voluptatem accusantium\n - dicta sunt explicabo\n - magni dolores eos\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;"
+            }
+         ]
+      },
+      {
+         "name": "Page Two",
+         "type": "set",
+         "items": []
+      }
+   ],
+   "navigationLogic": "return 0;",
+   "then": "goto node 0",
+   "nodes": [
+      {
+         "name": "Family Member Details",
+         "type": "section",
+         "uuid": "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488",
+         "items": [
+            {
+               "name": "Page One",
+               "type": "set",
+               "items": [
+                  {
+                     "type": "markdown",
+                     "text": "\n\n{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth'] %}\n{% if loop is not defined %}\n    {% set loop = {'i': 0} %}\n{% endif %}\n\n\n# Person Profile: {{indexNumbers[loop.i]}} Household Member\n\n\n&nbsp;\n&nbsp;\n\n> please add a profile for each person in the household.\n\n&nbsp;\n&nbsp;\n"
+                  },
+                  {
+                     "fieldName": "personName",
+                     "type": "textfield",
+                     "label": "Person Name",
+                     "placeholder": "add name or initial"
+                  },
+                  {
+                     "type": "fieldset",
+                     "items": [
+                        {
+                           "fieldName": "gender",
+                           "type": "radio",
+                           "values": "male, female",
+                           "defaultValue": "",
+                           "labels": "Male, Female",
+                           "default": "none",
+                           "label": "Gender of this person"
+                        },
+                        {
+                           "fieldName": "age",
+                           "type": "textfield",
+                           "label": "Age of this person",
+                           "placeholder": "years"
+                        },
+                        {
+                           "fieldName": "hasLicense",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Person has a valid driver's license?",
+                           "defaultValue": false,
+                           "default": false
+                        },
+                        {
+                           "fieldName": "isComercialDriver",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Person is employed as a commercial driver",
+                           "defaultValue": false,
+                           "default": false
+                        },
+                        {
+                           "type": "markdown",
+                           "text": "> When filling out ..."
+                        },
+                        {
+                           "type": "label",
+                           "text": "This person is: (Check all that apply)"
+                        },
+                        {
+                           "fieldName": "someOptionA",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "default": false
+                        },
+                        {
+                           "fieldName": "someOptionB",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "default": false
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "If this person works, please list thier workplaces"
+                        },
+                        {
+                           "fieldName": "work1",
+                           "type": "textfield",
+                           "label": "Name of work 1",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "address1",
+                           "type": "textfield",
+                           "label": "Address",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "municipality1",
+                           "type": "textfield",
+                           "label": "Municipality",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "work2",
+                           "type": "textfield",
+                           "label": "Name of work 2",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "address2",
+                           "type": "textfield",
+                           "label": "Address",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "municipality2",
+                           "type": "textfield",
+                           "label": "Municipality",
+                           "placeholder": "answer here"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "If this person is a student, please list thier school"
+                        },
+                        {
+                           "fieldName": "school",
+                           "type": "textfield",
+                           "label": "Name of School",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "addressSchool",
+                           "type": "textfield",
+                           "label": "Address",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "municipalitySchool",
+                           "type": "textfield",
+                           "label": "Municipality",
+                           "placeholder": ""
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "Does this person drive him/herself to work or school?"
+                        },
+                        {
+                           "fieldName": "drives",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "default": false,
+                           "showYesNo": "on",
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        },
+                        {
+                           "fieldName": "paysParking",
+                           "type": "radio",
+                           "values": "free, employer, partial-employer, personal",
+                           "defaultValue": "",
+                           "labels": "Parking is free, Fully paid for by employee, partial-employer, personal",
+                           "default": "none",
+                           "label": "Who pays for parking?"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            {
+               "name": "Daily Trip Diary",
+               "type": "section",
+               "uuid": "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+               "items": [
+                  {
+                     "name": "Page One",
+                     "type": "set",
+                     "items": []
+                  }
+               ],
+               "navigationLogic": "return 0;",
+               "then": "goto node 0",
+               "nodes": [
+                  {
+                     "name": "Thank you",
+                     "type": "section",
+                     "uuid": "9d87c15b-e9d3-44c2-a3ea-03f2c373680f",
+                     "items": [
+                        {
+                           "name": "Page One",
+                           "type": "set",
+                           "items": [
+                              {
+                                 "type": "markdown",
+                                 "text": "## Thank you for participating today"
+                              }
+                           ]
+                        }
+                     ],
+                     "navigationLogic": "return 0;",
+                     "then": "terminate"
+                  },
+                  "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+                  "84471d2d-a9e6-4b31-880a-57925a9a8933"
+               ]
+            },
+            "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488",
+            "f3eb5382-0742-492c-9717-57befacad07e",
+            "84471d2d-a9e6-4b31-880a-57925a9a8933"
+         ]
+      },
+      {
+         "name": "Extra family info 2",
+         "type": "section",
+         "uuid": "f3eb5382-0742-492c-9717-57befacad07e",
+         "items": [
+            {
+               "name": "Page One",
+               "type": "set",
+               "items": []
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            "cb46d44e-248c-4297-bcf3-e3955220b7a2"
+         ]
+      },
+      {
+         "name": "Extra family info 1",
+         "type": "section",
+         "uuid": "84471d2d-a9e6-4b31-880a-57925a9a8933",
+         "items": [
+            {
+               "name": "Page One",
+               "type": "set",
+               "items": []
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            "cb46d44e-248c-4297-bcf3-e3955220b7a2"
+         ]
+      }
+   ]
+}

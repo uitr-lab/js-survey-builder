@@ -1,31 +1,37 @@
 import {
 	Graph
-} from './Graph.js'
+} from './Graph.js';
 
 import {
 	Element
-} from './Element.js'
+} from './Element.js';
 
 import {
 	Panel
-} from './Panel.js'
+} from './Panel.js';
 
 import {
 	JsonExporter
-} from './JsonExporter.js'
+} from './JsonExporter.js';
 
 import {
 	JsonImporter
-} from './JsonImporter.js'
+} from './JsonImporter.js';
 
 import {
 	ContentBlock
-} from './ContentBlock.js'
+} from './ContentBlock.js';
 
 import {
 	ContentBlockItem,
 	ContentBlockGroupItem
-} from './ContentBlockItem.js'
+} from './ContentBlockItem.js';
+
+
+
+import {
+	ChildNodeLinks
+} from './helpers/ChildNodeLinks.js';
 
 import {Overlay} from './Overlay.js'
 
@@ -48,6 +54,28 @@ var toggleView=graph.getContainer().appendChild(new Element('button',{
 		}
 	}
 }))
+
+
+
+
+var showArrows=graph.getContainer().appendChild(new Element('label',{
+	"class":"view-toggle-arrows",
+	html:"Show Arrows"
+})).appendChild(new Element('input',{
+	type:"checkbox",
+	checked:true
+}));
+
+showArrows.addEventListener('change',()=>{
+
+	if(showArrows.checked){
+		document.body.classList.remove('hide-arrows');
+		return;
+	}
+
+	document.body.classList.add('hide-arrows');
+})
+
 
 
 graph.addMenuItem(new Element('a', {
@@ -95,7 +123,7 @@ graph.addMenuItem(new Element('button', {
 
 
 graph.addMenuItem(new Element('button', {
-	"class":'run-btn',
+	"class":'publish-btn',
 	html: 'Publish',
 	events: {
 		click: () => {
@@ -125,9 +153,13 @@ graph.addTemplate('section', function(parentNode) {
 
 
 	var codeSection = new Element('section', {
-		html:"<label>Navigation Script</label>",
+		html:"<label>Navigation Script</label>"+
+			"<p>return the child index, or a child nodes uuid (or prefix)</p><p>(formData)=>{</p>",
 		"class":"code-content-item collapse"
 	})
+
+
+	var childNodeLinks=codeSection.appendChild(new Element('p'));
 
 	var codeNavigation = codeSection.appendChild(new Element('textarea', {
 		value: 'return 0;',
@@ -289,6 +321,10 @@ graph.addTemplate('section', function(parentNode) {
 
 
 	});
+
+
+	//Draw links
+	(new ChildNodeLinks(childNodeLinks, section));
 
 
 	name.addEventListener('change',()=>{

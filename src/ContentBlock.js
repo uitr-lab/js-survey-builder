@@ -49,7 +49,7 @@ class ContenBlockList extends EventEmitter {
 	getBlockWithTarget(target){
 
 		var matches=(this._items||[]).filter((item)=>{
-			return item===target||item.getElement()===target||item.getContainer()===target;
+			return item===target||item.getElement()===target||item.getContainer()===target||(item.getTarget&&item.getTarget()===target);
 		});
 
 		if(matches.length==0){

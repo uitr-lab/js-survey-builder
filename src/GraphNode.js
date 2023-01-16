@@ -47,6 +47,11 @@ export class GraphNode extends EventEmitter {
 
 	}
 
+
+	getArrowsOut(){
+		return (this._arrows||[]).slice(0);
+	}
+
 	_formatAddNode(node) {
 
 		if (!node.getData()) {
@@ -58,7 +63,7 @@ export class GraphNode extends EventEmitter {
 		this._addChildNodeEvents(node);
 
 
-		if (this.isRoot()) {
+		if (this.isGraph()) {
 			return;
 		}
 		
@@ -178,7 +183,21 @@ export class GraphNode extends EventEmitter {
 	}
 
 
-	isRoot() {
+	isRootNode() {
+
+		/**
+		 * the root node is a Node with the graph as it's parent
+		 */
+
+		return this.getParent()&&this.getParent().isGraph();
+	}
+
+	isGraph(){
+
+		/**
+		 * the graph object is a node without any parents
+		 */
+
 		return !this.getParent();
 	}
 
@@ -274,6 +293,10 @@ export class GraphNode extends EventEmitter {
 		return this.getRoot().getNodesFirstParent(this);
 	}
 
+	getParentNodes(){
+		return this.getRoot().getNodesParents(this);
+	}
+
 
 	getNodes(){
 		/*
@@ -308,7 +331,18 @@ export class GraphNode extends EventEmitter {
 	clear() {
 
 		(this._nodes || []).forEach((node) => {
+
+			if(node.getParentNodes().length>1){	
+				/**
+				 * only delete this node if it has no other parents
+				 */
+				return;
+			}
+
+
+
 			node.remove();
+			
 		});
 
 		this._nodes = [];
@@ -323,6 +357,18 @@ export class GraphNode extends EventEmitter {
 		if (this._container.parentNode) {
 			this._container.parentNode.removeChild(this._container);
 		}
+
+
+		if(this._arrows){
+			this._arrows.forEach((arrow)=>{
+				arrow.clear();
+			});
+			this._arrows=[];
+		}
+			
+				
+			
+
 		this.clear();
 		this.emit('remove');
 		this.removeAllListeners();
@@ -382,8 +428,20 @@ export class GraphNode extends EventEmitter {
 				// data.linkLogic = 'some logic to define which node to traverse';
 			}
 			data.nodes = nodes.map((node)=>{
+
+
+				if(this.isGraph()){
+					return node.getData(); 
+				}
+
+
 				var parentNode=node.getFirstParent();
-				if(parentNode&&parentNode!==this){
+				if((parentNode&&parentNode!==this)||node.isRootNode()){
+
+					/**
+					 * if the node is also the root node, then this is a loop 
+					 */
+
 					return node.getUUID(); 
 				}
 

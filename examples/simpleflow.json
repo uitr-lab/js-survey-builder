@@ -6,7 +6,12 @@
       {
          "name": "Page One",
          "type": "set",
-         "items": []
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## You can either win, lose, or draw. \n\nClick next to play?"
+            }
+         ]
       }
    ],
    "navigationLogic": "return Math.floor(Math.random()*3);",
@@ -34,11 +39,43 @@
                   {
                      "name": "Page One",
                      "type": "set",
-                     "items": []
+                     "items": [
+                        {
+                           "fieldName": "playAgain",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Play Again? ",
+                           "defaultValue": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        }
+                     ]
                   }
                ],
-               "navigationLogic": "return 0;",
-               "then": "terminate"
+               "navigationLogic": "if(formData.playAgain==='on'){\n   return 1\n}\nreturn 0;",
+               "then": "goto node 0",
+               "nodes": [
+                  {
+                     "name": "Done",
+                     "type": "section",
+                     "uuid": "efbb4afc-6922-4927-aff9-78028a1891a1",
+                     "items": [
+                        {
+                           "name": "Page One",
+                           "type": "set",
+                           "items": [
+                              {
+                                 "type": "markdown",
+                                 "text": "## Bye"
+                              }
+                           ]
+                        }
+                     ],
+                     "navigationLogic": "return 0;",
+                     "then": "terminate"
+                  },
+                  "755df806-ce5f-4e64-96c0-8193d53af828"
+               ]
             }
          ]
       },

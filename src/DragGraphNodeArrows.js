@@ -7,7 +7,7 @@ import arrowCreate, {
 import {Element} from './Element.js'
 
 
-export class DragGraphNodes{
+export class DragGraphNodeArrows{
 
 	constructor(node){
 

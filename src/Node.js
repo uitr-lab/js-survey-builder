@@ -2,7 +2,7 @@
 import {GraphNode} from './GraphNode.js'
 import {Element} from './Element.js'
 
-import {DragGraphNodes} from './DragGraphNodes.js'
+import {DragGraphNodeArrows} from './DragGraphNodeArrows.js'
 
 
 export class Node extends GraphNode{
@@ -50,6 +50,8 @@ export class Node extends GraphNode{
 
 			this._container.classList.add('has-children');
 			this._container.classList.remove('no-children');
+
+			this.emit('updateNode');
 		});
 
 		this.on("removeNode",()=>{
@@ -62,6 +64,8 @@ export class Node extends GraphNode{
 				this._container.classList.remove('has-children');
 				this._container.classList.add('no-children');
 			}
+
+			this.emit('updateNode');
 
 		})
 
@@ -156,7 +160,7 @@ export class Node extends GraphNode{
 	}
 
 	_addDraggableNodes(){
-		this._draggableNodes=new DragGraphNodes(this);
+		this._draggableNodes=new DragGraphNodeArrows(this);
 	}
 
 	getInputElement(){

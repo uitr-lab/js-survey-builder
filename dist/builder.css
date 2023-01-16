@@ -18,10 +18,26 @@
     box-shadow: 0 0 3px #00000042;
 }
 
+button.publish-btn {
+    background-color: #03a9f4;
+    position: absolute;
+    right: 50%;
+}
+
 button.view-toggle-btn {
     position: fixed;
     top: 24px;
     right: 24px;
+}
+
+label.view-toggle-arrows {
+    position: fixed;
+    top: 30px;
+    right: 150px;
+}
+
+.graph-view label.view-toggle-arrows {
+    display: none;
 }
 
 .graph-node.section-node {
@@ -195,7 +211,7 @@ textarea.import-json {
 }
 
 
-section.content-item>label, .code-content-item>label {
+section.content-item>label, .code-content-item>label, .code-content-item>p{
     position: relative;
     top: -13px;
     left: 2px;
@@ -204,7 +220,60 @@ section.content-item>label, .code-content-item>label {
     font-weight: 100;
 }
 
-section.content-item.collapse>label, .code-content-item.collapse>label {
+.code-content-item>p {
+    color: #555;
+}
+
+.code-content-item>p+p>label {
+    font-weight: 400;
+    margin: 0 5px;
+    cursor:pointer;
+}
+.code-content-item>p+p>label:hover{
+    font-weight:600;
+}
+
+.code-content-item>p+p>label:before {
+    content: "-->";
+    font-size: 10px;
+    vertical-align: top;
+    color: cornflowerblue;
+    position: relative;
+    top: 2px;
+    margin: 0 5px;
+}
+
+.code-content-item .popover {
+    opacity: 0;
+    position: absolute;
+    width: max-content;
+    background: #ffffff94;
+    z-index: 1;
+    padding: 10px;
+    border-radius: 3px;
+    backdrop-filter: blur(5px);
+    bottom: 30px;
+    left: -100px;
+    font-style: normal;
+    color: black;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+
+.code-content-item>p+p>label:hover .popover {
+    opacity: 1;
+}
+
+.code-content-item .popover>p {
+    font-weight: 100;
+    margin: 10px 0px;
+}
+
+.code-content-item .popover>label {
+    font-weight: 600;
+}
+
+section.content-item.collapse>label, .code-content-item.collapse>label, .code-content-item.collapse>p {
     display: none;
 }
 
@@ -711,6 +780,10 @@ button.run-btn:before {
   opacity: 1;
 }
 
+body.show-panel.hide-arrows .arrow {
+    display: none;
+}
+
 .arrow__path {
   stroke: #555;
   fill: transparent;
@@ -794,6 +867,26 @@ button.run-btn:before {
 .graph-view button.add-node-btn:after {
     font-size: 20px;
     content: "+";
+}
+
+.graph-view .loop>.arrow__path {
+    stroke: #03a9f4;
+    stroke-width: 1.5;
+}
+
+.depth-sibling>.arrow__path {
+    stroke: #03a9f4;
+    stroke-width: 1.5;
+}
+
+.graph-view .arrow.depth-sibling, .graph-view .arrow.reverse, .graph-view .arrow.loop{
+    z-index:-1;
+}
+
+
+.graph-view .reverse>.arrow__path {
+    stroke: #03a9f4;
+    stroke-width: 1.5;
 }
 
 
@@ -905,3 +998,5 @@ form.survey-view blockquote {
 form.survey-view fieldset label>input[type="checkbox"] {
     margin-right: 104px;
 }
+
+

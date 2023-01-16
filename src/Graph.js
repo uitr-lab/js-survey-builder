@@ -4,11 +4,9 @@ import {Node} from './Node.js'
 
 import {Element} from './Element.js'
 
+import {GraphNodeArrow} from './GraphNodeArrow.js'
 
 
-import arrowCreate, {
-	DIRECTION, HEAD
-} from 'arrows-svg'
 
 
 export class Graph extends GraphNode{
@@ -104,111 +102,7 @@ export class Graph extends GraphNode{
 
 	renderArrow(a, b, callback){
 
-		setTimeout(()=>{
-
-			var arrow=this._renderArrow(a, b);
-			if(callback){
-				callback(arrow);
-			}
-
-			document.body.appendChild(arrow.node);
-
-		}, 10);
-
-	}
-
-	_renderArrow(a,b){
-
-		var i = a.indexOfNode(b);
-
-		var translationFrom= [0, 0.5];
-		var translationTo= [0, -0.5];
-		var directionFrom=DIRECTION.BOTTOM;
-		var directionTo=DIRECTION.TOP
-
-
-		if(this._displayMode!=='graph'){
-
-			translationFrom= [-3-4*(i), 0];
-			translationTo= [-3-4*(i), 0];
-			directionFrom=DIRECTION.LEFT;
-			directionTo=DIRECTION.LEFT;
-
-
-			if(a.getDepth()>b.getDepth()){
-				
-			}
-
-			if(a.getDepth()==b.getDepth()){
-				
-			}
-
-			return arrowCreate({
-
-
-				from: {
-					direction: directionFrom,
-					node: a.getOutputElement(),
-					translation: translationFrom,
-				},
-				to: {
-					direction: directionTo,
-					node:  b.getInputElement(),
-					translation: translationTo,
-				},
-				head: {
-				    func: HEAD.THIN,
-				    size: 7, // custom options that will be passed to head function
-				  }
-			});
-
-		}
-
-
-		var diff=a.getDepth()-b.getDepth();
-
-
-		if(a===b){
-
-
-			
-			translationFrom= [-8.5, 2];
-			translationTo= [-8.5, -2];
-
-		}
-
-
-		if(diff==0&&a!==b){
-			var translationFrom= [0, 1.5];
-			var translationTo= [0, -1.5];
-		}
-
-
-
-		var arrow= arrowCreate({
-
-
-				from: {
-					direction: directionFrom,
-					node: a.getOutputElement(),
-					translation: translationFrom,
-				},
-				to: {
-					direction: directionTo,
-					node:  b.getInputElement(),
-					translation: translationTo,
-				},
-				head: {
-				    func: HEAD.THIN,
-				    size: 7, // custom options that will be passed to head function
-				  }
-			});
-
-		if(diff==0&&a!==b){
-			arrow.node.classList.add('push');
-		}
-
-		return arrow;
+		(new GraphNodeArrow(this)).renderArrow(a, b, callback);
 
 	}
 
@@ -224,6 +118,15 @@ export class Graph extends GraphNode{
 		}
 
 		return null;
+
+	}
+
+
+	getNodesParents(node){
+
+		return this.getNodesRecurse().filter((parentNode)=>{
+			return parentNode.realChildNodes().indexOf(node)>=0;
+		});
 
 	}
 

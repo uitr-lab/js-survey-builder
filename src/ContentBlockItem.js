@@ -231,12 +231,53 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 
 		var el=super.getInstanceElement()	
 
-		this._element=el.appendChild(new Element('section', {
+		this._target=el.appendChild(new Element('section', {
 			"class":"content-item empty"
 		}));
 
 
+		this.on('removeContentBlock',()=>{
+			if((this._items||[]).length==0){
+				this._target.classList.add('empty');
+			}
+		});
+	
+		this.on('addContentBlock',()=>{
+			if((this._items||[]).length>0){
+				this._target.classList.remove('empty');
+			}
+		});
+
+
+		this._element=this._target.appendChild(new Element('div', {
+			"class":"wrap"
+		}));
+
+
+		var toggle=this._target.appendChild(new Element('button', {
+			"class":"toggle-btn",
+			"html":'Hide',
+			events:{
+				click:()=>{
+
+					if(this._target.classList.contains('collapse')){
+						this._target.classList.remove('collapse');
+						toggle.innerHTML="Hide"
+					}else{
+						this._target.classList.add('collapse');
+						toggle.innerHTML="Show"
+					}
+
+				}
+			}
+		}));
+
+
 		return el;
+	}
+
+	getTarget(){
+		return this._target;
 	}
 
 	getElement(){
