@@ -5,6 +5,7 @@ import {
 
 import  { EventEmitter } from  'events';
 
+import  { DragOrderElements } from  './helpers/DragOrderElements.js';
 
 class ContenBlockList extends EventEmitter {
 
@@ -129,6 +130,14 @@ export class ContentBlock extends EventEmitter {
 
 		this._node=node;
 
+		this._dragOrder=new DragOrderElements(this._element);
+		this._dragOrder.on('order', (indexes)=>{
+			var spliced=this._items.splice(indexes[0], 1);
+			this._items.splice(indexes[1], 0, spliced[0]);
+
+			node.emit('updateNode');
+		});
+
 		this.on('addContentBlock',()=>{
 			node.emit('updateNode');
 		});
@@ -144,6 +153,10 @@ export class ContentBlock extends EventEmitter {
 		ContentBlocks.addBlock(this);
 
 		node.emit('updateNode');
+
+
+
+		
 	
 	}
 
@@ -167,6 +180,10 @@ export class ContentBlock extends EventEmitter {
 		this._els.push(el);
 
 
+		if(this._dragOrder){
+			this._dragOrder.addItem(item);
+		}
+
 		item.on('remove', ()=>{
 
 			var i=this._items.indexOf(item);
@@ -174,6 +191,10 @@ export class ContentBlock extends EventEmitter {
 			this._element.removeChild(el);
 			this._els.splice(i, 1);
 			this.emit('removeContentBlock');
+
+			if(this._dragOrder){
+				this._dragOrder.removeItem(item);
+			}
 
 		});
 
@@ -197,7 +218,7 @@ export class ContentBlock extends EventEmitter {
 
 		this.emit('remove');
 		this.removeAllListeners();
-		node.emit('updateNode');
+		this._node.emit('updateNode');
 
 		
 

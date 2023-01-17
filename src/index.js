@@ -111,6 +111,7 @@ graph.addMenuItem(new Element('button', {
 		click: () => {
 
 			var renderer=new SurveyRenderer();
+			renderer.displayInfo();
 			var overlay=new Overlay(renderer.render((new JsonExporter(graph)).getData()));
 			overlay.fullscreen();
 			renderer.on('complete', ()=>{
@@ -128,8 +129,52 @@ graph.addMenuItem(new Element('button', {
 	events: {
 		click: () => {
 
+
+			var container=new Element('span', {
+				html:'<h1>Publish</h1>'
+			});
+
+			var text = container.appendChild(new Element('textarea', {
+				'class':"import-json publish"
+			}));
+
 			
-			var overlay=new Overlay('<article><h1>Publish</h1></article>');
+
+			text.innerHTML='<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Uitr Survey</title>'+
+			'<link rel="stylesheet" type="text/css" href="'+document.location.origin+'/runner/style.css"></head><body></body>'+"\n\n\n\n";
+
+
+			text.innerHTML+='<script src="'+document.location.origin+'/runner/main.js"></script>'+"\n";
+			text.innerHTML+='<script type="text/javascript">'+"\n\n";
+			text.innerHTML+='(function(){ '+"\n\n";
+
+			text.innerHTML+='   var renderer=new SurveyRenderer();'+"\n";
+			text.innerHTML+='   var survey='+JSON.stringify((new JsonExporter(graph)).getData())+';'+"\n\n\n";
+			
+			text.innerHTML+='   document.body.appendChild(renderer.render(survey));'+"\n\n";
+			text.innerHTML+='})();'+"\n\n";
+			text.innerHTML+='</script>';
+
+			text.innerHTML+="\n\n\n\n"+'</html>';
+			
+			var overlay=new Overlay(container);
+
+			overlay.setSize({
+				width:'800px',
+				height:'600px'
+			});
+			
+		}
+	}
+}));
+
+graph.addMenuItem(new Element('button', {
+	"class":'reset-btn',
+	html: 'Reset',
+	events: {
+		click: () => {
+			graph.clear();
+			graph.add('section');
 			
 		}
 	}
@@ -154,7 +199,7 @@ graph.addTemplate('section', function(parentNode) {
 
 	var codeSection = new Element('section', {
 		html:"<label>Navigation Script</label>"+
-			"<p>return the child index, or a child nodes uuid (or prefix)</p><p>(formData)=>{</p>",
+			"<p>return the child index, or a child nodes uuid (or prefix)</p><p>(formData, renderer)=>{</p>",
 		"class":"code-content-item collapse"
 	})
 
@@ -222,6 +267,7 @@ graph.addTemplate('section', function(parentNode) {
 
 		block.on('preview',()=>{
 			var renderer=new SurveyRenderer();
+			renderer.displayInfo();
 			var overlay=new Overlay(renderer.render((new JsonExporter(block)).getData()));
 			overlay.fullscreen();
 			renderer.on('complete', ()=>{
@@ -291,6 +337,7 @@ graph.addTemplate('section', function(parentNode) {
 						delete sectionData.nodes;
 
 						var renderer=new SurveyRenderer();
+						renderer.displayInfo();
 						var overlay=new Overlay(renderer.render(sectionData));
 						overlay.fullscreen();
 						renderer.on('complete', ()=>{

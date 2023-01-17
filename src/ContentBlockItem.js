@@ -7,6 +7,8 @@ import {
 	ContentBlocks, ContentBlock
 } from './ContentBlock.js'
 
+import  { DragOrderElements } from  './helpers/DragOrderElements.js';
+
 import  { EventEmitter } from  'events';
 
 export class ContentBlockItem extends EventEmitter{
@@ -201,6 +203,8 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 			this.emit('update');
 		});
 
+
+
 	}
 
 	createInstance(target, itemData){
@@ -254,6 +258,13 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 		}));
 
 
+		this._dragOrder=new DragOrderElements(this._element);
+		this._dragOrder.on('order', (indexes)=>{
+			var spliced=this._items.splice(indexes[0], 1);
+			this._items.splice(indexes[1], 0, spliced[0]);
+			this.emit('update');
+		});
+
 		var toggle=this._target.appendChild(new Element('button', {
 			"class":"toggle-btn",
 			"html":'Hide',
@@ -278,6 +289,16 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 
 	getTarget(){
 		return this._target;
+	}
+
+	getElementDragHandle(){
+		return this._container.firstChild;
+
+	}
+
+	getElementDragContainer(){
+		return this._container;
+
 	}
 
 	getElement(){

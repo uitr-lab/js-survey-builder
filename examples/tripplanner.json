@@ -9,14 +9,9 @@
          "items": [
             {
                "type": "markdown",
-               "text": "## Introduction page\n\n### About this survey\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua\n\n&nbsp;\n\n### Instructions\n\n - voluptatem accusantium\n - dicta sunt explicabo\n - magni dolores eos\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;"
+               "text": "## Introduction page\n\n### About this survey\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua\n\n&nbsp;\n\n### Instructions\n\n - voluptatem accusantium\n - dicta sunt explicabo\n - magni dolores eos\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n"
             }
          ]
-      },
-      {
-         "name": "Page Two",
-         "type": "set",
-         "items": []
       }
    ],
    "navigationLogic": "return 0;",
@@ -33,7 +28,7 @@
                "items": [
                   {
                      "type": "markdown",
-                     "text": "\n\n{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth'] %}\n{% if loop is not defined %}\n    {% set loop = {'i': 0} %}\n{% endif %}\n\n\n# Person Profile: {{indexNumbers[loop.i]}} Household Member\n\n\n&nbsp;\n&nbsp;\n\n> please add a profile for each person in the household.\n\n&nbsp;\n&nbsp;\n"
+                     "text": "\n\n{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'This is ridiculous-th'] %}\n{% if loop is not defined %}\n    {% set loop = {'i': 0} %}\n{% endif %}\n\n\n# Person Profile: {{indexNumbers[loop.i]}} Household Member\n\n\n&nbsp;\n&nbsp;\n\n> please add a profile for each person in the household.\n\n&nbsp;\n&nbsp;\n"
                   },
                   {
                      "fieldName": "personName",
@@ -201,11 +196,21 @@
                            "label": "Who pays for parking?"
                         }
                      ]
+                  },
+                  {
+                     "fieldName": "addAnother",
+                     "value": "Some Value",
+                     "type": "checkbox",
+                     "label": "Add Another Family Member",
+                     "defaultValue": false,
+                     "trueLabel": "Yes",
+                     "falseLabel": "No",
+                     "showYesNo": "on"
                   }
                ]
             }
          ],
-         "navigationLogic": "return 0;",
+         "navigationLogic": "\nif(formData.addAnother==='on'){\n  var loop=renderer.getFormValue('loop');\n  if(typeof loop=='undefined'){\n    loop={i:0};\n  }\n  loop.i++;\n  renderer.setFormValue('loop', loop);\n  return '4b7f0';\n}\nreturn 'cb46d';",
          "then": "goto node 0",
          "nodes": [
             {
@@ -241,47 +246,10 @@
                      "navigationLogic": "return 0;",
                      "then": "terminate"
                   },
-                  "cb46d44e-248c-4297-bcf3-e3955220b7a2",
-                  "84471d2d-a9e6-4b31-880a-57925a9a8933"
+                  "cb46d44e-248c-4297-bcf3-e3955220b7a2"
                ]
             },
-            "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488",
-            "f3eb5382-0742-492c-9717-57befacad07e",
-            "84471d2d-a9e6-4b31-880a-57925a9a8933"
-         ]
-      },
-      {
-         "name": "Extra family info 2",
-         "type": "section",
-         "uuid": "f3eb5382-0742-492c-9717-57befacad07e",
-         "items": [
-            {
-               "name": "Page One",
-               "type": "set",
-               "items": []
-            }
-         ],
-         "navigationLogic": "return 0;",
-         "then": "goto node 0",
-         "nodes": [
-            "cb46d44e-248c-4297-bcf3-e3955220b7a2"
-         ]
-      },
-      {
-         "name": "Extra family info 1",
-         "type": "section",
-         "uuid": "84471d2d-a9e6-4b31-880a-57925a9a8933",
-         "items": [
-            {
-               "name": "Page One",
-               "type": "set",
-               "items": []
-            }
-         ],
-         "navigationLogic": "return 0;",
-         "then": "goto node 0",
-         "nodes": [
-            "cb46d44e-248c-4297-bcf3-e3955220b7a2"
+            "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488"
          ]
       }
    ]

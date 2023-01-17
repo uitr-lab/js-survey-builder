@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Uitr Survey</title><link rel="stylesheet" type="text/css" href="https://survey.geoforms.ca/runner/style.css"></head><body></body>
+
+
+
+<script src="https://survey.geoforms.ca/runner/main.js"></script>
+<script type="text/javascript">
+
+(function(){ 
+
+   var renderer=new SurveyRenderer();
+   var survey={"name":"Game Instructions","type":"section","uuid":"755df806-ce5f-4e64-96c0-8193d53af828","items":[{"name":"Page One","type":"set","items":[{"type":"markdown","text":"## You can either win, lose, or draw. \n\nClick next to play?"}]}],"navigationLogic":"return Math.floor(Math.random()*3);","then":"goto node 0","nodes":[{"name":"You Lose","type":"section","uuid":"d650fef4-b313-4dfa-b9ec-b0b93d178c30","items":[{"name":"Page One","type":"set","items":[]}],"navigationLogic":"return 0;","then":"goto node 0","nodes":[{"name":"Good Game","type":"section","uuid":"3ee9db6b-bcb1-4a70-a8da-e8b2c7a45fee","items":[{"name":"Page One","type":"set","items":[{"fieldName":"playAgain","value":"Some Value","type":"checkbox","label":"Play Again? ","defaultValue":false,"trueLabel":"Yes","falseLabel":"No"}]}],"navigationLogic":"if(formData.playAgain==='on'){\n   return 1\n}\nreturn 0;","then":"goto node 0","nodes":[{"name":"Done","type":"section","uuid":"efbb4afc-6922-4927-aff9-78028a1891a1","items":[{"name":"Page One","type":"set","items":[{"type":"markdown","text":"## Bye"}]}],"navigationLogic":"return 0;","then":"terminate"},"755df806-ce5f-4e64-96c0-8193d53af828"]}]},{"name":"You Win","type":"section","uuid":"901690e6-d9e8-461a-8260-77fb3c4130d6","items":[{"name":"Page One","type":"set","items":[]}],"navigationLogic":"return 0;","then":"goto node 0","nodes":["3ee9db6b-bcb1-4a70-a8da-e8b2c7a45fee"]},{"name":"It Was A Draw","type":"section","uuid":"cdf92142-d892-4a0e-b257-e78b46eb63fc","items":[{"name":"Page One","type":"set","items":[]}],"navigationLogic":"return 0;","then":"goto node 0","nodes":["3ee9db6b-bcb1-4a70-a8da-e8b2c7a45fee"]}]};
+
+
+   document.body.appendChild(renderer.render(survey));
+
+})();
+
+</script>
+
+
+
+</html>
