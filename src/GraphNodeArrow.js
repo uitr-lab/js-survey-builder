@@ -97,8 +97,22 @@ export class GraphNodeArrow{
 
 		if(diff<0){
 
-			translationFrom= [-5+diff, 0.5];
-			translationTo= [-5+diff, -0.5];
+			var ar=a.getOutputElement().getBoundingClientRect();
+			var br=b.getOutputElement().getBoundingClientRect();
+
+			var offset=Math.abs(ar.x-br.x);
+
+			if(offset>50){
+
+				translationFrom= [0, 0.5];
+				translationTo= [0, -0.5];
+
+			}else{
+
+				translationFrom= [-1+diff, 0.5];
+				translationTo= [-1+diff, -0.5];
+
+			}
 		}
 
 

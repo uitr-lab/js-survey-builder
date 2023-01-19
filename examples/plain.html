@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Uitr Survey</title><link rel="stylesheet" type="text/css" href="https://survey.geoforms.ca/runner/style.css"></head><body></body>
+
+
+
+<script src="https://survey.geoforms.ca/runner/main.js"></script>
+<script type="text/javascript">
+
+(function(){ 
+
+   var renderer=new SurveyRenderer();
+   var survey={"name":"Section One","type":"section","uuid":"e38b4a0e-19cb-4d47-b47a-4f1149b5ddcf","items":[{"name":"Page One","type":"set","items":[{"type":"markdown","text":"## Survey heading\nsome instructions"}]}],"navigationLogic":"return 0;","then":"terminate"};
+
+
+   document.body.appendChild(renderer.render(survey));
+
+})();
+
+</script>
+
+
+
+</html>

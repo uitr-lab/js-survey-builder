@@ -63,8 +63,10 @@ var showArrows=graph.getContainer().appendChild(new Element('label',{
 	html:"Show Arrows"
 })).appendChild(new Element('input',{
 	type:"checkbox",
-	checked:true
+	checked:false
 }));
+
+document.body.classList.add('hide-arrows');
 
 showArrows.addEventListener('change',()=>{
 
@@ -157,7 +159,17 @@ graph.addMenuItem(new Element('button', {
 
 			text.innerHTML+="\n\n\n\n"+'</html>';
 			
-			var overlay=new Overlay(container);
+			var overlay=new Overlay(container,[
+				new Element('button', {
+					html: "Copy",
+					"class": "copy-btn",
+					events: {
+						click: () => {
+							navigator.clipboard.writeText(text.value);
+						}
+					}
+				})
+				]);
 
 			overlay.setSize({
 				width:'800px',
@@ -481,6 +493,29 @@ panel.addItem(new ContentBlockGroupItem({
 			panel.getItem(blockData.type).createInstance(block, blockData);
 		})
 	}
+
+}));
+
+
+panel.addItem(new ContentBlockItem({
+
+	name: "Default Data",
+	description: "adds some default form values",
+
+	type: "defaultData",
+	previewHtml:'{ "variable1":true, "variable2":false ... }',
+	formHtml:'<label> JSON Data: </label><textarea name="data">'+'{ "variable1":true, "variable2":false }'+'</textarea>'
+
+}));
+
+panel.addItem(new ContentBlockItem({
+	
+	name: "Script",
+	description: "runs a script",
+
+	type: "script",
+	previewHtml:'console.log("hello world");',
+	formHtml:'<label> Script: </label><textarea name="script">'+'console.log("hello world");'+'</textarea>'
 
 }));
 
