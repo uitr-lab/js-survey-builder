@@ -4,7 +4,7 @@ import {
 
 
 import {
-	ContentBlocks, ContentBlock
+	CurrentContentBlockPages, ContentBlockPage
 } from './ContentBlock.js'
 
 import  { DragOrderElements } from  './helpers/DragOrderElements.js';
@@ -179,7 +179,7 @@ export class ContentBlockItem extends EventEmitter{
 			data[key]=itemData[key];
 		});
 
-		ContentBlocks.getBlockWithTarget(target).addContentBlockItem(new ContentBlockItem(data));
+		CurrentContentBlockPages.getPageBlockWithTarget(target).addContentBlockItem(new ContentBlockItem(data));
 
 	}
 
@@ -215,8 +215,8 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 		});
 
 		var contentBlockItem=new ContentBlockGroupItem(data);
-		ContentBlocks.getBlockWithTarget(target).addContentBlockItem(contentBlockItem);
-		ContentBlocks.addBlock(contentBlockItem);
+		CurrentContentBlockPages.getPageBlockWithTarget(target).addContentBlockItem(contentBlockItem);
+		CurrentContentBlockPages.registerPageBlock(contentBlockItem);
 
 		if(this._data.setNodeData){
 			this._data.setNodeData(itemData, contentBlockItem);
@@ -226,7 +226,7 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 
 	addContentBlockItem(item){
 
-		ContentBlock.prototype.addContentBlockItem.apply(this, arguments);
+		ContentBlockPage.prototype.addContentBlockItem.apply(this, arguments);
 
 	}
 

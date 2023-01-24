@@ -3,7 +3,7 @@ import {
 } from './ChildNodeLinks.js';
 
 import {
-	ContentBlock
+	ContentBlockPage
 } from '../ContentBlock.js';
 
 import {
@@ -58,7 +58,7 @@ export class SurveySection extends SectionTemplate {
 
 		var codeSection = new Element('section', {
 			html: "<label>Navigation Script</label>" +
-				"<p>return the child index, or a child nodes uuid (or prefix)</p><p>(formData, renderer)=>{</p>",
+				"<p>return the child index, or a child nodes uuid (or prefix)</p><p>(formData:object, pageData:object, renderer:SurveyRenderer)=>{</p>",
 			"class": "code-content-item collapse"
 		})
 
@@ -99,13 +99,19 @@ export class SurveySection extends SectionTemplate {
 
 		var addContentBlockSection = (itemData) => {
 
-			var block = new ContentBlock(section, contentBlocksContainer, itemData);
+			var block = new ContentBlockPage(section, contentBlocksContainer, itemData);
+
+			block.setLoader((itemData)=>{
+
+				(itemData.items || []).forEach((blockData) => {
+					this._panel.getItem(blockData.type).createInstance(block, blockData);
+				});
+
+			}).setData();
 
 			contentBlocks.push(block);
 
-			(itemData.items || []).forEach((blockData) => {
-				this._panel.getItem(blockData.type).createInstance(block, blockData);
-			})
+
 
 			block.on('remove', () => {
 				var i = contentBlocks.indexOf(block);

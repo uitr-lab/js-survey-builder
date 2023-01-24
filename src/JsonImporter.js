@@ -10,6 +10,10 @@ export class JsonImporter {
 
 	loadFromObject(object){
 
+
+		
+
+
 		this._importable.clear();
 		this._importable.setData({nodes:[object]});
 

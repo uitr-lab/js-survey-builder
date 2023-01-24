@@ -14,6 +14,10 @@
             {
                "type": "html",
                "html": "<h2>Hello world {{now|date(\"F jS\")}}</h2>"
+            },
+            {
+               "type": "defaultData",
+               "data": "{\n\"members\":{\"i\":0, \"total\":1},\n\"trips\":{\"i\":0, \"total\":1},\n\"activities\":{\"i\":0, \"total\":1}\n}"
             }
          ]
       }
@@ -31,19 +35,15 @@
                "type": "set",
                "items": [
                   {
-                     "type": "defaultData",
-                     "data": "{\n\"loop\":{\"i\":0, \"total\":1},\n\"memberDetails\":[]\n}"
-                  },
-                  {
                      "type": "script",
-                     "script": "\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.loop.i)\n\n\n"
+                     "script": "\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\n\n\n"
                   },
                   {
                      "type": "markdown",
-                     "text": "\n\n{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'This is ridiculous-th'] %}\n\n\n\n# Person Profile: {{indexNumbers[loop.i]}} Household Member\n\n\n&nbsp;\n&nbsp;\n\n> please add a profile for each person in the household.\n\n&nbsp;\n&nbsp;\n"
+                     "text": "\n\n{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'This is ridiculous-th'] %}\n\n\n\n# Person Profile: {{indexNumbers[members.i]}} Household Member\n\n\n&nbsp;\n&nbsp;\n\n> please add a profile for each person in the household.\n\n&nbsp;\n&nbsp;\n"
                   },
                   {
-                     "fieldName": "personName{{loop.i}}",
+                     "fieldName": "personName",
                      "type": "textfield",
                      "label": "Person Name",
                      "placeholder": "add name or initial"
@@ -53,22 +53,22 @@
                      "legend": "Some Legend",
                      "items": [
                         {
-                           "fieldName": "gender{{loop.i}}",
+                           "fieldName": "gender",
                            "type": "radio",
                            "values": "male, female",
                            "defaultValue": "",
                            "labels": "Male, Female",
                            "default": "none",
-                           "label": "{{loop.i}} Gender of this person"
+                           "label": "Gender of this person"
                         },
                         {
-                           "fieldName": "age{{loop.i}}",
+                           "fieldName": "age",
                            "type": "textfield",
                            "label": "Age of this person",
                            "placeholder": "years"
                         },
                         {
-                           "fieldName": "hasLicense{{loop.i}}",
+                           "fieldName": "hasLicense",
                            "value": "Some Value",
                            "type": "checkbox",
                            "label": "Person has a valid driver's license?",
@@ -78,7 +78,7 @@
                            "falseLabel": "No"
                         },
                         {
-                           "fieldName": "isComercialDriver{{loop.i}}",
+                           "fieldName": "isComercialDriver",
                            "value": "Some Value",
                            "type": "checkbox",
                            "label": "Person is employed as a commercial driver",
@@ -92,7 +92,7 @@
                            "text": "This person is: (Check all that apply)"
                         },
                         {
-                           "fieldName": "someOptionA{{loop.i}}",
+                           "fieldName": "someOptionA",
                            "value": "Some Value",
                            "type": "checkbox",
                            "label": "Yes",
@@ -102,7 +102,7 @@
                            "falseLabel": "No"
                         },
                         {
-                           "fieldName": "someOptionB{{loop.i}}",
+                           "fieldName": "someOptionB",
                            "value": "Some Value",
                            "type": "checkbox",
                            "label": "Yes",
@@ -122,37 +122,37 @@
                            "text": "If this person works, please list thier workplaces"
                         },
                         {
-                           "fieldName": "work1_{{loop.i}}",
+                           "fieldName": "work1",
                            "type": "textfield",
                            "label": "Name of work 1",
                            "placeholder": ""
                         },
                         {
-                           "fieldName": "address1_{{loop.i}}",
+                           "fieldName": "address1",
                            "type": "textfield",
                            "label": "Address",
                            "placeholder": "answer here"
                         },
                         {
-                           "fieldName": "municipality1_{{loop.i}}",
+                           "fieldName": "municipality1",
                            "type": "textfield",
                            "label": "Municipality",
                            "placeholder": "answer here"
                         },
                         {
-                           "fieldName": "work2_{{loop.i}}",
+                           "fieldName": "work2",
                            "type": "textfield",
                            "label": "Name of work 2",
                            "placeholder": ""
                         },
                         {
-                           "fieldName": "address2_{{loop.i}}",
+                           "fieldName": "address2",
                            "type": "textfield",
                            "label": "Address",
                            "placeholder": "answer here"
                         },
                         {
-                           "fieldName": "municipality2_{{loop.i}}",
+                           "fieldName": "municipality2",
                            "type": "textfield",
                            "label": "Municipality",
                            "placeholder": "answer here"
@@ -168,19 +168,19 @@
                            "text": "If this person is a student, please list thier school"
                         },
                         {
-                           "fieldName": "school{{loop.i}}",
+                           "fieldName": "school",
                            "type": "textfield",
                            "label": "Name of School",
                            "placeholder": ""
                         },
                         {
-                           "fieldName": "addressSchool{{loop.i}}",
+                           "fieldName": "addressSchool",
                            "type": "textfield",
                            "label": "Address",
                            "placeholder": ""
                         },
                         {
-                           "fieldName": "municipalitySchool{{loop.i}}",
+                           "fieldName": "municipalitySchool",
                            "type": "textfield",
                            "label": "Municipality",
                            "placeholder": ""
@@ -196,7 +196,7 @@
                            "text": "Does this person drive him/herself to work or school?"
                         },
                         {
-                           "fieldName": "drives{{loop.i}}",
+                           "fieldName": "drives",
                            "value": "Some Value",
                            "type": "checkbox",
                            "label": "Yes",
@@ -207,7 +207,7 @@
                            "falseLabel": "No"
                         },
                         {
-                           "fieldName": "paysParking{{loop.i}}",
+                           "fieldName": "paysParking",
                            "type": "radio",
                            "values": "free, employer, partial-employer, personal",
                            "defaultValue": "",
@@ -230,7 +230,7 @@
                ]
             }
          ],
-         "navigationLogic": "\n//reset form nested loops\nrenderer.useFormData();\n\nif(formData.memberDetails[formData.loop.i].addAnother==='on'){\n  var loop=renderer.getFormValue('loop');\n  if(typeof loop=='undefined'){\n    loop={i:-1, total:1};\n  }\n  loop.i++;\n  loop.total++;\n  renderer.setFormValue('loop', loop);\n  renderer.setFormValue('addAnother', 'off');\n  return '4b7f0';\n}\n\nvar loop=renderer.getFormValue('loop');\nloop.i=0;\nrenderer.setFormValue('loop', loop);\n\nreturn 'cb46d';",
+         "navigationLogic": "\n\nif(formData.memberDetails[formData.members.i].addAnother==='on'){\n  var members=renderer.getFormValue('members');\n  if(typeof members=='undefined'){\n    members={i:-1, total:1};\n  }\n  members.i++;\n  members.total++;\n  renderer.setFormValue('members', members);\n  renderer.setFormValue('addAnother', 'off');\n  return '4b7f0';\n}\n\nvar members=renderer.getFormValue('members');\nmembers.i=0;\nrenderer.setFormValue('members', members);\n\nreturn 'cb46d';",
          "then": "goto node 0",
          "nodes": [
             "cb46d44e-248c-4297-bcf3-e3955220b7a2",
@@ -247,16 +247,12 @@
                "type": "set",
                "items": [
                   {
-                     "type": "defaultData",
-                     "data": "{\n\"tripDetails\":[]\n}"
-                  },
-                  {
                      "type": "script",
-                     "script": "\n  renderer.useFormDataFieldArray(\"tripDetails\", formData.loop.i)\n\n\n"
+                     "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"tripDetails\", formData.trips.i)"
                   },
                   {
                      "type": "markdown",
-                     "text": "## Record trips for {{now|date(\"F jS\")}}\n### Did **{{memberDetails[loop.i]['personName' ~ loop.i]}}** make any trips today"
+                     "text": "## Record trips for {{now|date(\"F jS\")}}\n### Did **{{memberDetails[members.i].personName}}** make any trips today"
                   },
                   {
                      "fieldName": "madeTrips",
@@ -270,7 +266,7 @@
                ]
             }
          ],
-         "navigationLogic": "if(formData.tripDetails[formData.loop.i].madeTrips==='on'){\n   return '6478e';\n}\nrenderer.useFormData();\nif(formData.loop.i<formData.loop.total-1){\n   formData.loop.i++;\n   renderer.setFormValue('loop', formData.loop);\n   return 'cb46d';\n}\nreturn '8f6f3';",
+         "navigationLogic": "if(formData.memberDetails[formData.members.i].tripDetails[0].madeTrips==='on'){\n   return '6478e';\n}\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   return 'cb46d';\n}\nreturn '8f6f3';",
          "then": "goto node 0",
          "nodes": [
             {
@@ -283,63 +279,67 @@
                      "type": "set",
                      "items": [
                         {
+                           "type": "script",
+                           "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"tripDetails\", formData.trips.i)"
+                        },
+                        {
                            "type": "markdown",
-                           "text": "## Record trips for **{{_context['personName' ~ loop.i]}}** on {{now|date(\"F jS\")}}\n"
+                           "text": "## Record trips for **{{memberDetails[members.i].personName}}** on {{now|date(\"F jS\")}}\n"
                         },
                         {
                            "type": "fieldset",
                            "legend": "Some legend",
                            "items": [
                               {
-                                 "fieldName": "started{{loop.i}}",
+                                 "fieldName": "started",
                                  "type": "textfield",
                                  "label": "I started my first trip from",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "location{{loop.i}}",
+                                 "fieldName": "location",
                                  "type": "textfield",
                                  "label": "I went to",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "locationMunicipality{{loop.i}}",
+                                 "fieldName": "locationMunicipality",
                                  "type": "textfield",
                                  "label": "Municipality",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "startTime{{loop.i}}",
+                                 "fieldName": "startTime",
                                  "type": "textfield",
                                  "label": "Start Time",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "arrivalTIme{{loop.i}}",
+                                 "fieldName": "arrivalTIme",
                                  "type": "textfield",
                                  "label": "Arrival time",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "tripPurpose{{loop.i}}",
+                                 "fieldName": "tripPurpose",
                                  "type": "textfield",
                                  "label": "Trip Purpose",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "tripMethod{{loop.i}}",
+                                 "fieldName": "tripMethod",
                                  "type": "textfield",
                                  "label": "Method of travel",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "numberOfPeople{{loop.i}}",
+                                 "fieldName": "numberOfPeople",
                                  "type": "textfield",
                                  "label": "If by auto: Number of people in car",
                                  "placeholder": "answer here"
                               },
                               {
-                                 "fieldName": "autoAvaliable{{loop.i}}",
+                                 "fieldName": "autoAvaliable",
                                  "value": "Some Value",
                                  "type": "checkbox",
                                  "label": "If not by auto: Was an auto available",
@@ -350,7 +350,7 @@
                            ]
                         },
                         {
-                           "fieldName": "hasNextLocation{{loop.i}}",
+                           "fieldName": "hasNextLocation",
                            "value": "Some Value",
                            "type": "checkbox",
                            "label": "Add another trip",
@@ -361,15 +361,16 @@
                      ]
                   }
                ],
-               "navigationLogic": "renderer.useFormData();\nif(formData.loop.i<formData.loop.total-1){\n   formData.loop.i++;\n   renderer.setFormValue('loop', formData.loop);\n   return 'cb46d';\n}\nreturn '8f6f3';",
+               "navigationLogic": "if(pageData.hasNextLocation==='on'){\n  var trips=renderer.getFormValue('trips');\n  trips.i++;\n  trips.total++;\n  renderer.setFormValue('trips', trips);\n  return '6478e';\n}\n\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   renderer.setFormValue('trips', {i:0, total:1});\n   return 'cb46d';\n}\n\n\nvar members=formData.members;\nmembers.i=0;\nrenderer.setFormValue('members', members);\n\nreturn '8f6f3';",
                "then": "goto node 0",
                "nodes": [
                   "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65",
-                  "cb46d44e-248c-4297-bcf3-e3955220b7a2"
+                  "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+                  "6478e134-dd4b-4be6-be7a-415aecbfbe09"
                ]
             },
             {
-               "name": "Thank You",
+               "name": "Check Home Activities",
                "type": "section",
                "uuid": "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65",
                "items": [
@@ -378,14 +379,88 @@
                      "type": "set",
                      "items": [
                         {
+                           "type": "script",
+                           "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"homeActivities\", formData.activities.i)"
+                        },
+                        {
                            "type": "markdown",
-                           "text": "That's it. See you tomorrow "
+                           "text": "## Record activities for {{now|date(\"F jS\")}}\n### Did **{{memberDetails[members.i].personName}}** have any in home activities"
+                        },
+                        {
+                           "fieldName": "hasActivities",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
                         }
                      ]
                   }
                ],
-               "navigationLogic": "return 0;",
-               "then": "terminate"
+               "navigationLogic": "if(pageData.hasActivities==='on'){\n   return '4d31e';\n}\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   return '8f6f3';\n}\nreturn '8f6f3';",
+               "then": "goto node 0",
+               "nodes": [
+                  {
+                     "name": "Home Activities",
+                     "type": "section",
+                     "uuid": "4d31e615-edc2-4733-a93c-1d5bfd6adf1e",
+                     "items": [
+                        {
+                           "name": "Page One",
+                           "type": "set",
+                           "items": [
+                              {
+                                 "type": "script",
+                                 "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"homeActivities\", formData.activities.i)"
+                              },
+                              {
+                                 "fieldName": "textInput{i}",
+                                 "type": "textfield",
+                                 "label": "Some Label",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "addAnother",
+                                 "value": "Some Value",
+                                 "type": "checkbox",
+                                 "label": "Yes",
+                                 "defaultValue": false,
+                                 "trueLabel": "Yes",
+                                 "falseLabel": "No"
+                              }
+                           ]
+                        }
+                     ],
+                     "navigationLogic": "if(pageData.addAnother==='on'){\n  var activities=renderer.getFormValue('activities');\n  activities.i++;\n  activities.total++;\n  renderer.setFormValue('activities', activities);\n  return '4d31e';\n}\n\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   renderer.setFormValue('activities', {i:0, total:1});\n   return '8f6f3';\n}\n\n\nvar members=formData.members;\nmembers.i=0;\nrenderer.setFormValue('members', members);\n\nreturn '1061b';",
+                     "then": "goto node 0",
+                     "nodes": [
+                        "1061b985-5185-46b1-a1bf-9a07fd842168",
+                        "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65",
+                        "4d31e615-edc2-4733-a93c-1d5bfd6adf1e"
+                     ]
+                  },
+                  {
+                     "name": "Thank you",
+                     "type": "section",
+                     "uuid": "1061b985-5185-46b1-a1bf-9a07fd842168",
+                     "items": [
+                        {
+                           "name": "Page One",
+                           "type": "set",
+                           "items": [
+                              {
+                                 "type": "markdown",
+                                 "text": "##Thank you! see you tomorrow "
+                              }
+                           ]
+                        }
+                     ],
+                     "navigationLogic": "return 0;",
+                     "then": "terminate"
+                  },
+                  "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65"
+               ]
             },
             "cb46d44e-248c-4297-bcf3-e3955220b7a2"
          ]

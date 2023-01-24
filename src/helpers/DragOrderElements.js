@@ -14,7 +14,6 @@ export class DragOrderElements extends EventEmitter{
 
 	}
 
-
 	addItem(item){
 
 
@@ -68,6 +67,12 @@ export class DragOrderElements extends EventEmitter{
 
 
 
+	}
+
+	removeItem(item){
+
+
+		
 	}
 
 

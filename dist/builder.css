@@ -18,7 +18,7 @@
     box-shadow: 0 0 3px #00000042;
 }
 
-button.publish-btn, button.reset-btn {
+button.publish-btn, button.reset-btn, button.save-btn {
     background-color: #03a9f4;
     position: absolute;
     right: 50%;
@@ -27,6 +27,11 @@ button.publish-btn, button.reset-btn {
 button.reset-btn {
     right: calc( 50% + 200px);
     background-color: #c2c2c2;
+}
+
+button.save-btn {
+    right: calc( 50% + 285px);
+    background-color: mediumaquamarine;
 }
 
 button.view-toggle-btn {

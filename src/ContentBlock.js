@@ -7,13 +7,17 @@ import  { EventEmitter } from  'events';
 
 import  { DragOrderElements } from  './helpers/DragOrderElements.js';
 
-class ContenBlockList extends EventEmitter {
+import {
+	JsonExporter
+} from './JsonExporter.js';
+
+class SharedContentBlockList extends EventEmitter {
 
 	constructor(){
 		super();
 	}
 
-	addBlock(item){
+	registerPageBlock(item){
 
 		if(!this._items){
 			this._items=[];
@@ -47,7 +51,7 @@ class ContenBlockList extends EventEmitter {
 	}
 
 
-	getBlockWithTarget(target){
+	getPageBlockWithTarget(target){
 
 		var matches=(this._items||[]).filter((item)=>{
 			return item===target||item.getElement()===target||item.getContainer()===target||(item.getTarget&&item.getTarget()===target);
@@ -65,10 +69,10 @@ class ContenBlockList extends EventEmitter {
 }
 
 
-export const ContentBlocks=new ContenBlockList();
+export const CurrentContentBlockPages=new SharedContentBlockList();
 
 
-export class ContentBlock extends EventEmitter {
+export class ContentBlockPage extends EventEmitter {
 
 
 	constructor(node, container, data){
@@ -104,6 +108,17 @@ export class ContentBlock extends EventEmitter {
 
 					this.emit('preview');
 
+				}
+			}
+		}));
+
+
+		this._container.appendChild(new Element('button', {
+			"class":"json-btn",
+			"html":'Edit/Import',
+			events:{
+				click:()=>{
+					(new JsonExporter(this)).showOverlay();
 				}
 			}
 		}));
@@ -150,7 +165,7 @@ export class ContentBlock extends EventEmitter {
 			node.emit('updateNode');
 		});
 
-		ContentBlocks.addBlock(this);
+		CurrentContentBlockPages.registerPageBlock(this);
 
 		node.emit('updateNode');
 
@@ -158,6 +173,25 @@ export class ContentBlock extends EventEmitter {
 
 		
 	
+	}
+
+	setLoader(loader){
+		this._loader=loader;
+		return this;
+	}
+
+	clear(){
+		(this._items||[]).forEach((item)=>{
+			item.remove();
+		});
+	}
+
+	setData(data){
+
+		if(this._loader){
+			this._loader(data||this._data);
+		}
+
 	}
 
 

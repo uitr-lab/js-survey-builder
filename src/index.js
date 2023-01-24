@@ -120,18 +120,14 @@ graph.addMenuItem(new Element('button', {
 
 
 graph.addMenuItem(new Element('button', {
-	"class":'run-btn',
+	"class":'save-btn',
 	html: 'Save/Load',
 	events: {
 		click: () => {
 
-			var renderer=new SurveyRenderer();
-			renderer.displayInfo();
-			var overlay=new Overlay(renderer.render((new JsonExporter(graph)).getData()));
+			var overlay=new Overlay('Save');
 			overlay.fullscreen();
-			renderer.on('complete', ()=>{
-				overlay.close();
-			});
+			
 		}
 	}
 }));
