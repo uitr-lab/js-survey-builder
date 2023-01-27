@@ -29,6 +29,9 @@ import {
 } from './helpers/SurveySection.js';
 
 
+import {
+	toDataURL
+} from 'qrcode';
 
 import {Overlay} from './Overlay.js'
 
@@ -48,6 +51,25 @@ var toggleView=graph.getContainer().appendChild(new Element('button',{
 			document.body.classList.add('graph-view');
 			graph.redrawGraph();
 			toggleView.innerHTML='List View';
+		}
+	}
+}))
+
+
+var languageToggle=graph.getContainer().appendChild(new Element('button',{
+	"html":"Languages",
+	"class":"language-toggle-btn",
+	events:{
+		click:()=>{
+			if(document.body.classList.contains('language-view')){
+				document.body.classList.remove('language-view');
+				graph.redrawList();
+				languageToggle.innerHTML='Languages';
+				return;
+			}
+			document.body.classList.add('language-view');
+			graph.redrawLanguage();
+			languageToggle.innerHTML='Form Builder';
 		}
 	}
 }))
@@ -92,6 +114,7 @@ graph.addMenuItem(new Element('a', {
 
 
 graph.addMenuItem(new Element('button', {
+	"class":"btn-export",
 	html: 'Import/Export JSON',
 	events: {
 		click: () => {
@@ -211,6 +234,11 @@ graph.on('modeGraph', ()=>{
 	panel.disable();
 })
 
+graph.on('modeLang', ()=>{
+	panel.disable();
+})
+
+
 graph.on('modeList', ()=>{
 	panel.enable();
 })
@@ -329,6 +357,16 @@ panel.addItem(new ContentBlockItem({
 
 }));
 
+panel.addItem(new ContentBlockItem({
+	
+	name: "QRCode",
+	description: "display a QR code",
+	type: "qrcode",
+	previewHtml:()=>{ return toDataURL('https://uitr.ok.ubc.ca/').then((data)=>{ return '<img style="height: 50px; position: absolute; right: 10px; bottom: 10px;" src="'+data+'"/>'; }); },
+	formHtml:'<label> Data/Url: </label><textarea name="data">'+'https://uitr.ok.ubc.ca/'+'</textarea>'
+
+}));
+
 
 var preview=new Element('div');
 preview.innerText='<p>Hello world</p>';
@@ -366,3 +404,6 @@ graph.on('update', function() {
 	}, 500);
 
 });
+
+
+

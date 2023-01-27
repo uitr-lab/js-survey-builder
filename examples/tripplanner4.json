@@ -12,12 +12,52 @@
                "text": "## Introduction page\n\n### About this survey\n\nThis survey is being conducted by the UiTR lab\n\n&nbsp;\n\n### Instructions\n\n - Add members of your family\n - Record trips taken every day, for each family member \n\n&nbsp;\n\n### Privacy\n\n - your data is hosted on secure servers at UBC\n - your data will only be accessed by approved researchers\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n"
             },
             {
-               "type": "html",
-               "html": "<h2>Hello world {{now|date(\"F jS\")}}</h2>"
-            },
-            {
                "type": "defaultData",
                "data": "{\n\"members\":{\"i\":0, \"total\":1},\n\"trips\":{\"i\":0, \"total\":1},\n\"activities\":{\"i\":0, \"total\":1}\n}"
+            }
+         ]
+      },
+      {
+         "name": "Page Two",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Access Code"
+            },
+            {
+               "type": "fieldset",
+               "legend": "",
+               "items": [
+                  {
+                     "type": "label",
+                     "text": "Enter your unique access code"
+                  },
+                  {
+                     "fieldName": "accessCode",
+                     "type": "textfield",
+                     "label": "Access Code",
+                     "placeholder": ""
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "Page Three",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Information about the mobile app\nEach member of your family with with a mobile device can participate using their device"
+            },
+            {
+               "type": "qrcode",
+               "data": "https://uitr.ok.ubc.ca/{{accessCode}}"
+            },
+            {
+               "type": "html",
+               "html": "<a href=\"https://uitr.ok.ubc.ca/{{accessCode}}\">Mobile app link</a>"
             }
          ]
       }
@@ -214,6 +254,16 @@
                            "labels": "Parking is free, Fully paid for by employee, partial-employer, personal",
                            "default": "none",
                            "label": "Who pays for parking?"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "Synchronize this users device",
+                     "items": [
+                        {
+                           "type": "qrcode",
+                           "data": "https://uitr.ok.ubc.ca/{{accessCode}}/{{formData.members.i}}"
                         }
                      ]
                   },
@@ -415,16 +465,16 @@
                                  "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"homeActivities\", formData.activities.i)"
                               },
                               {
-                                 "fieldName": "textInput{i}",
+                                 "fieldName": "activityType",
                                  "type": "textfield",
-                                 "label": "Some Label",
+                                 "label": "Activity Type",
                                  "placeholder": "answer here"
                               },
                               {
                                  "fieldName": "addAnother",
                                  "value": "Some Value",
                                  "type": "checkbox",
-                                 "label": "Yes",
+                                 "label": "Add another activity",
                                  "defaultValue": false,
                                  "trueLabel": "Yes",
                                  "falseLabel": "No"

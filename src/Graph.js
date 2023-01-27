@@ -13,12 +13,13 @@ import {
 	GraphNodeArrow
 } from './GraphNodeArrow.js'
 
-
 import {
 	SectionTemplate
 } from './SectionTemplate.js'
 
-
+import {
+	Localizations
+} from './helpers/Localizations.js'
 
 export class Graph extends GraphNode {
 
@@ -67,6 +68,31 @@ export class Graph extends GraphNode {
 			this.emit('update');
 		});
 
+
+		this.on('modeGraph',()=>{
+
+			if(this._labelsContainer){
+				this._labelsContainer.remove();
+				this._labelsContainer=null;
+			}
+			this._container.classList.remove('disabled');
+
+		});
+		this.on('modeList',()=>{
+
+			if(this._labelsContainer){
+				this._labelsContainer.remove();
+				this._labelsContainer=null;
+			}
+			this._container.classList.remove('disabled');
+
+		});
+		this.on('modeLang',()=>{
+
+			this._container.classList.add('disabled');
+
+		});
+
 	}
 
 	static render(el) {
@@ -94,6 +120,7 @@ export class Graph extends GraphNode {
 	}
 
 	renderNode(node) {
+
 
 
 		if (this._displayMode !== 'graph') {
@@ -160,6 +187,7 @@ export class Graph extends GraphNode {
 
 
 	redrawList() {
+
 		this._displayMode = 'list';
 
 		this.getNodesRecurse().forEach((node) => {
@@ -176,6 +204,8 @@ export class Graph extends GraphNode {
 	}
 
 	redrawGraph() {
+
+		
 		this._displayMode = 'graph';
 		this.getNodesRecurse().forEach((node) => {
 			this.renderNode(node);
@@ -184,6 +214,14 @@ export class Graph extends GraphNode {
 		this.emit('modeGraph');
 	}
 
+
+	redrawLanguage() {
+		
+		this._displayMode = 'lang';
+		this._labelsContainer=new Localizations(this, this._parentContainer);
+
+		this.emit('modeLang');
+	}
 
 
 	addMenuItem(el) {

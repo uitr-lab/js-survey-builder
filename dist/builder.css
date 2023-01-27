@@ -9,7 +9,9 @@
     margin: 15px;
 }
 
-.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, button.update-btn, button.add-node-btn, button.insert-node-btn,  button.view-toggle-btn {
+.graph-node button, .graph-menu button, button.close-btn, button.copy-btn, 
+button.update-btn, button.add-node-btn, button.insert-node-btn,  
+button.view-toggle-btn, button.language-toggle-btn, button.btn-new-lang {
     background: mediumaquamarine;
     padding: 10px 20px;
     border: none;
@@ -37,18 +39,29 @@ button.save-btn {
 button.view-toggle-btn {
     position: fixed;
     top: 24px;
+    right: 150px;
+}
+
+button.language-toggle-btn{
+    position: fixed;
+    top: 24px;
     right: 24px;
 }
 
 label.view-toggle-arrows {
     position: fixed;
     top: 30px;
-    right: 150px;
+    right: 266px;
 }
 
 .graph-view label.view-toggle-arrows {
     display: none;
 }
+
+.language-view button.view-toggle-btn, .language-view .view-toggle-arrows {
+    display:none;
+}
+
 
 .graph-node.section-node {
     text-align: left;
@@ -82,6 +95,7 @@ label.view-toggle-arrows {
     box-sizing: border-box;
     background: #000000ba;
     backdrop-filter: blur(10px);
+    z-index: 1;
 }
 
 .graph-menu a {
@@ -523,6 +537,10 @@ section.content-item:after {
     display:none;
 }
 
+.graph-root.disabled .node-container{
+    display:none;
+}
+
 
 .block-item {
     position: relative;
@@ -547,6 +565,31 @@ section.content-item:after {
     font-weight: 100;
     top: 0;
     
+}
+
+button.json-btn:after {
+    content: "</>";
+    font-size: 15px;
+    font-family: monospace;
+    color: #2a5097;
+   
+}
+button.btn-export:before {
+    content: "</> ";
+    font-size: 15px;
+    font-family: monospace;
+    color: #2a5097;
+}
+
+
+button.json-btn {
+    font-size: 0;
+    background: transparent;
+    box-shadow: none;
+    position: absolute;
+    right: 50px;
+    bottom: 10px;
+    padding: 0;
 }
 
 
@@ -756,6 +799,7 @@ button.run-btn:before {
     opacity: 0.5;
     font-size: 11px;
     padding: 10px 20px;
+    position: relative;
 }
 
 
@@ -904,6 +948,89 @@ body.show-panel.hide-arrows .arrow {
 
 
 
+
+.graph-labels form, .graph-labels .add-lang{
+    display: inline-block;
+    width: min-content;
+    padding: 20px 0;
+    background: rgba(0,0,0,0.2);
+    margin: 10px 0;
+    backdrop-filter: blur(4px);
+    vertical-align: top;
+    white-space: normal;
+}
+
+.graph-labels form>input, .graph-labels input.new-lang {
+    width: 400px;
+    height: 50px;
+    margin: 5px 0;
+    padding: 0 10px;
+}
+
+
+.graph-labels input.lang-key, .graph-labels input.new-lang{
+    background-color: transparent;
+    border: none;
+    font-size: 25px;
+}
+
+.graph-labels {
+    margin-bottom: 100px;
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: 300px;
+}
+
+
+.graph-labels .add-lang>input {
+    width: 50px;
+    margin: 5px;
+}
+
+.graph-labels .add-lang {
+    white-space: nowrap;
+    margin: 10px;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.graph-labels button.btn-new-lang {
+    vertical-align: super;
+}
+
+.graph-labels form {
+    border-left: 1px solid rgba(0,0,0,0.2);
+}
+
+.graph-labels h2+form {
+    padding-left: 20px;
+    border-radius: 4px 0 0 4px;
+    margin:10px 0 10px 10px;
+    border-left:none;
+}
+
+.graph-labels form:has(+div) {
+    padding-right: 20px;
+    border-radius: 0 4px 4px 0;
+    margin:10px 10px 10px 0;
+}
+
+.graph-labels form>input {
+    border: 1px solid;
+    border-right: none;
+    border-left: none;
+}
+
+
+.graph-labels form:has(+div)>input {
+    border-right: 1px solid;
+   
+}
+
+.graph-labels h2+form>input {
+    border-left: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.2);
+}
 
 
 form.survey-view,  pre.survey-data{

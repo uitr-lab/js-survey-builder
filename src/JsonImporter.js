@@ -1,4 +1,9 @@
 
+import {
+	QParser
+} from './helpers/QParser.js';
+
+
 export class JsonImporter {
 
 
@@ -11,7 +16,11 @@ export class JsonImporter {
 	loadFromObject(object){
 
 
-		
+		if(object.SurveyEntry){
+
+			object=(new QParser()).parse(object);
+
+		}
 
 
 		this._importable.clear();

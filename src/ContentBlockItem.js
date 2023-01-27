@@ -33,9 +33,29 @@ export class ContentBlockItem extends EventEmitter{
 		});
 
 		if(this._data.previewHtml){
+
+			var html=this._data.previewHtml;
+
+			if(typeof html=='function'){
+				html=this._data.previewHtml();
+				if(html instanceof Promise){
+					var p=el.appendChild(new Element('div', {
+						"class":"preview"
+					}));
+					html.then((html)=>{
+						p.innerHTML=html;
+					});
+					return el;
+
+				}
+
+
+
+			}
+
 			el.appendChild(new Element('div', {
 				"class":"preview",
-				html:this._data.previewHtml
+				html:html
 			}));
 		}
 
