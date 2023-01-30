@@ -57,7 +57,7 @@
             },
             {
                "type": "html",
-               "html": "<a href=\"https://uitr.ok.ubc.ca/{{accessCode}}\">Mobile app link</a>"
+               "html": "<br/>\n<a href=\"https://uitr.ok.ubc.ca/{{accessCode}}\">Mobile app link</a>"
             }
          ]
       }
@@ -264,6 +264,10 @@
                         {
                            "type": "qrcode",
                            "data": "https://uitr.ok.ubc.ca/{{accessCode}}/{{formData.members.i}}"
+                        },
+                        {
+                           "type": "html",
+                           "html": "{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'This is ridiculous-th'] %}\n<br/>\n<a href=\"https://uitr.ok.ubc.ca/{{accessCode}}/{{formData.members.i}}\">{{indexNumbers[members.i]}} Household members mobile link<a>"
                         }
                      ]
                   },
