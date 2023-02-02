@@ -80,8 +80,12 @@ export class ContentBlockPage extends EventEmitter {
 		super();
 
 		this._container=container.appendChild(new Element('section', {
-			html:'<label>'+data.name+'</label>',
 			"class":"content-item empty"
+		}));
+
+
+		this._label=this._container.appendChild(new Element('label',{
+			html:data.name
 		}));
 
 
@@ -181,16 +185,20 @@ export class ContentBlockPage extends EventEmitter {
 	}
 
 	clear(){
-		(this._items||[]).forEach((item)=>{
+		(this._items||[]).slice(0).forEach((item)=>{
 			item.remove();
 		});
 	}
 
 	setData(data){
 
+		data=data||this._data;
+
 		if(this._loader){
-			this._loader(data||this._data);
+			this._loader(data);
 		}
+
+		this._label.innerHTML=data.name||this._label.innerHTML;
 
 	}
 

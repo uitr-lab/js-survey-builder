@@ -71,6 +71,11 @@ export class ContentBlockItem extends EventEmitter{
 		return this._container;
 	}
 
+	getElementDragHandle(){
+		return this._container.firstChild;
+
+	}
+
 	getInstanceElement(){
 
 
@@ -81,7 +86,7 @@ export class ContentBlockItem extends EventEmitter{
 
 		var el= new Element('div', {
 			"html":label,
-			"class":"block-item"
+			"class":"block-item item-type-"+this.getType()
 		});
 
 

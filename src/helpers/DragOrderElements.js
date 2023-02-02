@@ -17,7 +17,7 @@ export class DragOrderElements extends EventEmitter{
 	addItem(item){
 
 
-		return;
+		//return;
 
 		var element=item.getElementDragContainer?item.getElementDragContainer():item.getElement()
 

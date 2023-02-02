@@ -28,6 +28,12 @@ export class JsonExporter {
 		var rawData=this._exportable.getData();
 
 		if(this._exportable instanceof Graph){
+
+			if(this._exportable.getDisplayMode()==='lang'){
+				return JSON.parse(JSON.stringify(this._exportable.getLocalizations().getData()));
+			}
+
+
 			return JSON.parse(JSON.stringify(rawData.nodes[0]));
 		}
 
@@ -73,6 +79,16 @@ export class JsonExporter {
 						if(!data){
 							throw 'Invalid JSON';
 						}
+
+
+						if(this._exportable instanceof Graph){
+
+							if(this._exportable.getDisplayMode()==='lang'){
+								this._exportable.getLocalizations().updateData(data);
+								return;
+							}
+						}
+
 
 						(new JsonImporter(this._exportable)).loadFromObject(data);
 					}

@@ -56,7 +56,7 @@ var toggleView=graph.getContainer().appendChild(new Element('button',{
 }))
 
 
-var languageToggle=graph.getContainer().appendChild(new Element('button',{
+var languageToggle=graph.getContainer().appendChild(new Element('button', {
 	"html":"Languages",
 	"class":"language-toggle-btn",
 	events:{
@@ -68,11 +68,24 @@ var languageToggle=graph.getContainer().appendChild(new Element('button',{
 				return;
 			}
 			document.body.classList.add('language-view');
-			graph.redrawLanguage();
+			var lang=graph.redrawLanguage();
+
+			lang.on('update', (languageMap)=>{
+				localStorage.setItem('laguageData', JSON.stringify(languageMap));
+			});
+
+			var storedData = localStorage.getItem('laguageData');
+			if (storedData) {
+				storedData=JSON.parse(storedData);
+				lang.updateData(storedData);
+			}
+			
+
+			
 			languageToggle.innerHTML='Form Builder';
 		}
 	}
-}))
+}));
 
 
 
@@ -216,6 +229,12 @@ graph.addMenuItem(new Element('button', {
 	html: 'Reset',
 	events: {
 		click: () => {
+
+			if(graph.getDisplayMode()==='lang'){
+				graph.getLocalizations().clear();
+				return;
+			}
+
 			graph.clear();
 			graph.add('section');
 			
@@ -379,6 +398,29 @@ panel.addItem(new ContentBlockItem({
 	type: "html",
 	previewHtml:preview.innerHTML,
 	formHtml:'<label> Html: </label><textarea name="html">'+preview.innerHTML+'</textarea>'
+
+}));
+
+
+
+panel.addItem(new ContentBlockItem({
+	
+	name: "Validation",
+	description: "validate form values",
+	type: "validation",
+	previewHtml:'{ "variable1":true, "variable2":false ... }',
+	formHtml:'<label> Validation Data: </label><textarea name="data">'+'{ "variable1":true, "variable2":false }'+'</textarea>'+
+	'<label> Validation Rules: </label><textarea name="rules">'+'{}'+'</textarea>'
+
+}));
+
+panel.addItem(new ContentBlockItem({
+	
+	name: "Transform",
+	description: "transform form data",
+	type: "transform",
+	previewHtml:'pageData.someField=parseInt(pageData.someField);',
+	formHtml:'<label> Script: </label><textarea name="script">'+''+'</textarea>'
 
 }));
 

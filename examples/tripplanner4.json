@@ -38,6 +38,11 @@
                      "type": "textfield",
                      "label": "Access Code",
                      "placeholder": ""
+                  },
+                  {
+                     "type": "validation",
+                     "data": "{ \n\"accessCode\":{\n     \n      \"required\":true,\n      \"pattern\":\"^[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][\\\\-][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]$\",\n      \"message\":\"A valid access token is required. Format: ABC-123\"\n\n   }\n}",
+                     "rules": ""
                   }
                ]
             }
@@ -62,11 +67,11 @@
          ]
       }
    ],
-   "navigationLogic": "return '4b7f0';",
+   "navigationLogic": "return new Promise(function(resolve){ \n   setTimeout(function(){\n\n     if(pageData.accessCode==='abc-abc'){\n       renderer.updateFormValues({\"memberDetails\": [{\n         \"personName\": \"Jack\",\n         \"age\": 43,\n         \"work1\": \"Some Job\",\n         \"address1\": \"\",\n         \"municipality1\": \"\",\n         \"work2\": \"\",\n         \"address2\": \"\",\n         \"municipality2\": \"\",\n         \"school\": \"\",\n         \"addressSchool\": \"\",\n         \"municipalitySchool\": \"\",\n         \"hasLicense\": \"on\"\n      }\n      ]});\n      resolve('cb46d');\n\n     }\n\n\n      resolve('4b7f0');\n   }, 400);\n});",
    "then": "goto node 0",
    "nodes": [
       {
-         "name": "Family Member Details",
+         "name": "Household Member Details",
          "type": "section",
          "uuid": "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488",
          "items": [
@@ -76,7 +81,7 @@
                "items": [
                   {
                      "type": "script",
-                     "script": "\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\n\n\n"
+                     "script": "\n\n  \n\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\n\n\n  return new Promise(function(resolve){\n\n    setTimeout(function(){\n       resolve();\n    }, 400)\n    \n  });"
                   },
                   {
                      "type": "markdown",
@@ -280,6 +285,15 @@
                      "trueLabel": "Yes",
                      "falseLabel": "No",
                      "showYesNo": "on"
+                  },
+                  {
+                     "type": "transform",
+                     "script": "if(parseInt(pageData.age)+\"\"!=pageData.age.trim()){\n   return;\n}\n\nreturn {\n   age:parseInt(pageData.age)\n}"
+                  },
+                  {
+                     "type": "validation",
+                     "data": "{ \"personName\" :{\n      \"required\":true,\n      \"pattern\":\"^[a-zA-Z][a-zA-Z]\",\n      \"message\":\"Should be at least 2 characters\"\n\n   },\n   \"age\":{\n      \"required\":true,\n      \"type\":\"number\",\n      \"min\":0,\n      \"max\":115\n   }\n}",
+                     "rules": "{}"
                   }
                ]
             }

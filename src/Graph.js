@@ -71,18 +71,18 @@ export class Graph extends GraphNode {
 
 		this.on('modeGraph',()=>{
 
-			if(this._labelsContainer){
-				this._labelsContainer.remove();
-				this._labelsContainer=null;
+			if(this._localizations){
+				this._localizations.remove();
+				this._localizations=null;
 			}
 			this._container.classList.remove('disabled');
 
 		});
 		this.on('modeList',()=>{
 
-			if(this._labelsContainer){
-				this._labelsContainer.remove();
-				this._labelsContainer=null;
+			if(this._localizations){
+				this._localizations.remove();
+				this._localizations=null;
 			}
 			this._container.classList.remove('disabled');
 
@@ -98,6 +98,11 @@ export class Graph extends GraphNode {
 	static render(el) {
 		return new Graph(el);
 
+	}
+
+
+	getLocalizations(){
+		return this._localizations||null;
 	}
 
 
@@ -218,9 +223,12 @@ export class Graph extends GraphNode {
 	redrawLanguage() {
 		
 		this._displayMode = 'lang';
-		this._labelsContainer=new Localizations(this, this._parentContainer);
+		this._localizations=new Localizations(this, this._parentContainer);
 
 		this.emit('modeLang');
+
+		return this._localizations;
+
 	}
 
 

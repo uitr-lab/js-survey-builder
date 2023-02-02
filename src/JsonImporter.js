@@ -3,6 +3,9 @@ import {
 	QParser
 } from './helpers/QParser.js';
 
+import {
+	Graph
+} from './Graph.js'
 
 export class JsonImporter {
 
@@ -23,8 +26,16 @@ export class JsonImporter {
 		}
 
 
+		if(this._importable instanceof Graph){
+
+			this._importable.clear();
+			this._importable.setData({nodes:[object]});
+			return;
+
+		}
+
 		this._importable.clear();
-		this._importable.setData({nodes:[object]});
+		this._importable.setData(object);
 
 	}
 
