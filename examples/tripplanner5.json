@@ -1,0 +1,599 @@
+{
+   "name": "Trip Diary Introduction",
+   "type": "section",
+   "uuid": "ee92c75b-4ff9-4fef-bf18-1b56f17dec29",
+   "items": [
+      {
+         "name": "Page One",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Introduction page\n\n### About this survey\n\nThis survey is being conducted by the UiTR lab\n\n&nbsp;\n\n### Instructions\n\n - Add members of your family\n - Record trips taken every day, for each family member \n\n&nbsp;\n\n### Privacy\n\n - your data is hosted on secure servers at UBC\n - your data will only be accessed by approved researchers\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n"
+            },
+            {
+               "type": "defaultData",
+               "data": "{\n\"members\":{\"i\":0, \"total\":1},\n\"trips\":{\"i\":0, \"total\":1},\n\"activities\":{\"i\":0, \"total\":1},\n\"vehicles\":{\"i\":0, \"total\":1}\n}"
+            }
+         ]
+      },
+      {
+         "name": "Page Two",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Access Code"
+            },
+            {
+               "type": "fieldset",
+               "legend": "",
+               "items": [
+                  {
+                     "type": "label",
+                     "text": "Enter your unique access code"
+                  },
+                  {
+                     "fieldName": "accessCode",
+                     "type": "textfield",
+                     "label": "Access Code",
+                     "placeholder": ""
+                  },
+                  {
+                     "type": "validation",
+                     "data": "{ \n\"accessCode\":{\n     \n      \"required\":true,\n      \"pattern\":\"^[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][\\\\-][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]$\",\n      \"message\":\"A valid access token is required. Format: ABC-123\"\n\n   }\n}",
+                     "rules": ""
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "Page Three",
+         "type": "set",
+         "items": [
+            {
+               "type": "markdown",
+               "text": "## Information about the mobile app\nEach member of your family with with a mobile device can participate using their device"
+            },
+            {
+               "type": "qrcode",
+               "data": "https://uitr.ok.ubc.ca/{{accessCode}}"
+            },
+            {
+               "type": "html",
+               "html": "<br/>\n<a href=\"https://uitr.ok.ubc.ca/{{accessCode}}\">Mobile app link</a>"
+            }
+         ]
+      }
+   ],
+   "navigationLogic": "return new Promise(function(resolve){ \n   setTimeout(function(){\n\n     if(pageData.accessCode==='abc-abc'){\n       renderer.updateFormValues({\"memberDetails\": [{\n         \"personName\": \"Jack\",\n         \"age\": 43,\n         \"work1\": \"Some Job\",\n         \"address1\": \"\",\n         \"municipality1\": \"\",\n         \"work2\": \"\",\n         \"address2\": \"\",\n         \"municipality2\": \"\",\n         \"school\": \"\",\n         \"addressSchool\": \"\",\n         \"municipalitySchool\": \"\",\n         \"hasLicense\": \"on\"\n      }\n      ]});\n      \n       resolve('b739c');\n      // resolve('cb46d');\n\n     }\n\n\n     if(pageData.accessCode==='abc-def'){\n       renderer.updateFormValues({\"memberDetails\": [{\n         \"personName\": \"Jill\",\n         \"age\": 25,\n         \"work1\": \"Some Job\",\n         \"address1\": \"\",\n         \"municipality1\": \"\",\n         \"work2\": \"\",\n         \"address2\": \"\",\n         \"municipality2\": \"\",\n         \"school\": \"\",\n         \"addressSchool\": \"\",\n         \"municipalitySchool\": \"\",\n         \"hasLicense\": \"on\"\n      }\n      ], \"vehicles\":[{}]});\n      \n       //resolve('b739c');\n       resolve('cb46d');\n\n     }\n\n\n      resolve('4b7f0');\n   }, 400);\n});",
+   "then": "goto node 0",
+   "nodes": [
+      {
+         "name": "Household Member Details",
+         "type": "section",
+         "uuid": "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488",
+         "items": [
+            {
+               "name": "Page One",
+               "type": "set",
+               "items": [
+                  {
+                     "type": "script",
+                     "script": "\n\n  \n\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\n\n\n  return new Promise(function(resolve){\n\n    setTimeout(function(){\n       resolve();\n    }, 400)\n    \n  });"
+                  },
+                  {
+                     "type": "markdown",
+                     "text": "\n\n{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'This is ridiculous-th'] %}\n\n\n\n# Person Profile: {{indexNumbers[members.i]}} Household Member\n\n\n&nbsp;\n&nbsp;\n\n> please add a profile for each person in the household.\n\n&nbsp;\n&nbsp;\n"
+                  },
+                  {
+                     "fieldName": "personName",
+                     "type": "textfield",
+                     "label": "Person Name",
+                     "placeholder": "add name or initial"
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "Some Legend",
+                     "items": [
+                        {
+                           "fieldName": "gender",
+                           "type": "radio",
+                           "values": "male, female",
+                           "defaultValue": "",
+                           "labels": "Male, Female",
+                           "default": "none",
+                           "label": "Gender of this person"
+                        },
+                        {
+                           "fieldName": "age",
+                           "type": "textfield",
+                           "label": "Age of this person",
+                           "placeholder": "years"
+                        },
+                        {
+                           "fieldName": "hasLicense",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Person has a valid driver's license?",
+                           "defaultValue": false,
+                           "default": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        },
+                        {
+                           "fieldName": "isComercialDriver",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Person is employed as a commercial driver",
+                           "defaultValue": false,
+                           "default": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        },
+                        {
+                           "type": "label",
+                           "text": "This person is: (Check all that apply)"
+                        },
+                        {
+                           "fieldName": "someOptionA",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "default": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        },
+                        {
+                           "fieldName": "someOptionB",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "default": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "If this person works, please list thier workplaces"
+                        },
+                        {
+                           "fieldName": "work1",
+                           "type": "textfield",
+                           "label": "Name of work 1",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "address1",
+                           "type": "textfield",
+                           "label": "Address",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "municipality1",
+                           "type": "textfield",
+                           "label": "Municipality",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "work2",
+                           "type": "textfield",
+                           "label": "Name of work 2",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "address2",
+                           "type": "textfield",
+                           "label": "Address",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "municipality2",
+                           "type": "textfield",
+                           "label": "Municipality",
+                           "placeholder": "answer here"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "Some legend",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "If this person is a student, please list thier school"
+                        },
+                        {
+                           "fieldName": "school",
+                           "type": "textfield",
+                           "label": "Name of School",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "addressSchool",
+                           "type": "textfield",
+                           "label": "Address",
+                           "placeholder": ""
+                        },
+                        {
+                           "fieldName": "municipalitySchool",
+                           "type": "textfield",
+                           "label": "Municipality",
+                           "placeholder": ""
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "Does this person drive him/herself to work or school?"
+                        },
+                        {
+                           "fieldName": "drives",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "default": false,
+                           "showYesNo": "on",
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        },
+                        {
+                           "fieldName": "paysParking",
+                           "type": "radio",
+                           "values": "free, employer, partial-employer, personal",
+                           "defaultValue": "",
+                           "labels": "Parking is free, Fully paid for by employee, partial-employer, personal",
+                           "default": "none",
+                           "label": "Who pays for parking?"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "Synchronize this users device",
+                     "items": [
+                        {
+                           "type": "qrcode",
+                           "data": "https://uitr.ok.ubc.ca/{{accessCode}}/{{formData.members.i}}"
+                        },
+                        {
+                           "type": "html",
+                           "html": "{% set indexNumbers = [ 'First', 'Second' ,'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'This is ridiculous-th'] %}\n<br/>\n<a href=\"https://uitr.ok.ubc.ca/{{accessCode}}/{{formData.members.i}}\">{{indexNumbers[members.i]}} Household members mobile link<a>"
+                        }
+                     ]
+                  },
+                  {
+                     "fieldName": "addAnother",
+                     "value": "Some Value",
+                     "type": "checkbox",
+                     "label": "Add Another Family Member",
+                     "defaultValue": false,
+                     "trueLabel": "Yes",
+                     "falseLabel": "No",
+                     "showYesNo": "on"
+                  },
+                  {
+                     "type": "transform",
+                     "script": "if(parseInt(pageData.age)+\"\"!=pageData.age.trim()){\n   return;\n}\n\nreturn {\n   age:parseInt(pageData.age)\n}"
+                  },
+                  {
+                     "type": "validation",
+                     "data": "{ \"personName\" :{\n      \"required\":true,\n      \"pattern\":\"^[a-zA-Z][a-zA-Z]\",\n      \"message\":\"Should be at least 2 characters\"\n\n   },\n   \"age\":{\n      \"required\":true,\n      \"type\":\"number\",\n      \"min\":0,\n      \"max\":115\n   }\n}",
+                     "rules": "{}"
+                  }
+               ]
+            }
+         ],
+         "navigationLogic": "\n\nif(formData.memberDetails[formData.members.i].addAnother==='on'){\n  var members=renderer.getFormValue('members');\n  if(typeof members=='undefined'){\n    members={i:-1, total:1};\n  }\n  members.i++;\n  members.total++;\n  renderer.setFormValue('members', members);\n  renderer.setFormValue('addAnother', 'off');\n  return '4b7f0';\n}\n\nvar members=renderer.getFormValue('members');\nmembers.i=0;\nrenderer.setFormValue('members', members);\n\nreturn 'b739c';\n//return 'cb46d';",
+         "then": "goto node 0",
+         "nodes": [
+            "b739ce6f-a1c5-4ba2-82d8-c91394e7fa5f",
+            "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+            "4b7f002f-f8cd-41a4-8a0c-ab56b6b2a488"
+         ]
+      },
+      {
+         "name": "Check Member Trips",
+         "type": "section",
+         "uuid": "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+         "items": [
+            {
+               "name": "Page One",
+               "type": "set",
+               "items": [
+                  {
+                     "type": "script",
+                     "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"tripDetails\", formData.trips.i)"
+                  },
+                  {
+                     "type": "markdown",
+                     "text": "## Record trips for {{now|date(\"F jS\")}}\n### Did **{{memberDetails[members.i].personName}}** make any trips today"
+                  },
+                  {
+                     "fieldName": "madeTrips",
+                     "value": "Some Value",
+                     "type": "checkbox",
+                     "label": "Yes they did",
+                     "defaultValue": false,
+                     "trueLabel": "Yes",
+                     "falseLabel": "No"
+                  }
+               ]
+            }
+         ],
+         "navigationLogic": "if(formData.memberDetails[formData.members.i].tripDetails[0].madeTrips==='on'){\n   return '6478e';\n}\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   return 'cb46d';\n}\nreturn '8f6f3';",
+         "then": "goto node 0",
+         "nodes": [
+            {
+               "name": "Trips Made By Member",
+               "type": "section",
+               "uuid": "6478e134-dd4b-4be6-be7a-415aecbfbe09",
+               "items": [
+                  {
+                     "name": "Page One",
+                     "type": "set",
+                     "items": [
+                        {
+                           "type": "script",
+                           "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"tripDetails\", formData.trips.i)"
+                        },
+                        {
+                           "type": "markdown",
+                           "text": "## Record trips for **{{memberDetails[members.i].personName}}** on {{now|date(\"F jS\")}}\n"
+                        },
+                        {
+                           "type": "fieldset",
+                           "legend": "Some legend",
+                           "items": [
+                              {
+                                 "fieldName": "started",
+                                 "type": "textfield",
+                                 "label": "I started my first trip from",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "location",
+                                 "type": "textfield",
+                                 "label": "I went to",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "locationMunicipality",
+                                 "type": "textfield",
+                                 "label": "Municipality",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "startTime",
+                                 "type": "textfield",
+                                 "label": "Start Time",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "arrivalTIme",
+                                 "type": "textfield",
+                                 "label": "Arrival time",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "tripPurpose",
+                                 "type": "textfield",
+                                 "label": "Trip Purpose",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "tripMethod",
+                                 "type": "textfield",
+                                 "label": "Method of travel",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "numberOfPeople",
+                                 "type": "textfield",
+                                 "label": "If by auto: Number of people in car",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "autoAvaliable",
+                                 "value": "Some Value",
+                                 "type": "checkbox",
+                                 "label": "If not by auto: Was an auto available",
+                                 "defaultValue": false,
+                                 "trueLabel": "Yes",
+                                 "falseLabel": "No"
+                              }
+                           ]
+                        },
+                        {
+                           "fieldName": "hasNextLocation",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Add another trip",
+                           "defaultValue": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        }
+                     ]
+                  }
+               ],
+               "navigationLogic": "if(pageData.hasNextLocation==='on'){\n  var trips=renderer.getFormValue('trips');\n  trips.i++;\n  trips.total++;\n  renderer.setFormValue('trips', trips);\n  return '6478e';\n}\n\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   renderer.setFormValue('trips', {i:0, total:1});\n   return 'cb46d';\n}\n\n\nvar members=formData.members;\nmembers.i=0;\nrenderer.setFormValue('members', members);\n\nreturn '8f6f3';",
+               "then": "goto node 0",
+               "nodes": [
+                  "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65",
+                  "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+                  "6478e134-dd4b-4be6-be7a-415aecbfbe09"
+               ]
+            },
+            {
+               "name": "Check Home Activities",
+               "type": "section",
+               "uuid": "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65",
+               "items": [
+                  {
+                     "name": "Page One",
+                     "type": "set",
+                     "items": [
+                        {
+                           "type": "script",
+                           "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"homeActivities\", formData.activities.i)"
+                        },
+                        {
+                           "type": "markdown",
+                           "text": "## Record activities for {{now|date(\"F jS\")}}\n### Did **{{memberDetails[members.i].personName}}** have any in home activities"
+                        },
+                        {
+                           "fieldName": "hasActivities",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Yes",
+                           "defaultValue": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        }
+                     ]
+                  }
+               ],
+               "navigationLogic": "if(pageData.hasActivities==='on'){\n   return '4d31e';\n}\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   return '8f6f3';\n}\nreturn '8f6f3';",
+               "then": "goto node 0",
+               "nodes": [
+                  {
+                     "name": "Home Activities",
+                     "type": "section",
+                     "uuid": "4d31e615-edc2-4733-a93c-1d5bfd6adf1e",
+                     "items": [
+                        {
+                           "name": "Page One",
+                           "type": "set",
+                           "items": [
+                              {
+                                 "type": "script",
+                                 "script": "renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\nrenderer.useFormDataFieldArray(\"homeActivities\", formData.activities.i)"
+                              },
+                              {
+                                 "fieldName": "activityType",
+                                 "type": "textfield",
+                                 "label": "Activity Type",
+                                 "placeholder": "answer here"
+                              },
+                              {
+                                 "fieldName": "addAnother",
+                                 "value": "Some Value",
+                                 "type": "checkbox",
+                                 "label": "Add another activity",
+                                 "defaultValue": false,
+                                 "trueLabel": "Yes",
+                                 "falseLabel": "No"
+                              }
+                           ]
+                        }
+                     ],
+                     "navigationLogic": "if(pageData.addAnother==='on'){\n  var activities=renderer.getFormValue('activities');\n  activities.i++;\n  activities.total++;\n  renderer.setFormValue('activities', activities);\n  return '4d31e';\n}\n\n\nif(formData.members.i<formData.members.total-1){\n   formData.members.i++;\n   renderer.setFormValue('members', formData.members);\n   renderer.setFormValue('activities', {i:0, total:1});\n   return '8f6f3';\n}\n\n\nvar members=formData.members;\nmembers.i=0;\nrenderer.setFormValue('members', members);\n\nreturn '1061b';",
+                     "then": "goto node 0",
+                     "nodes": [
+                        "1061b985-5185-46b1-a1bf-9a07fd842168",
+                        "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65",
+                        "4d31e615-edc2-4733-a93c-1d5bfd6adf1e"
+                     ]
+                  },
+                  {
+                     "name": "Thank you",
+                     "type": "section",
+                     "uuid": "1061b985-5185-46b1-a1bf-9a07fd842168",
+                     "items": [
+                        {
+                           "name": "Page One",
+                           "type": "set",
+                           "items": [
+                              {
+                                 "type": "markdown",
+                                 "text": "## Thank you! see you tomorrow "
+                              }
+                           ]
+                        }
+                     ],
+                     "navigationLogic": "return 0;",
+                     "then": "terminate"
+                  },
+                  "8f6f33f3-fd63-4ef4-9ee7-e18c5e0b1f65"
+               ]
+            },
+            "cb46d44e-248c-4297-bcf3-e3955220b7a2"
+         ]
+      },
+      {
+         "name": "Vehicles",
+         "type": "section",
+         "uuid": "b739ce6f-a1c5-4ba2-82d8-c91394e7fa5f",
+         "items": [
+            {
+               "name": "Page One",
+               "type": "set",
+               "items": [
+                  {
+                     "type": "script",
+                     "script": "renderer.useFormDataFieldArray(\"vehicleDetails\", formData.vehicles.i)"
+                  },
+                  {
+                     "type": "markdown",
+                     "text": "## Add Vehicles"
+                  },
+                  {
+                     "type": "fieldset",
+                     "legend": "",
+                     "items": [
+                        {
+                           "type": "label",
+                           "text": "First vehicle"
+                        },
+                        {
+                           "fieldName": "textInput{i}",
+                           "type": "textfield",
+                           "label": "Vehicle label",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "shared",
+                           "value": "Some Value",
+                           "type": "checkbox",
+                           "label": "Shared vehicle",
+                           "defaultValue": false,
+                           "trueLabel": "Yes",
+                           "falseLabel": "No"
+                        }
+                     ]
+                  },
+                  {
+                     "fieldName": "addAnother",
+                     "value": "Some Value",
+                     "type": "checkbox",
+                     "label": "Add another vehicle",
+                     "defaultValue": false,
+                     "trueLabel": "Yes",
+                     "falseLabel": "No"
+                  }
+               ]
+            }
+         ],
+         "navigationLogic": "return 0;",
+         "then": "goto node 0",
+         "nodes": [
+            "cb46d44e-248c-4297-bcf3-e3955220b7a2",
+            "b739ce6f-a1c5-4ba2-82d8-c91394e7fa5f"
+         ]
+      }
+   ]
+}
