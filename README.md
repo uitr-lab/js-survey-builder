@@ -1,11 +1,25 @@
 # js-survey-builder
 
-This is a work in progress and is currently not functional, Documentation/Instructions reflects intended use only
+A pure js survey builder library/ui for web without any js framework dependencies
 
-Pure js survey builder for web so it can be included in any webpage without any framework/dependencies
+ - Drag and drop form builder 
+ - Create multi-page forms/wizards
+ - Design functional graph/flow diagrams for complex skip/navigation
+ - Automatic form translation
+ - Import/Export json format
+
+ - Publish directly to html template
+
 
 Live demo site: https://survey.geoforms.ca/
+
 See https://github.com/uitr-lab/survey-tool-website
+
+See https://github.com/uitr-lab/js-survey-runner
+
+
+Uses js-survey-runner to preview pages 
+
 
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot.png)
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot-graph.png)
