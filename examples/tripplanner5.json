@@ -81,7 +81,7 @@
                "items": [
                   {
                      "type": "script",
-                     "script": "\n\n  \n\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\n\n\n  return new Promise(function(resolve){\n\n    setTimeout(function(){\n       resolve();\n    }, 400)\n    \n  });"
+                     "script": "\n\n\n\n  renderer.useFormDataFieldArray(\"memberDetails\", formData.members.i)\n"
                   },
                   {
                      "type": "markdown",
@@ -588,7 +588,7 @@
                ]
             }
          ],
-         "navigationLogic": "return 0;",
+         "navigationLogic": "if(formData.vehicleDetails[formData.vehicles.i].addAnother==='on'){\n  var vehicles=renderer.getFormValue('vehicles');\n  if(typeof vehicles=='undefined'){\n    vehicles={i:-1, total:1};\n  }\n  vehicles.i++;\n  vehicles.total++;\n  renderer.setFormValue('vehicles', vehicles);\n  renderer.setFormValue('addAnother', 'off');\n  return 'b739c';\n}\n\nvar vehicles=renderer.getFormValue('vehicles');\nvehicles.i=0;\nrenderer.setFormValue('vehicles', vehicles);\n\nreturn 'cb46d';\n",
          "then": "goto node 0",
          "nodes": [
             "cb46d44e-248c-4297-bcf3-e3955220b7a2",

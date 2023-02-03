@@ -20,6 +20,10 @@ import {
 
 
 import {
+	ScriptExporter
+} from './ScriptExporter.js';
+
+import {
 	SectionTemplate
 } from '../SectionTemplate.js';
 
@@ -55,6 +59,8 @@ export class SurveySection extends SectionTemplate {
 		});
 
 
+		var section;
+
 
 		var codeSection = new Element('section', {
 			html: "<label>Navigation Script</label>" +
@@ -84,6 +90,23 @@ export class SurveySection extends SectionTemplate {
 						toggle.innerHTML = "Show"
 					}
 
+				}
+			}
+		}));
+
+
+		var expandEdit = codeSection.appendChild(new Element('button', {
+			"class": "code-btn",
+			"html": 'Edit',
+			events: {
+				click: () => {
+					var codeContentHints=new Element('p');
+					new ChildNodeLinks(codeContentHints, section);
+
+					(new ScriptExporter(()=>{ return codeNavigation.value; }, (script)=>{ codeNavigation.value=script; })).setHeading([
+						new Element('h1', {"html":"Navigation Logic"}), 
+						codeContentHints
+					]).showOverlay();
 				}
 			}
 		}));
@@ -132,6 +155,7 @@ export class SurveySection extends SectionTemplate {
 
 			block.on('preview', () => {
 				var renderer = new SurveyRenderer();
+				renderer.useLocalStorageLocalizationsMap('laguageData');
 				renderer.displayInfo();
 				var overlay = new Overlay(renderer.render((new JsonExporter(block)).getData()));
 				overlay.fullscreen();
@@ -143,7 +167,7 @@ export class SurveySection extends SectionTemplate {
 
 		}
 
-		var section = parentNode.addNode({
+		section = parentNode.addNode({
 			"class": "section-node",
 			getNodeData: () => {
 				return {
@@ -202,6 +226,7 @@ export class SurveySection extends SectionTemplate {
 							delete sectionData.nodes;
 
 							var renderer = new SurveyRenderer();
+							renderer.useLocalStorageLocalizationsMap('laguageData');
 							renderer.displayInfo();
 							var overlay = new Overlay(renderer.render(sectionData));
 							overlay.fullscreen();

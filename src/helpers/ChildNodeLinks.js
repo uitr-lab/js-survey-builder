@@ -16,6 +16,8 @@ export class ChildNodeLinks{
 		this._el=el;
 		this._node=node;
 
+		el.classList.add('node-hints');
+
 		node.on('updateNode', ()=>{
 			this._throttleUpdate();
 		});
@@ -106,6 +108,28 @@ export class ChildNodeLinks{
 				'class':"popover",
 				html:'<label>'+child.getData().name+'</label><p>'+child.getUUID()+'</p>'
 			}))
+
+			label.appendChild(new Element('button', {
+				html:"Unlink",
+				"class":"unlink-btn",
+				events:{
+					click:()=>{
+
+						if(child.getParentNodes().length==1){
+							if(confirm('This will delete the child node/branch')){
+								child.remove();
+
+							}
+
+							return;
+						}
+
+						this._node.removeChildNode(child);
+
+
+					}
+				}
+			}));
 
 		})
 

@@ -48,6 +48,22 @@ export class GraphNode extends EventEmitter {
 	}
 
 
+	removeChildNode(node){
+
+		var i = this._nodes.indexOf(node);
+		this._nodes.splice(i, 1);
+		var arrow=this._arrows[i];
+		if(arrow){
+			arrow.clear();
+		}
+		this._arrows.splice(i, 1);
+
+		this.emit('removeNode', node);
+
+
+	}
+
+
 	getArrowsOut(){
 		return (this._arrows||[]).slice(0);
 	}
@@ -118,15 +134,7 @@ export class GraphNode extends EventEmitter {
 
 		node.on('remove', () => {
 
-			var i = this._nodes.indexOf(node);
-			this._nodes.splice(i, 1);
-			var arrow=this._arrows[i];
-			if(arrow){
-				arrow.clear();
-			}
-			this._arrows.splice(i, 1);
-
-			this.emit('removeNode', node);
+			this.removeChildNode(node);
 		})
 
 		node.on('addNode', (child) => {

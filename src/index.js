@@ -144,6 +144,7 @@ graph.addMenuItem(new Element('button', {
 		click: () => {
 
 			var renderer=new SurveyRenderer();
+			renderer.useLocalStorageLocalizationsMap('laguageData');
 			renderer.displayInfo();
 			var overlay=new Overlay(renderer.render((new JsonExporter(graph)).getData()));
 			overlay.fullscreen();
@@ -196,6 +197,15 @@ graph.addMenuItem(new Element('button', {
 
 			text.innerHTML+='   var renderer=new SurveyRenderer();'+"\n";
 			text.innerHTML+='   var survey='+JSON.stringify((new JsonExporter(graph)).getData())+';'+"\n\n\n";
+
+
+			var storedData = localStorage.getItem('laguageData');
+			if (storedData) {
+				storedData=JSON.parse(storedData);
+				text.innerHTML+='   var lang='+JSON.stringify(storedData)+';'+"\n";
+				text.innerHTML+='   renderer.addLocalizationsMap(lang);'+"\n\n";
+			}
+
 			
 			text.innerHTML+='   document.body.appendChild(renderer.render(survey));'+"\n\n";
 			text.innerHTML+='})();'+"\n\n";
@@ -410,7 +420,7 @@ panel.addItem(new ContentBlockItem({
 	type: "validation",
 	previewHtml:'{ "variable1":true, "variable2":false ... }',
 	formHtml:'<label> Validation Data: </label><textarea name="data">'+'{ "variable1":true, "variable2":false }'+'</textarea>'+
-	'<label> Validation Rules: </label><textarea name="rules">'+'{}'+'</textarea>'
+	''//'<label> Validation Rules: </label><textarea name="rules">'+'{}'+'</textarea>'
 
 }));
 

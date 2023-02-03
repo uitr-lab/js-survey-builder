@@ -8,7 +8,8 @@ Live demo site: https://survey.geoforms.ca/
 See https://github.com/uitr-lab/survey-tool-website
 
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot.png)
-
+![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot-graph.png)
+![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot-lang.png)
 
 
 ## Compile

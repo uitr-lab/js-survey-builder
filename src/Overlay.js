@@ -31,12 +31,23 @@ export class Overlay{
 		var contentArea;
 
 
-		if(content instanceof HTMLElement){
+		if(content instanceof HTMLElement||Array.isArray(content)){
 
 			contentArea=main.appendChild(new Element('div',{
 				"class":"content-area",
 			}));
-			contentArea.appendChild(content);
+
+			if(Array.isArray(content)){
+
+				content.forEach((c)=>{
+					contentArea.appendChild(c);
+				});
+
+			}else{
+				contentArea.appendChild(content);
+			}
+
+			
 
 		}else{
 		
@@ -63,7 +74,7 @@ export class Overlay{
 			main.appendChild(b);
 		});
 
-		
+		this._contentArea=contentArea;
 		this._overlay=overlay;
 
 
@@ -84,6 +95,8 @@ export class Overlay{
 
 		this._overlay.style.cssText='';
 
+		this._sizeArg=arg;
+
 		Object.keys(arg).forEach((key)=>{
 			if((['width', 'height']).indexOf(key)==-1){
 				return;
@@ -101,6 +114,34 @@ export class Overlay{
 
 
 		})
+
+		return this;
+
+	}
+
+	fitContent(){
+
+
+		this._intervel=setInterval(()=>{
+
+			var frame=this._contentArea.parentNode;
+			var frameHeight=frame.clientHeight;
+
+			var scrollHeight=this._contentArea.scrollHeight;
+			var contentHeight=this._contentArea.clientHeight;
+
+			var diff=scrollHeight-contentHeight;
+
+			if(this._sizeArg&&this._sizeArg.height){
+
+				var h=parseInt(this._sizeArg.height);
+				this._sizeArg.height=(h+diff)+"px";
+				this.setSize(this._sizeArg);
+			}
+
+		}, 3000);
+
+
 
 	}
 
