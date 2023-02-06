@@ -39,9 +39,20 @@ See https://github.com/uitr-lab/js-survey-runner
 
 Uses js-survey-runner to preview pages 
 
+## Form/Page builder
+Create pages, and drag-n-drop fields to build single or multi page forms 
 
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot.png)
+
+## Graph builder
+For complex forms and wizards, groups of pages can be organized into nodes of a graph. Visually design the flow of the 
+form or wizard by adding and connecting graph nodes. Each node can have custom logic to define branch navigation
+
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot-graph.png)
+
+## Translation
+Labels and text content (including markdown and html) is automatically parsed and added to a list of localization values. Choose which 
+languages you support and automatically translate the fields
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot-lang.png)
 
 
