@@ -1033,6 +1033,10 @@ body.show-panel.hide-arrows .arrow {
     z-index:-1;
 }
 
+.graph-view  .arrow.skip-multi {
+    z-index: -1;
+}
+
 
 .graph-view .reverse>.arrow__path {
     stroke: #03a9f4;

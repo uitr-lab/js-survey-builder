@@ -549,7 +549,7 @@
                   },
                   {
                      "type": "markdown",
-                     "text": "## Add Vehicles"
+                     "text": "## Add Vehicle"
                   },
                   {
                      "type": "fieldset",
@@ -557,13 +557,41 @@
                      "items": [
                         {
                            "type": "label",
-                           "text": "First vehicle"
+                           "text": "Vehicle Details"
                         },
                         {
-                           "fieldName": "textInput{i}",
+                           "fieldName": "name",
                            "type": "textfield",
                            "label": "Vehicle label",
                            "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "make",
+                           "type": "textfield",
+                           "label": "Make/Model",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "year",
+                           "type": "textfield",
+                           "label": "Year",
+                           "placeholder": "answer here"
+                        },
+                        {
+                           "fieldName": "type",
+                           "type": "radio",
+                           "values": "compact, sedan, truck",
+                           "defaultValue": "",
+                           "labels": "Compact, Sedan, Truck",
+                           "label": "Vehicle Type"
+                        },
+                        {
+                           "fieldName": "fuel",
+                           "type": "radio",
+                           "values": "gas, diesel, electric, hybrid",
+                           "defaultValue": "",
+                           "labels": "Gas, Diesel, Electric, Hybrid",
+                           "label": "Fuel"
                         },
                         {
                            "fieldName": "shared",

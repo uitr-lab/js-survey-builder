@@ -8,7 +8,26 @@ A pure js survey builder library/ui for web without any js framework dependencie
  - Automatic form translation
  - Import/Export json format
 
+ - Template (twigjs) processing on all text, labels, and input names - use any previously entered form value as a variable
+ - Supports asynchronous flow decision scripts and inline form field scripts
+
  - Publish directly to html template
+
+ ## Built in field types (drag-n-drop)
+
+ - Markdown content block
+ - Label
+ - Text input
+ - Radio button input
+ - Checkbox input
+ - Fieldset (can drop other types into it)
+ - Default data (hidden data to add to the form - json encoded )
+ - QRCode display any data as a qr code (can be very flexible if used with previous form data and template syntax)
+ - Html content
+ - Script can return other field definitions (json definition) or manipulate the form/interaction etc - supports async promises, will prevent next fields from rendering if async
+ 
+ - Transform adds a script to the page that processes the form data during data collection before validation and can be used to compute values and format fields
+ - Validation adds rules to the page the prevent the form from completing with invalid user input 
 
 
 Live demo site: https://survey.geoforms.ca/
