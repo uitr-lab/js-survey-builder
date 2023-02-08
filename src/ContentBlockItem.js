@@ -24,6 +24,18 @@ export class ContentBlockItem extends EventEmitter{
 	}
 
 
+	setData(data){
+
+		data=JSON.parse(JSON.stringify(data));
+		Object.keys(data).forEach((k)=>{
+			this._data[k]=data[k];
+		})
+
+		this.emit('update');
+
+	}
+
+
 	getDisplayElement(){
 
 
@@ -31,6 +43,13 @@ export class ContentBlockItem extends EventEmitter{
 			"html":'<label>'+this._data.name+'</label><p class="description">'+this._data.description+'</p>',
 			"class":"panel-item"
 		});
+
+
+		this.on('update',()=>{
+			el.innerHTML='<label>'+this._data.name+'</label><p class="description">'+this._data.description+'</p>';
+		});
+
+		this._displayEl=el;
 
 		if(this._data.previewHtml){
 
@@ -63,6 +82,9 @@ export class ContentBlockItem extends EventEmitter{
 
 	}
 
+
+
+
 	getElement(){
 		return this._element;
 	}
@@ -76,6 +98,8 @@ export class ContentBlockItem extends EventEmitter{
 
 	}
 
+
+
 	getInstanceElement(){
 
 
@@ -84,10 +108,20 @@ export class ContentBlockItem extends EventEmitter{
 			html:'<label>'+this._data.name+'</label>'+(typeof this._data.fieldName =='string'?'<label>'+this._data.fieldName+'</label>':'')+'<p class="description">'+this._data.description+'</p>'
 		})
 
+
+		this.on('update',()=>{
+			label.innerHTML='<label>'+this._data.name+'</label>'+(typeof this._data.fieldName =='string'?'<label>'+this._data.fieldName+'</label>':'')+'<p class="description">'+this._data.description+'</p>'
+
+		})
+
 		var el= new Element('div', {
 			"html":label,
 			"class":"block-item item-type-"+this.getType()
 		});
+
+		if(this.getType().indexOf('template.')===0){
+			el.classList.add('template-instance');
+		}
 
 
 		if(typeof this._data.fieldName =='string'){
@@ -204,8 +238,12 @@ export class ContentBlockItem extends EventEmitter{
 			data[key]=itemData[key];
 		});
 
-		CurrentContentBlockPages.getPageBlockWithTarget(target).addContentBlockItem(new ContentBlockItem(data));
+		var contentBlockItem=new ContentBlockItem(data);
+		CurrentContentBlockPages.getPageBlockWithTarget(target).addContentBlockItem(contentBlockItem);
 
+		this.emit('createInstance', contentBlockItem);
+
+		return contentBlockItem;
 	}
 
 }
@@ -246,6 +284,10 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 		if(this._data.setNodeData){
 			this._data.setNodeData(itemData, contentBlockItem);
 		}
+
+		this.emit('createInstance', contentBlockItem);
+
+		return contentBlockItem;
 	
 	}
 
@@ -342,5 +384,83 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 		return data;
 	}
 
+
+}
+
+
+export class TenplateBlockItem extends ContentBlockGroupItem{
+
+	constructor(data, panel){
+
+		super(data);
+		this._panel=panel;
+
+	}
+
+	createInstance(target, itemData){
+
+		var contentBlockItem=super.createInstance(target, itemData);
+
+		
+
+
+		var panelItem=new ContentBlockItem({
+	
+			name: "Template - "+contentBlockItem.getData().template,
+			description: "user template",
+			type: "template."+contentBlockItem.getData().template,
+			variables:'{ "variable1":true, "variable2":false }',
+			formHtml:'<label> Variables: </label><textarea name="variables">'+'{ "variable1":true, "variable2":false }'+'</textarea>'
+
+		});
+
+		this._panel.addItem(panelItem);
+
+
+		var instances=[];
+
+		panelItem.on('createInstance', (instance)=>{
+
+			instances.push(instance);
+			instance.on('remove', ()=>{
+				instances.splice(instances.indexOf(instance), 1);
+			});
+
+		});
+
+
+		contentBlockItem.on('remove', ()=>{
+
+			this._panel.removeItem(panelItem);
+
+		});
+
+		contentBlockItem.on('update', ()=>{
+
+			panelItem.setData({
+				name: "Template - "+contentBlockItem.getData().template,
+				type: "template."+contentBlockItem.getData().template
+			});
+
+
+			instances.forEach((instance)=>{
+				instance.setData({
+					name: "Template - "+contentBlockItem.getData().template,
+					type: "template."+contentBlockItem.getData().template
+				})
+			});
+
+
+		});
+
+
+		
+
+
+
+		return contentBlockItem;
+
+
+	}
 
 }

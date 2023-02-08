@@ -20,7 +20,8 @@ import {
 
 import {
 	ContentBlockItem,
-	ContentBlockGroupItem
+	ContentBlockGroupItem,
+	TenplateBlockItem
 } from './ContentBlockItem.js';
 
 
@@ -313,7 +314,7 @@ panel.addItem(new ContentBlockItem({
 
 panel.addItem(new ContentBlockItem({
 
-	fieldName: "radioOption{i}",
+	fieldName: "radioOption",
 
 	name: "Radio Buttons",
 	description: "displays radio button selection",
@@ -322,6 +323,22 @@ panel.addItem(new ContentBlockItem({
 	defaultValue: '',
 	labels: ['A', 'B', 'C'],
 	previewHtml:'<input type="radio" name="radioA" value="a" checked="1" /><label for="radioA">A</label><input type="radio" name="radioB" value="b" /><label for="radioB">B</label><input type="radio" name="radioC" value="c" /><label for="radioC">C</label>',
+	formHtml:'<label> FieldName: <input name="fieldName" value="checkBox{{auto}}"/></label><label> Label: <input name="label" value="Some Label"/></label><label> Options: <input name="values" value="A, B, C"/></label><label> Labels: <input name="labels" value="A, B, C"/></label><label> Default: <input name="defaultValue" value="a"/></label>'
+
+}));
+
+
+panel.addItem(new ContentBlockItem({
+
+	fieldName: "optionList",
+
+	name: "Option List",
+	description: "displays option list selection",
+	type: "option",
+	values: ['a', 'b', 'c'],
+	defaultValue: '',
+	labels: ['A', 'B', 'C'],
+	previewHtml:'<select><option>Option A</option></select>',
 	formHtml:'<label> FieldName: <input name="fieldName" value="checkBox{{auto}}"/></label><label> Label: <input name="label" value="Some Label"/></label><label> Options: <input name="values" value="A, B, C"/></label><label> Labels: <input name="labels" value="A, B, C"/></label><label> Default: <input name="defaultValue" value="a"/></label>'
 
 }));
@@ -358,11 +375,58 @@ panel.addItem(new ContentBlockGroupItem({
 		})
 	},
 	legend: '',
-	formHtml:'<label> Legend Text: <input name="legend"/></label>'
+	classNames: '',
+	conditionScript:'',
+	formHtml:'<label> Legend Text: <input name="legend"/></label><label> CSS Class Names: <input name="classNames"/></label><label> Condition: </label><textarea name="conditionScript">return true;</textarea>'
 
 
 }));
 
+
+panel.addItem(new TenplateBlockItem({
+
+	name: "Template",
+	description: "create a reusable set of items",
+	type: "template",
+	setNodeData(itemData, block) {
+
+		if(!itemData){
+			return;
+		}
+
+		(itemData.items || []).forEach((blockData) => {
+			panel.getItem(blockData.type).createInstance(block, blockData);
+		})
+	},
+	template: '',
+	classNames: '',
+	formHtml:'<label>TemplateName: <input name="template"/></label><label> CSS Class Names: <input name="classNames"/></label>'
+
+
+}, panel));
+
+
+panel.addItem(new ContentBlockItem({
+	
+	name: "QRCode",
+	description: "display a QR code",
+	type: "qrcode",
+	previewHtml:()=>{ return toDataURL('https://uitr.ok.ubc.ca/').then((data)=>{ return '<img style="height: 50px; position: absolute; right: 10px; bottom: 10px;" src="'+data+'"/>'; }); },
+	formHtml:'<label> Data/Url: </label><textarea name="data">'+'https://uitr.ok.ubc.ca/'+'</textarea>'
+
+}));
+
+
+
+// panel.addItem(new ContentBlockItem({
+	
+// 	name: "Field Tree",
+// 	description: "field tree",
+// 	type: "fieldtree",
+// 	previewHtml:'{ "variable1":true, "variable2":false ... }',	
+// 	formHtml:'<label> Definition: </label><textarea name="data">{"field":{"type":"options"}}</textarea>'
+
+// }));
 
 panel.addItem(new ContentBlockItem({
 
@@ -388,11 +452,12 @@ panel.addItem(new ContentBlockItem({
 
 panel.addItem(new ContentBlockItem({
 	
-	name: "QRCode",
-	description: "display a QR code",
-	type: "qrcode",
-	previewHtml:()=>{ return toDataURL('https://uitr.ok.ubc.ca/').then((data)=>{ return '<img style="height: 50px; position: absolute; right: 10px; bottom: 10px;" src="'+data+'"/>'; }); },
-	formHtml:'<label> Data/Url: </label><textarea name="data">'+'https://uitr.ok.ubc.ca/'+'</textarea>'
+	name: "Inline Style",
+	description: "adds inline css",
+
+	type: "style",
+	previewHtml:'.form{ color:magenta; }',
+	formHtml:'<label> Style: </label><textarea name="style">'+'.form{}'+'</textarea>'
 
 }));
 
@@ -404,7 +469,6 @@ panel.addItem(new ContentBlockItem({
 	
 	name: "Html",
 	description: "display raw html",
-
 	type: "html",
 	previewHtml:preview.innerHTML,
 	formHtml:'<label> Html: </label><textarea name="html">'+preview.innerHTML+'</textarea>'

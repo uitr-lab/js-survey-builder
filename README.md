@@ -53,6 +53,7 @@ form or wizard by adding and connecting graph nodes. Each node can have custom l
 ## Translation
 Labels and text content (including markdown and html) is automatically parsed and added to a list of localization values. Choose which 
 languages you support and automatically translate the fields
+
 ![UITR Survey Builder!](https://raw.githubusercontent.com/uitr-lab/js-survey-builder/main/screenshot-lang.png)
 
 

@@ -484,6 +484,12 @@ header.header {
     background: #84cbff;
 }
 
+.block-item.item-type-template {
+    background-color: #d9efff;
+    font-style: italic;
+    color: #3e5e75;
+}
+
 
 
 .panel-item label, .block-item label{
