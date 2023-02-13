@@ -8,6 +8,12 @@ import {
 } from './helpers/DropTarget.js'
 
 
+import {
+	ContentBlockItem,
+} from './ContentBlockItem.js';
+
+
+
 import * as dragNdrop from 'npm-dragndrop/src/dragNdrop.js';
 
 export class Panel {
@@ -118,10 +124,33 @@ export class Panel {
 		});
 
 		if(matches.length==0){
+
+			if(type.indexOf('template.')===0){
+				return this.createTemplatePlaceholder(type.split('template.').pop());
+			}
+
 			throw 'Not found';
 		}
 
 		return matches.shift();
+
+	}
+
+
+	createTemplatePlaceholder(name){
+
+
+		var panelItem=new ContentBlockItem({
+	
+			name: "Template - "+name,
+			description: "user template",
+			type: "template."+name,
+			variables:'{ "variable1":true, "variable2":false }',
+			formHtml:'<label> Variables: </label><textarea name="variables">'+'{ "variable1":true, "variable2":false }'+'</textarea>'
+
+		});
+
+		return panelItem;
 
 	}
 

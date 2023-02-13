@@ -737,6 +737,7 @@ button.json-btn, button.code-btn {
     padding: 5px 10px;
     box-sizing: border-box;
     margin: 5px 0;
+    resize:vertical;
 }
 
 

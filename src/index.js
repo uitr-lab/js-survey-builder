@@ -306,7 +306,10 @@ panel.addItem(new ContentBlockItem({
 	label:"Some Label",
 	placeholder: "answer here",
 	previewHtml:'<label>Prompt <input type="text" placeholder="type here" /> ... </label>',
-	formHtml:'<label> FieldName: <input name="fieldName" value="{auto}"/></label><label> Label: <input name="label" value="Some Label"/></label><label> Placeholder: <input name="placeholder" value="add text"/></label>'
+	formHtml:'<label> FieldName: <input name="fieldName" value="{auto}"/></label>'+
+		'<label> Label: <input name="label" value="Some Label"/></label>'+
+		'<label> Placeholder: <input name="placeholder" value="add text"/></label>'+
+		'<label> Format: <input name="format" value=""/></label>'
 
 
 }));
@@ -401,6 +404,29 @@ panel.addItem(new TenplateBlockItem({
 	template: '',
 	classNames: '',
 	formHtml:'<label>TemplateName: <input name="template"/></label><label> CSS Class Names: <input name="classNames"/></label>'
+
+
+}, panel));
+
+
+panel.addItem(new TenplateBlockItem({
+
+	name: "Custom",
+	description: "custom render",
+	type: "custom",
+	setNodeData(itemData, block) {
+
+		if(!itemData){
+			return;
+		}
+
+		(itemData.items || []).forEach((blockData) => {
+			panel.getItem(blockData.type).createInstance(block, blockData);
+		})
+	},
+	template: '',
+	classNames: '',
+	formHtml:'<label> Render Script: </label><textarea name="renderScript">return defaultRenderFn();</textarea><label> CSS Class Names: <input name="classNames"/></label>'
 
 
 }, panel));

@@ -98,6 +98,25 @@ export class ContentBlockItem extends EventEmitter{
 
 	}
 
+	getContentHintItems(){
+
+		var hintItems=[]
+
+		if(typeof this._data.fieldName =='string'){
+
+			hintItems.push(this._data.fieldName);
+		}
+
+
+		return hintItems;
+	}
+
+	getContentHintHtml(){
+
+		var hintItems=this.getContentHintItems();
+		return (hintItems.length>0?'<label>'+hintItems.join(', ')+'</label>':'');
+
+	}
 
 
 	getInstanceElement(){
@@ -105,12 +124,12 @@ export class ContentBlockItem extends EventEmitter{
 
 		var label=new Element('span', {
 			"class":"item-detail",
-			html:'<label>'+this._data.name+'</label>'+(typeof this._data.fieldName =='string'?'<label>'+this._data.fieldName+'</label>':'')+'<p class="description">'+this._data.description+'</p>'
+			html:'<label>'+this._data.name+'</label>'+this.getContentHintHtml()+'<p class="description">'+this._data.description+'</p>'
 		})
 
 
 		this.on('update',()=>{
-			label.innerHTML='<label>'+this._data.name+'</label>'+(typeof this._data.fieldName =='string'?'<label>'+this._data.fieldName+'</label>':'')+'<p class="description">'+this._data.description+'</p>'
+			label.innerHTML='<label>'+this._data.name+'</label>'+this.getContentHintHtml()+'<p class="description">'+this._data.description+'</p>'
 
 		})
 
@@ -270,6 +289,21 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 
 	}
 
+
+	getContentHintItems(){
+
+		var list=[]
+
+
+		if(this._data.template){
+			list.push(this._data.template);
+		}
+
+		return Array.prototype.concat.apply(list, (this._items||[]).map((item)=>{
+			return item.getContentHintItems();
+		}));
+	}
+
 	createInstance(target, itemData){
 
 		var data=JSON.parse(JSON.stringify(this._data));
@@ -397,6 +431,8 @@ export class TenplateBlockItem extends ContentBlockGroupItem{
 
 	}
 
+
+
 	createInstance(target, itemData){
 
 		var contentBlockItem=super.createInstance(target, itemData);
@@ -404,15 +440,7 @@ export class TenplateBlockItem extends ContentBlockGroupItem{
 		
 
 
-		var panelItem=new ContentBlockItem({
-	
-			name: "Template - "+contentBlockItem.getData().template,
-			description: "user template",
-			type: "template."+contentBlockItem.getData().template,
-			variables:'{ "variable1":true, "variable2":false }',
-			formHtml:'<label> Variables: </label><textarea name="variables">'+'{ "variable1":true, "variable2":false }'+'</textarea>'
-
-		});
+		var panelItem=this._panel.createTemplatePlaceholder(contentBlockItem.getData().template)
 
 		this._panel.addItem(panelItem);
 
