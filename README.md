@@ -61,6 +61,11 @@ languages you support and automatically translate the fields
 ```bash
   npm install
   #npx webpack --mode development
+  
+  # if you get FATAL ERROR: wasm code commit Allocation failed - process out of memory
+  # try:
+  # nvm use 15
+
   npx webpack --mode production
   cp ./dist/* /path/to/public/js
 
