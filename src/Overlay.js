@@ -147,3 +147,7 @@ export class Overlay{
 
 
 }
+
+Overlay.Element = Element;
+
+window.Overlay = Overlay;
