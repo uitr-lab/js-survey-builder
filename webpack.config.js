@@ -4,6 +4,6 @@ module.exports={
         overlay:'./src/Overlay.js',
     },
     output: {
-        filename: '[name].js'
-      },
+       filename: '[name].js'
+    },
 }
