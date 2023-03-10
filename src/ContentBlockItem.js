@@ -422,7 +422,7 @@ export class ContentBlockGroupItem extends ContentBlockItem{
 }
 
 
-export class TenplateBlockItem extends ContentBlockGroupItem{
+export class TemplateBlockItem extends ContentBlockGroupItem{
 
 	constructor(data, panel){
 

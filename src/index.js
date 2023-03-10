@@ -21,7 +21,7 @@ import {
 import {
 	ContentBlockItem,
 	ContentBlockGroupItem,
-	TenplateBlockItem
+	TemplateBlockItem
 } from './ContentBlockItem.js';
 
 
@@ -1073,7 +1073,7 @@ panel.addItem(new ContentBlockGroupItem({
 }));
 
 
-panel.addItem(new TenplateBlockItem({
+panel.addItem(new TemplateBlockItem({
 
 	name: "Template",
 	description: "create a reusable set of items",
@@ -1096,7 +1096,7 @@ panel.addItem(new TenplateBlockItem({
 }, panel));
 
 
-panel.addItem(new TenplateBlockItem({
+panel.addItem(new ContentBlockGroupItem({
 
 	name: "Custom",
 	description: "custom render",
