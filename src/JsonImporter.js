@@ -19,6 +19,26 @@ export class JsonImporter {
 	loadFromObject(object){
 
 
+		if(typeof object=='string'&&object[0]!=='{'){
+
+			fetch(object, {
+					method: 'GET',
+					headers: {
+						'Accept': 'application/json',
+					},
+					cache: "no-store"
+				})
+				.then(response => response.json())
+				.then(definition => {
+					this.loadFromObject(definition);
+				});
+
+			return;
+
+		}
+
+
+
 		if(object.SurveyEntry){
 
 			object=(new QParser()).parse(object);
