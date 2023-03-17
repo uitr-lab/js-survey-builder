@@ -167,21 +167,33 @@ graph.addMenuItem(new Element('button', {
 				html:'<h2>Load templates</h2>'
 			});
 
-			var item=menu.appendChild(new Element('p', {
-				"class":"template-item",
-				html:"<h3>Current Survey</h3>the current working prototype"
-			}));
 
-			item.appendChild(new Element('button',{
-				html:'Load Template',
-				"class":"inline-btn",
-				events:{
-					click:(e)=>{
-						e.preventDefault();
-						(new JsonImporter(graph)).loadFromObject('https://survey.uitrlab.ok.ubc.ca/current/survey.json');
-					}
-				}
-			}))
+         ([
+            {
+               "name":'<h3>Current Survey</h3>the current working prototype',
+               "url":'https://survey.uitrlab.ok.ubc.ca/current/survey.json'
+            }
+
+          ]).forEach((template)=>{
+            var item=menu.appendChild(new Element('p', {
+               "class":"template-item",
+               html:template.name
+            }));
+
+            item.appendChild(new Element('button',{
+               html:'Load Template',
+               "class":"inline-btn",
+               events:{
+                  click:(e)=>{
+                     e.preventDefault();
+                     (new JsonImporter(graph)).loadFromObject(template.url);
+                  }
+               }
+            }))
+
+         })
+
+			
 
 
 			var overlay=new Overlay(menu);
