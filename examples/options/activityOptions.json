@@ -1,0 +1,50 @@
+{
+
+	"location":[
+		"Home", "Work/School", "Other"
+	],
+	"activity":{
+		"home":[
+			"Sleeping",
+			"Work from home - main job (work from home)",
+			"Work from home - other job",
+			"Online classes at home",
+			"Online consultation with doctor/dentist",
+			"Online banking",
+			"In - home maintenance (e.g., Cleaning/maintenance/Wash/Dress/Pack/ laundry, grooming etc.)",
+			"Online Routine shopping (groceries medical supply, convenience store etc.)",
+			"Online shopping for clothes",
+			"Online Shopping for major purchases of specialty items (e.g., appliances, electronics, etc)",
+			"Online order of food from restaurants"
+			"In - home recreation (e.g., Watching TV, Watching Movie, Relaxing/pleasure reading etc.)",
+			"In home exercise/yoga/gardening",
+			"Socializing with friends and family at home",
+			"Other"
+		],
+		"work-school":[
+			"Working at main job",
+			"Working at other job",
+			"Work related errands (e.g., meeting outside etc.)",
+			"Attending classes",
+			"School related errands"
+		],
+		"other":[
+			"Dine in at Restaurants",
+			"Dine in at Coffee - snack shops",
+			"Visiting Doctor/Dentist",
+			"Visiting bank/library/Salon etc.",
+			"Routine Shopping (e.g., groceries, medical supply convenience store)",
+			"Shopping for Clothing",
+			"Shopping for major purchases of specialty items (e.g., appliances, electronics)",
+			"Going to Movie/Theater/concerts",
+			"Going for Exercise/Active Sports/Parks",
+			"Visiting friends/relatives",
+			"Visiting cultural/religious/social events",
+			"Pick-up/Drop-off",
+			"Other"
+		]
+	},
+
+
+	
+}

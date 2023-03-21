@@ -1,0 +1,26 @@
+{
+	
+	"homeType":[
+		"Single detached Home", 
+		"Semi-detached home",
+		"Row House or townhouse",
+		"Apartment building with 5 stories and more",
+		"Apartment building with fewer than 5 stories",
+		"Apartment duplex",
+		"Movable dwelling (mobile home)",
+		"Other (please specify)"
+	],
+	"ownerStatus":[
+		"Owner", "Renter"
+	],
+	"grossHouseholdIncome":[
+		"Under $10000", 
+		"$10000-$29999", 
+		"$30000-$49999", 
+		"$50000-$79999", 
+		"$80000-$99999", 
+		"$100000-$149999", 
+		"$150000-$199999", 
+		"$200000 and over"
+	]
+}
