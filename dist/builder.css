@@ -954,8 +954,12 @@ button.run-btn:before {
   opacity: 1;
 }
 
-body.show-panel.hide-arrows .arrow {
+body.hide-arrows .arrow {
     display: none;
+}
+
+.graph-view.hide-arrows .arrow {
+    display: inline-block;
 }
 
 .arrow__path {

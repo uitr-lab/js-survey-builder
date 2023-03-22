@@ -15,7 +15,7 @@
 			"Online Routine shopping (groceries medical supply, convenience store etc.)",
 			"Online shopping for clothes",
 			"Online Shopping for major purchases of specialty items (e.g., appliances, electronics, etc)",
-			"Online order of food from restaurants"
+			"Online order of food from restaurants",
 			"In - home recreation (e.g., Watching TV, Watching Movie, Relaxing/pleasure reading etc.)",
 			"In home exercise/yoga/gardening",
 			"Socializing with friends and family at home",
@@ -44,6 +44,34 @@
 			"Other"
 		]
 	},
+	"transit":{
+		"with":[
+			"Alone",
+			"Spouse/partner",
+			"Child(ren) of household",
+			"Relative/family member(s)",
+			"Friend(s)",
+			"Others",
+			"N/A"
+		],
+		"mode":[
+			"Auto driver",
+			"Auto passenger",
+			"Transit",
+			"Walk",
+			"Bike",
+			"Taxi",
+			"Car Share",
+			"Paid Ride Share",
+			"Motorcycle",
+			"E-scooter",
+			"E-bike",
+			"School Bus",
+			"HandyDart or Health Connections",
+			"Intercity coach bus"
+		]
+
+	}
 
 
 	
