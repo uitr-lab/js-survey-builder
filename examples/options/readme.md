@@ -1,1 +1,1 @@
-# Public survey template for Metro Vancouver
+# Public survey template for Okanagan

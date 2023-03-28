@@ -3,6 +3,22 @@
 		"Gasoline", 
 		"Diesel", 
 		"Plug-in electric"
+	],
+	"parking":[
+		"Under 50",
+		"51-100",
+		"101-150",
+		"151-200",
+		"201+",
+		"Free",
+		"I do not park at my workplace"
+	],
+	"purchaseEV":[
+		"Yes, a hybrid EV (e.g., Toyota Prius)",
+		"Yes, a plug-in hybrid EV (e.g., Chevrolet Volt)",
+		"Yes, a plug-in EV (e.g., Tesla)",
+		"No",
+		"Not Sure"
 	]
 
 }

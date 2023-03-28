@@ -1,3 +1,60 @@
 {
-	
+	"ageRange": [
+		"15 – 19 years",
+		"20 – 24 years",
+		"25 – 34 years",
+		"35 – 44 years",
+		"45 – 54 years",
+		"55 – 64 years",
+		"65 - 74 years",
+		"75 - 84 years",
+		"85+ years"
+	],
+	"gender": [
+		"Male",
+		"Female",
+		"Another",
+		"Not listed here / prefer not to answer",
+		"Non-binary"
+	],
+	"maritalStatus": [
+		"Married",
+		"Living common law",
+		"Not married and not living common law",
+		"Prefer not to answer"
+	],
+	"education": [
+		"No certificate, diploma, or degree",
+		"High school certificate or equivalent",
+		"Apprenticeship or trade certificate or diploma",
+		"College, CEGEP or other non-university certificate or diploma",
+		"University certificate or diploma below the bachelor level",
+		"University degree (e.g., Bachelors degree)",
+		"Prefer not to disclose",
+		"Not applicable"
+	],
+	"employment": [
+		"Full-time (30+ hours/week)",
+		"Part-time (<30 hours/week)",
+		"Unemployed and not seeking a job",
+		"Unemployed and seeking a job",
+		"Retired",
+		"Student",
+		"Prefer not to disclose",
+		"Other (please specify)"
+	],
+	"occupation": [
+		"Management",
+		"Business, Finance and Administration",
+		"Natural and Applied Sciences and related",
+		"Health",
+		"Education, Law and Social, Community and Government Services",
+		"Art, Culture, Recreation and Sport",
+		"Sales and Service",
+		"Trades, Transport and Equipment Operators and related",
+		"Natural Resources, Agriculture and related Production",
+		"Manufacturing and Utilities",
+		"Prefer not to disclose",
+		"Not Applicable"
+	]
 }
