@@ -347,6 +347,24 @@ panel.addItem(new ContentBlockItem({
 
 }));
 
+panel.addItem(new ContentBlockItem({
+
+	fieldName: "textInput{i}",
+
+	name: "Text Area",
+	description: "display a textarea field for larger text input",
+	type: "textarea",
+	label:"Some Label",
+	placeholder: "answer here",
+	previewHtml:'<label>Prompt <textarea placeholder="type here" > ... </textarea></label>',
+	formHtml:'<label> FieldName: <input name="fieldName" value="{auto}"/></label>'+
+		'<label> Label: <input name="label" value="Some Label"/></label>'+
+		'<label> Placeholder: <input name="placeholder" value="add text"/></label>'+
+		'<label> Format: <input name="format" value=""/></label>'
+
+
+}));
+
 
 panel.addItem(new ContentBlockItem({
 
