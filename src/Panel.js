@@ -82,9 +82,17 @@ export class Panel {
 		this.show();
 	}
 
+	removeItem(contentBlockItem){
 
+		/**
+		 * TODO: implement this. Template items should be automatically removed if they are deleted from
+		 * the survey page. But could be an issue if it has been instantiated elsewhere
+		 */
+
+	}
 
 	addItem(contentBlockItem, callback) {
+
 
 
 		if(contentBlockItem.createInstance){
@@ -101,7 +109,6 @@ export class Panel {
 			
 			return this;
 		}
-
 
 		var item = this._container.appendChild(new Element('div', {
 			"html": '<label>' + contentBlockItem.name + '</label><p class="description">' + contentBlockItem.description + '</p>',
