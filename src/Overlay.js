@@ -122,25 +122,63 @@ export class Overlay{
 	fitContent(){
 
 
-		this._intervel=setInterval(()=>{
+		this._interval=setInterval(()=>{
 
-			var frame=this._contentArea.parentNode;
-			var frameHeight=frame.clientHeight;
 
-			var scrollHeight=this._contentArea.scrollHeight;
-			var contentHeight=this._contentArea.clientHeight;
-
-			var diff=scrollHeight-contentHeight;
-
-			if(this._sizeArg&&this._sizeArg.height){
-
-				var h=parseInt(this._sizeArg.height);
-				this._sizeArg.height=(h+diff)+"px";
-				this.setSize(this._sizeArg);
+			if(!document.contains(this._contentArea)){
+				clearInterval(this._interval);
+				return;
 			}
 
-		}, 3000);
+			this._fitContent();
+		
+		}, 1000);
 
+		this._fitContent();
+		setTimeout(this._fitContent.bind(this), 50);
+		setTimeout(this._fitContent.bind(this), 500);
+
+	}
+
+	_fitContent(){
+
+
+		if(!document.contains(this._contentArea)){
+			return;
+		}
+
+		var frame=this._contentArea.parentNode;
+		var frameHeight=frame.clientHeight;
+		var frameWidth=frame.clientWidth;
+
+
+		var diffX=this._contentArea.scrollWidth-this._contentArea.clientWidth;
+		var diffY=this._contentArea.scrollHeight-this._contentArea.clientHeight;
+
+		if(diffX===0&&diffY===0){
+			return;
+		}
+
+		if(this._sizeArg){
+
+			if(this._sizeArg.height){
+				var h=parseInt(this._sizeArg.height);
+				this._sizeArg.height=Math.min(window.innerHeight-100, h+diffY)+"px";
+			}
+
+			if(this._sizeArg.width){
+				var w=parseInt(this._sizeArg.width);
+				this._sizeArg.width=Math.min(window.innerWidth-100, h+diffX)+"px";
+			}
+
+			this.setSize(this._sizeArg);
+			return;
+		}
+
+		this.setSize({
+			"height":Math.min(window.innerHeight-100, frameHeight+diffY)+"px",
+			"width":Math.min(window.innerWidth-100, frameWidth+diffX)+"px"
+		});
 
 
 	}

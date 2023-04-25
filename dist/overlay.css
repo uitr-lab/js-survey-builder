@@ -31,6 +31,7 @@
     border-radius: 3px;
     box-shadow: 0 0 10px #00000047;
     padding-bottom: 65px;
+    transition: width 0.1s, height 0.1s, top 0.1s, left 0.1s;
 
 }
 
