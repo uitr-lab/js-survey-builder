@@ -691,6 +691,18 @@ button.json-btn, button.code-btn {
     background: rgba(0,0,0,0.05);
 }
 
+.graph-view .graph-node.section-node>.code-content-item.entry-code {
+    bottom: unset;
+    top: -10px;
+    border-radius: 0 0 4px 4px;
+}
+
+
+.graph-view .graph-node.section-node>.code-content-item.back-code {
+    left: 150px;
+    background: rgb(218 50 48 / 15%);
+}
+
 .graph-view .graph-node.section-node>.code-content-item>* {
     display:none;
 }
@@ -1162,4 +1174,25 @@ body.hide-arrows .arrow {
     border: 1px solid rgba(0,0,0,0.2);
 }
 
-
+.main:after {
+    color: white;
+    content: "Saved";
+    display: inline-block;
+    position: fixed;
+    bottom: -100px;
+    left: 100px;
+    z-index: 99999;
+    width: 120px;
+    height: 40px;
+    background: black;
+    text-align: center;
+    line-height: 40px;
+    pointer-events: none;
+    opacity: 0.8;
+    border-radius: 3px;
+}
+.store-data .main:after {
+    bottom: 100px;
+    transition: bottom .2s, opacity .2s .5s;
+    opacity: 0;
+}

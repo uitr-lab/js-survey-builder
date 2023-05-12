@@ -27,6 +27,10 @@ import {
 	SectionTemplate
 } from '../SectionTemplate.js';
 
+import {
+	CodeSection
+} from './CodeSection.js';
+
 export class SurveySection extends SectionTemplate {
 
 
@@ -61,55 +65,59 @@ export class SurveySection extends SectionTemplate {
 
 		var section;
 
+		
 
-		var codeSection = new Element('section', {
-			html: "<label>Navigation Script</label>" +
-				"<p>return the child index, or a child nodes uuid (or prefix)</p><p>(formData:object, pageData:object, renderer:SurveyRenderer)=>{</p>",
-			"class": "code-content-item collapse"
+
+		var entryCodeSection=new CodeSection({
+			"class":"entry-code",
+			title:"On Entry Script",
+			comment:"initialize section",
+			header:"(formData:object, pageData:object, renderer:SurveyRenderer, navigation)=>{",
+			defaultValue:""
+		});
+
+		entryCodeSection.on('update',()=>{
+			section.emit('updateNode');
+		});
+
+		var backNavigationCodeSection=new CodeSection({
+			"class":"back-code",
+			title:"On Back NavigationScript",
+			comment:"handle back navigation logic",
+			header:"(formData:object, pageData:object, renderer:SurveyRenderer, stack)=>{",
+			defaultValue:""
+		});
+
+
+		backNavigationCodeSection.on('update',()=>{
+			section.emit('updateNode');
+		});
+
+
+		var navigationCodeSection=new CodeSection({
+			"class":"navigation-code",
+			title:"Navigation Script",
+			comment:"return the child index, or a child nodes uuid (or prefix)",
+			header:"(formData:object, pageData:object, renderer:SurveyRenderer)=>{",
+			defaultValue:"return 0;"
+		});
+
+		navigationCodeSection.on('update',()=>{
+			section.emit('updateNode');
+		});
+
+		navigationCodeSection.on('export', (exporter)=>{
+
+			var codeContentHints=new Element('p');
+			new ChildNodeLinks(codeContentHints, section);
+
+			exporter.setHeading([
+				new Element('h1', {"html":navigationCodeSection.getTitle()}), 
+				codeContentHints
+			]);
+
 		})
 
-
-		var childNodeLinks = codeSection.appendChild(new Element('p'));
-
-		var codeNavigation = codeSection.appendChild(new Element('textarea', {
-			value: 'return 0;',
-			"class": "code-block"
-		}))
-
-		var codeToggle = codeSection.appendChild(new Element('button', {
-			"class": "toggle-btn",
-			"html": 'Hide',
-			events: {
-				click: () => {
-
-					if (codeSection.classList.contains('collapse')) {
-						codeSection.classList.remove('collapse');
-						toggle.innerHTML = "Hide"
-					} else {
-						codeSection.classList.add('collapse');
-						toggle.innerHTML = "Show"
-					}
-
-				}
-			}
-		}));
-
-
-		var expandEdit = codeSection.appendChild(new Element('button', {
-			"class": "code-btn",
-			"html": 'Edit',
-			events: {
-				click: () => {
-					var codeContentHints=new Element('p');
-					new ChildNodeLinks(codeContentHints, section);
-
-					(new ScriptExporter(()=>{ return codeNavigation.value; }, (script)=>{ codeNavigation.value=script; })).setHeading([
-						new Element('h1', {"html":"Navigation Logic"}), 
-						codeContentHints
-					]).showOverlay();
-				}
-			}
-		}));
 
 		var contentBlocksContainer = new Element('div', {
 			"class": "blocks"
@@ -177,7 +185,9 @@ export class SurveySection extends SectionTemplate {
 					items: contentBlocks.map((item, i) => {
 						return item.getData();
 					}),
-					navigationLogic: codeNavigation.value
+					entryLogic:entryCodeSection.getValue(),
+					backLogic:backNavigationCodeSection.getValue(),
+					navigationLogic: navigationCodeSection.getValue() //codeNavigation.value
 				};
 
 			},
@@ -187,8 +197,16 @@ export class SurveySection extends SectionTemplate {
 					name.value = data.name;
 				}
 
+				if (data.entryLogic) {
+					entryCodeSection.setValue(data.entryLogic);
+				}
+
+				if (data.backLogic) {
+					backNavigationCodeSection.setValue(data.backLogic);
+				}
+
 				if (data.navigationLogic) {
-					codeNavigation.value = data.navigationLogic;
+					navigationCodeSection.setValue(data.navigationLogic);
 				}
 
 				(data.items && data.items.length > 0 ? data.items : [{
@@ -202,8 +220,10 @@ export class SurveySection extends SectionTemplate {
 			},
 			elements: [
 				name,
+				entryCodeSection.getElement(),
 				contentBlocksContainer,
-				codeSection,
+				backNavigationCodeSection.getElement(),
+				navigationCodeSection.getElement(),
 				new Element('button', {
 					"class": "add-block-btn",
 					html: "Add Page",
@@ -261,7 +281,7 @@ export class SurveySection extends SectionTemplate {
 
 
 		//Draw links
-		(new ChildNodeLinks(childNodeLinks, section));
+		(new ChildNodeLinks(navigationCodeSection.getElementAreaBeforeInput(), section));
 
 
 		name.addEventListener('change', () => {

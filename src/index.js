@@ -585,6 +585,7 @@ if (storedData) {
 }
 
 var throttle=null;
+var clearNotif=null;
 graph.on('update', function() {
 	if(throttle){
 		clearTimeout(throttle);
@@ -594,6 +595,15 @@ graph.on('update', function() {
 		//need to delay this update for content sections which are added to a list after update event is fired
 		localStorage.setItem('formData', (new JsonExporter(graph)).getJson());
 		console.log('update');
+		document.body.classList.add('store-data');
+		if(clearNotif){
+			clearTimeout(clearNotif);
+		}
+		clearNotif=setTimeout(()=>{
+			clearNotif=null;
+			document.body.classList.remove('store-data');
+		}, 1000);
+
 	}, 500);
 
 });
