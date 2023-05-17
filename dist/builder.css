@@ -697,6 +697,13 @@ button.json-btn, button.code-btn {
     border-radius: 0 0 4px 4px;
 }
 
+.graph-view .graph-node.section-node>.code-content-item.exit-code {
+    bottom: unset;
+    top: -10px;
+    left:150px;
+    border-radius: 0 0 4px 4px;
+}
+
 
 .graph-view .graph-node.section-node>.code-content-item.back-code {
     left: 150px;

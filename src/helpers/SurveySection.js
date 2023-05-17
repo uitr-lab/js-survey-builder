@@ -80,6 +80,18 @@ export class SurveySection extends SectionTemplate {
 			section.emit('updateNode');
 		});
 
+		var exitCodeSection=new CodeSection({
+			"class":"exit-code",
+			title:"On Exit Script",
+			comment:"cleanup section",
+			header:"(formData:object, pageData:object, renderer:SurveyRenderer, navigation)=>{",
+			defaultValue:""
+		});
+
+		exitCodeSection.on('update',()=>{
+			section.emit('updateNode');
+		});
+
 		var backNavigationCodeSection=new CodeSection({
 			"class":"back-code",
 			title:"On Back NavigationScript",
@@ -186,6 +198,7 @@ export class SurveySection extends SectionTemplate {
 						return item.getData();
 					}),
 					entryLogic:entryCodeSection.getValue(),
+					exitLogic:exitCodeSection.getValue(),
 					backLogic:backNavigationCodeSection.getValue(),
 					navigationLogic: navigationCodeSection.getValue() //codeNavigation.value
 				};
@@ -199,6 +212,10 @@ export class SurveySection extends SectionTemplate {
 
 				if (data.entryLogic) {
 					entryCodeSection.setValue(data.entryLogic);
+				}
+
+				if (data.exitLogic) {
+					exitCodeSection.setValue(data.exitLogic);
 				}
 
 				if (data.backLogic) {
@@ -221,6 +238,7 @@ export class SurveySection extends SectionTemplate {
 			elements: [
 				name,
 				entryCodeSection.getElement(),
+				exitCodeSection.getElement(),
 				contentBlocksContainer,
 				backNavigationCodeSection.getElement(),
 				navigationCodeSection.getElement(),
