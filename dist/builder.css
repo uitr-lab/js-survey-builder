@@ -366,6 +366,14 @@ p.node-hints.popover>label {
     display: none;
 }
 
+.code-content-item.collapse>label:first-child{
+    display: block;
+    float:left;
+    margin-left: 20px;
+    line-height:30px;
+    font-size: 14px;
+}
+
 
 
 .content-item.collapse .block-item {
