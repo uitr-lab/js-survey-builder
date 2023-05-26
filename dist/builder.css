@@ -1211,3 +1211,19 @@ body.hide-arrows .arrow {
     transition: bottom .2s, opacity .2s .5s;
     opacity: 0;
 }
+
+
+label.view-toggle-code {
+    position: fixed;
+    top: 30px;
+    right: 396px;
+}
+
+.graph-view label.view-toggle-code {
+    right: 266px;
+}
+
+.hide-code .code-content-item, .hide-code.graph-view .graph-node.section-node>.code-content-item {
+    display: none;
+}
+

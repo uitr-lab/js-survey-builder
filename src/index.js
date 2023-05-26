@@ -113,6 +113,27 @@ showArrows.addEventListener('change',()=>{
 
 
 
+var showCode=graph.getContainer().appendChild(new Element('label',{
+	"class":"view-toggle-code",
+	html:"Show Code Blocks"
+})).appendChild(new Element('input',{
+	type:"checkbox",
+	checked:false
+}));
+
+document.body.classList.add('hide-code');
+
+showCode.addEventListener('change',()=>{
+
+	if(showCode.checked){
+		document.body.classList.remove('hide-code');
+		return;
+	}
+
+	document.body.classList.add('hide-code');
+})
+
+
 graph.addMenuItem(new Element('a', {
 	html: 'UITR Lab',
 	target: "_blank",
