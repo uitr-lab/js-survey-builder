@@ -192,8 +192,16 @@ graph.addMenuItem(new Element('button', {
          ([
             {
                "name":'<h3>Current Survey</h3>the current working prototype',
-               "url":'https://survey.uitrlab.ok.ubc.ca/current/survey.json'
-            }
+               "url":'https://survey.uitrlab.ok.ubc.ca/vDev/survey.json'
+            },
+		    {
+				"name":'<h3>June 7 Focus Group</h3>the v0.2 prototype',
+				"url":'https://survey.uitrlab.ok.ubc.ca/v0.2/survey.json'
+			},
+			{
+				"name":'<h3>May 31 Focus Group</h3>the v0.1 prototype',
+				"url":'https://survey.uitrlab.ok.ubc.ca/v0.1/survey.json'
+			}
 
           ]).forEach((template)=>{
             var item=menu.appendChild(new Element('p', {
@@ -335,7 +343,8 @@ panel.addItem(new ContentBlockItem({
 	type: "markdown",
 	text: "## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 	previewHtml:'## Lorem ipsum >> <h2 style="display:inline">Lorem ipsum</h2>',
-	formHtml:'<label> Markdown: </label><textarea name="text">'+"## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu"+'</textarea>'
+	formHtml:'<label> Markdown: </label><textarea name="text">'+"## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu"+'</textarea><label> Class Name: <input name="className"/></label>',
+	className:""
 
 }));
 
@@ -510,7 +519,8 @@ panel.addItem(new ContentBlockItem({
 	description: "display a QR code",
 	type: "qrcode",
 	previewHtml:()=>{ return toDataURL('https://uitr.ok.ubc.ca/').then((data)=>{ return '<img style="height: 50px; position: absolute; right: 10px; bottom: 10px;" src="'+data+'"/>'; }); },
-	formHtml:'<label> Data/Url: </label><textarea name="data">'+'https://uitr.ok.ubc.ca/'+'</textarea>'
+	formHtml:'<label> Data/Url: </label><textarea name="data">'+'https://uitr.ok.ubc.ca/'+'</textarea><label> Size: <input name="size"/></label>',
+	size:''
 
 }));
 
