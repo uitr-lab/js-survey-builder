@@ -343,7 +343,10 @@ panel.addItem(new ContentBlockItem({
 	type: "markdown",
 	text: "## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 	previewHtml:'## Lorem ipsum >> <h2 style="display:inline">Lorem ipsum</h2>',
-	formHtml:'<label> Markdown: </label><textarea name="text">'+"## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu"+'</textarea><label> Class Name: <input name="className"/></label>',
+	formHtml:'<label> Use Parameter: <input name="variableName"/></label>'+
+	'<label> Markdown: </label><textarea name="text">'+"## Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu"+'</textarea>'+
+	'<label> Class Name: <input name="className"/></label>',
+	variableName:"",
 	className:""
 
 }));

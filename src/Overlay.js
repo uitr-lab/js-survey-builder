@@ -9,11 +9,24 @@ export class Overlay{
 	constructor(content, buttons){
 
 
+		var closeClick=0;
 		var overlay=document.body.appendChild(new Element('div', {
 			"class":"window-overlay",
 			events:{
-				click:()=>{
-					overlay.parentNode.removeChild(overlay);
+				click:(e)=>{
+					if(closeClick==2){
+						//only close if mouse down and mouseup are in the overlay
+						overlay.parentNode.removeChild(overlay);
+					}
+					closeClick=0;
+				},
+				mousedown:(e)=>{
+					e.stopPropagation();
+					closeClick++;
+				},
+				mouseup:(e)=>{
+					e.stopPropagation();
+					closeClick++
 				}
 			}
 		}));
@@ -23,7 +36,14 @@ export class Overlay{
 			events:{
 				click:(e)=>{
 					e.stopPropagation();
+				},
+				mousedown:(e)=>{
+					e.stopPropagation();
+				},
+				mouseup:(e)=>{
+					e.stopPropagation();
 				}
+				
 			}
 		}));
 
