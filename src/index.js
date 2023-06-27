@@ -234,6 +234,50 @@ graph.addMenuItem(new Element('button', {
 
 
 graph.addMenuItem(new Element('button', {
+	"class":'publish-btn pdf',
+	html: 'Overview',
+	events: {
+		click: () => {
+
+
+			var container=new Element('span', {
+				html:'<h1>Overview</h1>'
+			});
+
+			var text = container.appendChild(new Element('textarea', {
+				//'class':"import-json publish"
+			}));
+
+			
+
+			text.innerHTML='';
+
+
+			var overlay=new Overlay(container,[
+				new Element('button', {
+					html: "Copy",
+					"class": "copy-btn",
+					events: {
+						click: () => {
+							navigator.clipboard.writeText(text.value);
+						}
+					}
+				})
+				]);
+
+			overlay.setSize({
+				width:'800px',
+				height:'600px'
+			});
+			
+		}
+	}
+}));
+
+
+
+
+graph.addMenuItem(new Element('button', {
 	"class":'publish-btn',
 	html: 'Publish',
 	events: {
