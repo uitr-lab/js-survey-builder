@@ -194,6 +194,10 @@ graph.addMenuItem(new Element('button', {
                "name":'<h3>Current Survey</h3>the current working prototype',
                "url":'https://survey.uitrlab.ok.ubc.ca/vDev/survey.json'
             },
+			{
+				"name":'<h3>July Lab Focus Groups</h3>the v0.3 prototype',
+				"url":'https://survey.uitrlab.ok.ubc.ca/v0.3/survey.json'
+			},
 		    {
 				"name":'<h3>June 7 Focus Group</h3>the v0.2 prototype',
 				"url":'https://survey.uitrlab.ok.ubc.ca/v0.2/survey.json'
@@ -201,6 +205,10 @@ graph.addMenuItem(new Element('button', {
 			{
 				"name":'<h3>May 31 Focus Group</h3>the v0.1 prototype',
 				"url":'https://survey.uitrlab.ok.ubc.ca/v0.1/survey.json'
+			},
+			{
+				"name":'<h3>QR Code Generator</h3>simple qrcode generator',
+				"url":'https://survey.uitrlab.ok.ubc.ca/v0.2/qrcode.json'
 			}
 
           ]).forEach((template)=>{
