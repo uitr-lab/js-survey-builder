@@ -195,6 +195,10 @@ graph.addMenuItem(new Element('button', {
                "url":'https://survey.uitrlab.ok.ubc.ca/vDev/survey.json'
             },
 			{
+				"name":'<h3>Member Survey</h3>household member survey',
+				"url":'https://survey.uitrlab.ok.ubc.ca/v0.4/member/member.json'
+			},
+			{
 				"name":'<h3>July Lab Focus Groups</h3>the v0.3 prototype',
 				"url":'https://survey.uitrlab.ok.ubc.ca/v0.3/survey.json'
 			},
@@ -410,7 +414,8 @@ panel.addItem(new ContentBlockItem({
 	description: "displays a simple label",
 	type: "label",
 	text: 'Some label',
-	formHtml:'<label> Label Text: <input name="text"/></label>'
+	variableName:"",
+	formHtml:'<label> Use Parameter: <input name="variableName"/></label>'+'<label> Label Text: <input name="text"/></label>'
 
 }));
 
