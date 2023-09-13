@@ -203,7 +203,7 @@ graph.addMenuItem(new Element('button', {
 				"url":'https://survey.uitrlab.ok.ubc.ca/v0.4/survey.json'
 			},
 			{
-				"name":'<h3>Member Survey</h3>the v0.4 household member prototype',
+				"name":'<h3>September Member Survey</h3>the v0.4 household member prototype',
 				"url":'https://survey.uitrlab.ok.ubc.ca/v0.4/member/member.json'
 			},
 			{
