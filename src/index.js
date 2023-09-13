@@ -191,11 +191,19 @@ graph.addMenuItem(new Element('button', {
 
          ([
             {
-               "name":'<h3>Current Survey</h3>the current working prototype',
+               "name":'<h3>Current Survey</h3>the current survey',
                "url":'https://survey.uitrlab.ok.ubc.ca/vDev/survey.json'
             },
 			{
-				"name":'<h3>Member Survey</h3>household member survey',
+				"name":'<h3>Member Survey</h3>the current household member survey',
+				"url":'https://survey.uitrlab.ok.ubc.ca/vDev/member/member.json'
+			},
+			{
+				"name":'<h3>September Survey</h3>the v0.4 prototype',
+				"url":'https://survey.uitrlab.ok.ubc.ca/v0.4/survey.json'
+			},
+			{
+				"name":'<h3>Member Survey</h3>the v0.4 household member prototype',
 				"url":'https://survey.uitrlab.ok.ubc.ca/v0.4/member/member.json'
 			},
 			{
