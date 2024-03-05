@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline';  style-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' 'unsafe-eval' 'unsafe-inline' data:">
+
+
+    <title>Survey Builder</title>
+    <link rel="stylesheet" type="text/css" href="./assets/style.css">
+    <link rel="stylesheet" type="text/css" href="./assets/builder.css">
+    
+  </head>
+  <body>
+  
+    <header class="header">
+      <h1>UITR Survey Builder Demo</h1>
+    </header>
+    <section class="main">
+      <div id="survey-builder"></div>
+    </section>
+  
+  
+    <section class="footer">
+    </section>
+  
+  
+  
+  </body>
+  <script src="./assets/main.js"></script>
+  <script type="text/javascript">
+      
+    //FormBuilder.render(document.getElementById('survey-builder'));
+  
+  </script>
+  </html>
