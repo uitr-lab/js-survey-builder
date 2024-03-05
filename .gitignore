@@ -3,3 +3,4 @@ package-lock.json
 push.sh
 DS_Store
 .VSCodeCounter/
+electron/out
