@@ -4,3 +4,4 @@ push.sh
 DS_Store
 .VSCodeCounter/
 electron/out
+.DS_Store
