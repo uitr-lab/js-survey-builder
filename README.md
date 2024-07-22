@@ -6,7 +6,7 @@ A pure js survey builder library/ui for web without any js framework dependencie
  - Create multi-page forms/wizards
  - Design functional graph/flow diagrams for complex skip/navigation
  - Automatic form translation
- - Import/Export json format
+ - Import/Export json format, and static html
 
  - Template (twigjs) processing on all text, labels, and input names - use any previously entered form value as a variable
  - Supports asynchronous flow decision scripts and inline form field scripts
