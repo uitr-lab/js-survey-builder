@@ -1227,3 +1227,73 @@ label.view-toggle-code {
     display: none;
 }
 
+
+
+
+
+
+section.code-content-item.collapse.entry-code:before, 
+section.code-content-item.collapse.exit-code:before, 
+section.code-content-item.collapse.back-code:before, 
+section.code-content-item.collapse.navigation-code:before 
+ {
+    content: "onEnter";
+    font-style: italic;
+    color: #4caf5096;
+    position: absolute;
+    top: -25px;
+    left: 0;
+    text-align: center;
+    width: 60px;
+    font-size: 12px;
+    opacity:0;
+    transition: opacity 0.5s;
+    transition-delay: 0.5s;
+}
+
+section.code-content-item.collapse.entry-code:hover:before, 
+section.code-content-item.collapse.exit-code:hover:before, 
+section.code-content-item.collapse.back-code:hover:before, 
+section.code-content-item.collapse.navigation-code:hover:before 
+ {
+    opacity:1;
+}
+
+section.code-content-item.collapse.back-code:before, 
+section.code-content-item.collapse.navigation-code:before {
+    top:35px;
+}
+
+section.code-content-item.collapse.exit-code:before{
+    content:"onExit"
+}
+
+section.code-content-item.collapse.back-code:before{
+    content:"onBack"
+}
+
+section.code-content-item.collapse.navigation-code:before{
+    content:"nav";
+    font-weight: bold;
+    color: #01a9f4;
+}
+
+.graph-view .graph-node.section-node>.code-content-item.navigation-code .code-btn:after {
+    color: #01a9f4;
+    font-weight: bold;
+}
+
+.code-content-item>.code-btn:hover:after {
+    opacity: 1;
+}
+
+
+/* Overrides  */
+.code-content-item>.code-btn:after {
+    color: #2e9471;
+    font-weight: normal;
+    content: "f{}";
+    font-style: italic;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+}
